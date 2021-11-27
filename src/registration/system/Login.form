@@ -83,7 +83,7 @@
                                   </Group>
                                   <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                                       <Component id="passText" min="-2" pref="226" max="-2" attributes="0"/>
-                                      <Component id="userText" min="-2" pref="226" max="-2" attributes="0"/>
+                                      <Component id="idText" min="-2" pref="226" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
@@ -117,7 +117,7 @@
                       <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                       <Component id="userImageLogin" min="-2" pref="100" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                      <Component id="userText" min="-2" pref="45" max="-2" attributes="0"/>
+                      <Component id="idText" min="-2" pref="45" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Component id="passText" min="-2" pref="45" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
@@ -150,7 +150,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="userText">
+            <Component class="javax.swing.JTextField" name="idText">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Enter Username"/>
               </Properties>
@@ -236,7 +236,7 @@
                                   <Component id="citizenshipText" max="32767" attributes="0"/>
                                   <Component id="phoneNumText" max="32767" attributes="0"/>
                                   <Component id="passRegText" max="32767" attributes="0"/>
-                                  <Component id="userRegText" max="32767" attributes="0"/>
+                                  <Component id="idRegText" max="32767" attributes="0"/>
                                   <Component id="nameText" pref="226" max="32767" attributes="0"/>
                                   <Component id="stateComboBox" alignment="0" pref="226" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
@@ -262,7 +262,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="phoneNumText" min="-2" pref="32" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="userRegText" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="idRegText" min="-2" pref="32" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="passRegText" min="-2" pref="32" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -306,7 +306,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="nameText">
             </Component>
-            <Component class="javax.swing.JTextField" name="userRegText">
+            <Component class="javax.swing.JTextField" name="idRegText">
             </Component>
             <Component class="javax.swing.JTextField" name="passRegText">
             </Component>

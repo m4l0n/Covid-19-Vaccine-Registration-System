@@ -27,7 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
-
+import java.util.regex.*;  
 /**
  *
  * @author nigel
@@ -83,16 +83,15 @@ public class Login extends javax.swing.JFrame {
         //Set text field prompt
         TextPrompt tpName = new TextPrompt("Name", nameText);
         TextPrompt tpPhoneNum = new TextPrompt("Phone Number", phoneNumText);
-        TextPrompt tpUserReg = new TextPrompt("Username", userRegText);
+        TextPrompt tpUserReg = new TextPrompt("IC/Passport Number", idRegText);
         TextPrompt tpPassReg = new TextPrompt("Password", passRegText);
         TextPrompt tpCitizenship = new TextPrompt("Citizenship", citizenshipText);
         
-        TextPrompt tpUserLogin = new TextPrompt("Username", userText);
+        TextPrompt tpUserLogin = new TextPrompt("IC/Passport Number", idText);
         TextPrompt tpPassLogin = new TextPrompt("Password", passText);
         
         loginErrorLabel.setText("");
         
-//        checkAdminExists();
         new Personnel().firstAdmin();
     }
 
@@ -110,7 +109,7 @@ public class Login extends javax.swing.JFrame {
         mainPanel = new javax.swing.JPanel();
         loginPane = new javax.swing.JPanel();
         userImageLogin = new javax.swing.JLabel();
-        userText = new javax.swing.JTextField();
+        idText = new javax.swing.JTextField();
         passText = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
         switchRegButton = new javax.swing.JButton();
@@ -119,7 +118,7 @@ public class Login extends javax.swing.JFrame {
         regPane = new javax.swing.JPanel();
         userImageRegister = new javax.swing.JLabel();
         nameText = new javax.swing.JTextField();
-        userRegText = new javax.swing.JTextField();
+        idRegText = new javax.swing.JTextField();
         passRegText = new javax.swing.JTextField();
         phoneNumText = new javax.swing.JTextField();
         citizenshipText = new javax.swing.JTextField();
@@ -146,7 +145,7 @@ public class Login extends javax.swing.JFrame {
         userImageLogin.setMinimumSize(new java.awt.Dimension(60, 60));
         userImageLogin.setPreferredSize(new java.awt.Dimension(60, 60));
 
-        userText.setToolTipText("Enter Username");
+        idText.setToolTipText("Enter Username");
 
         passText.setToolTipText("Enter Password");
 
@@ -186,7 +185,7 @@ public class Login extends javax.swing.JFrame {
                                 .addGap(68, 68, 68))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(passText, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(userText, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(78, 78, 78))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPaneLayout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -209,7 +208,7 @@ public class Login extends javax.swing.JFrame {
                 .addGap(54, 54, 54)
                 .addComponent(userImageLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
-                .addComponent(userText, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(passText, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55)
@@ -283,7 +282,7 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(citizenshipText)
                             .addComponent(phoneNumText)
                             .addComponent(passRegText)
-                            .addComponent(userRegText)
+                            .addComponent(idRegText)
                             .addComponent(nameText, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
                             .addComponent(stateComboBox, 0, 226, Short.MAX_VALUE)
                             .addGroup(regPaneLayout.createSequentialGroup()
@@ -303,7 +302,7 @@ public class Login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(phoneNumText, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(userRegText, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idRegText, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(passRegText, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -361,21 +360,30 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
         try {
-            if (isValidPassword(passRegText.getText()))
+            if(isValidUserID(idRegText.getText()))
             {
-                People newPeople = new People();
-                newPeople.setName(nameText.getText());
-                newPeople.setPeopleID("UID" + Integer.toString(generateNum(100000, 999999)));
-                newPeople.setPhoneNum(Integer.parseInt(phoneNumText.getText()));
-                newPeople.setUsername(userRegText.getText());
-                newPeople.setPassword(passRegText.getText());
-                newPeople.setDate(dcn.format(dobCalendar.getDate()));
-                newPeople.setState(String.valueOf(stateComboBox.getSelectedItem()));
-                newPeople.setCitizenship(citizenshipText.getText());
-                newPeople.setGender(getSelectedButton());
-                newPeople.setUserType("People");
-                newPeople.setStatus("Unvaccinated");
-                newPeople.registerProfile(newPeople);
+                if (isValidPassword(passRegText.getText()))
+                {
+                    People newPeople = new People();
+                    newPeople.setName(nameText.getText());
+                    newPeople.setPeopleID("UID" + Integer.toString(generateNum(100000, 999999)));
+                    newPeople.setPhoneNum(Integer.parseInt(phoneNumText.getText()));
+                    newPeople.setUsername(idRegText.getText());
+                    newPeople.setPassword(passRegText.getText());
+                    newPeople.setDate(dcn.format(dobCalendar.getDate()));
+                    newPeople.setState(String.valueOf(stateComboBox.getSelectedItem()));
+                    newPeople.setCitizenship(citizenshipText.getText());
+                    newPeople.setGender(getSelectedButton());
+                    newPeople.setUserType("People");
+                    newPeople.setStatus("Unvaccinated");
+                    newPeople.setDose1("NA");
+                    newPeople.setDose2("NA");
+                    newPeople.registerProfile(newPeople);
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "IC/Passport Number format is invalid!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch(Exception e)
         {
@@ -385,17 +393,17 @@ public class Login extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        String result = verifyLogin(userText.getText(), 
+        String result = verifyLogin(idText.getText(), 
                 String.valueOf(passText.getPassword()));
-        if (result.equals("Personnel"))
+        if (result.equals("ADMIN"))
         {
             PersonnelGUI psn = new PersonnelGUI();
             psn.setVisible(true);
             this.dispose();
         }
-        else if (result.equals("People"))
+        else if (isValidUserID(result))
         {
-            PeopleGUI ppl = new PeopleGUI();
+            PeopleGUI ppl = new PeopleGUI(result);
             ppl.setVisible(true);
             this.dispose();
         }
@@ -443,13 +451,11 @@ public class Login extends javax.swing.JFrame {
                     if (((User) obj).getUsername().equals(userUsername) && 
                             ((User) obj).getPassword().equals(userPass))
                     {
-                        userType = ((User) obj).getUserType();
-                        System.out.println(userType);
-                        return userType;
+                        return ((User) obj).getUsername();
                     }
                 }
             }
-            catch (EOFException ex) {}
+            catch (EOFException ex) {System.out.println("client closed");}
             catch (ClassNotFoundException ex) { ex.printStackTrace(); }
             catch (FileNotFoundException ex) { ex.printStackTrace(); }
             catch (IOException ex) { ex.printStackTrace(); }
@@ -464,51 +470,55 @@ public class Login extends javax.swing.JFrame {
         return "Invalid";
     }
     
-    
-    public static boolean isValidPassword(String password)
+    private static boolean isValidPassword(String password)
     {
-            boolean isValid = true;
-            if (password.length() < 8)
-            {
-                JOptionPane.showMessageDialog(null,
-                        "Password must be more than 8 characters in length.",
-                        "Inane error",
-                        JOptionPane.ERROR_MESSAGE);
-                isValid = false;
-            }
-            String upperCaseChars = "(.*[A-Z].*)";
-            if (!password.matches(upperCaseChars ))
-            {
-                JOptionPane.showMessageDialog(null,
-                        "Password must have at least one uppercase character.",
-                        "Inane error",
-                        JOptionPane.ERROR_MESSAGE);
-                isValid = false;
-            }
-            String lowerCaseChars = "(.*[a-z].*)";
-            if (!password.matches(lowerCaseChars ))
-            {
-                JOptionPane.showMessageDialog(null,
-                        "Password must have at least one lowercase character.",
-                        "Inane error",
-                        JOptionPane.ERROR_MESSAGE);
-                isValid = false;
-            }
-            String numbers = "(.*[0-9].*)";
-            if (!password.matches(numbers ))
-            {
-                JOptionPane.showMessageDialog(null,
-                        "Password must have at least one number.",
-                        "Inane error",
-                        JOptionPane.ERROR_MESSAGE);                
-                isValid = false;
-            }
-            String specialChars = "(.*[@,#,$,%].*$)";
+        if (password.length() < 8)
+        {
+            JOptionPane.showMessageDialog(null,
+                    "Password must be more than 8 characters in length.",
+                    "Inane error",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        String upperCaseChars = "(.*[A-Z].*)";
+        if (!password.matches(upperCaseChars ))
+        {
+            JOptionPane.showMessageDialog(null,
+                    "Password must have at least one uppercase character.",
+                    "Inane error",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        String lowerCaseChars = "(.*[a-z].*)";
+        if (!password.matches(lowerCaseChars ))
+        {
+            JOptionPane.showMessageDialog(null,
+                    "Password must have at least one lowercase character.",
+                    "Inane error",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        String numbers = "(.*[0-9].*)";
+        if (!password.matches(numbers ))
+        {
+            JOptionPane.showMessageDialog(null,
+                    "Password must have at least one number.",
+                    "Inane error",
+                    JOptionPane.ERROR_MESSAGE);                
+            return false;
+        }
+        String specialChars = "(.*[@,#,$,%].*$)";
 
-            return isValid; 
+        return true; 
     }
     
-    String getSelectedButton()
+    private static boolean isValidUserID(String userID)
+    {
+        return Pattern.compile("(([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))-([0-9]{2})-([0-9]{4})")
+                .matcher(userID).matches();
+    }
+    
+    private String getSelectedButton()
     {  
         for (Enumeration<AbstractButton> buttons = genderButtonGroup.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
@@ -523,44 +533,13 @@ public class Login extends javax.swing.JFrame {
         Random rand = new Random();
         return min + rand.nextInt((max - min) + 1);
     }
-    
-//    private void checkAdminExists()
-//    {
-//        boolean adminExists = false;
-//        ObjectInputStream ois = null;
-//            try {
-//                ois = new ObjectInputStream(new FileInputStream(dataUser));
-//                Object obj = null;
-//                while ((obj = ois.readObject()) != null)
-//                {
-//                    if (((User) obj).getUserType().equals("ADMIN"))
-//                    {
-//                        adminExists = true;
-//                    }
-//                }
-//            }
-//            catch (EOFException ex) {}
-//            catch (ClassNotFoundException ex) { ex.printStackTrace(); }
-//            catch (FileNotFoundException ex) { ex.printStackTrace(); }
-//            catch (IOException ex) { ex.printStackTrace(); }
-//            finally {
-//                try {
-//                    if (ois != null) {
-//                        ois.close();
-//                    }
-//                } catch (IOException ex) { ex.printStackTrace(); }
-//            }
-//        
-//        if (!adminExists)   
-//        {
-//            new Personnel().firstAdmin();
-//        }
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField citizenshipText;
     private com.toedter.calendar.JDateChooser dobCalendar;
     private javax.swing.ButtonGroup genderButtonGroup;
+    private javax.swing.JTextField idRegText;
+    private javax.swing.JTextField idText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JRadioButton jRadioButton1;
@@ -580,8 +559,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton switchRegButton;
     private javax.swing.JLabel userImageLogin;
     private javax.swing.JLabel userImageRegister;
-    private javax.swing.JTextField userRegText;
-    private javax.swing.JTextField userText;
     private javax.swing.JLabel vaccineImage;
     // End of variables declaration//GEN-END:variables
 

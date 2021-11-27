@@ -10,10 +10,21 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
@@ -22,19 +33,19 @@ import javax.swing.UIManager;
  * @author nigel
  */
 public class PeopleGUI extends javax.swing.JFrame {
-    public int peopleID;
-    public String name;
-    public int phoneNum;
-    public String state;
-    public String citizenship;
-    public String Status;
-    public Date dob;
-
+    private String userID;
+    private final String dataUser = "dataUser.txt";
     /**
      * Creates new form People
      */
     public PeopleGUI() {
         initComponents();
+    }
+    
+    public PeopleGUI(String userID) {
+        this.userID = userID;
+        initComponents();
+        showProfileDetails();
     }
 
     /**
@@ -111,33 +122,36 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         profilePanel = new javax.swing.JPanel();
+        logOutButton = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         changePassPanel = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        currentPassText = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        newPassText = new javax.swing.JTextField();
         cancelChangeButton = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel29 = new javax.swing.JLabel();
         changeProfilePanel = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
+        phoneNumText = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        nameText = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        citizenshipText = new javax.swing.JTextField();
         jLabel25 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        saveProfileButton = new javax.swing.JButton();
         changePassButton = new javax.swing.JButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        dobDateChooser = new com.toedter.calendar.JDateChooser();
         stateComboBox = new javax.swing.JComboBox<>();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        femaleRadioButton = new javax.swing.JRadioButton();
+        maleRadioButton = new javax.swing.JRadioButton();
         jLabel30 = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
+        userIDText = new javax.swing.JTextField();
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
 
@@ -171,7 +185,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         );
         appointmentPanelButtonLayout.setVerticalGroup(
             appointmentPanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(appointmentButtonLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+            .addComponent(appointmentButtonLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
         );
 
         profilePanelButton.setBackground(new java.awt.Color(41, 48, 57));
@@ -196,7 +210,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         );
         profilePanelButtonLayout.setVerticalGroup(
             profilePanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(profileButtonLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(profileButtonLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
         );
 
         homePanelButton.setBackground(new java.awt.Color(255, 255, 255));
@@ -279,8 +293,8 @@ public class PeopleGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(statusPanelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(profilePanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(profilePanelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainPanels.setLayout(new java.awt.CardLayout());
@@ -635,6 +649,14 @@ public class PeopleGUI extends javax.swing.JFrame {
 
         mainPanels.add(statusPanel, "statusPane");
 
+        logOutButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        logOutButton.setText("Log Out");
+        logOutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutButtonActionPerformed(evt);
+            }
+        });
+
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel13.setText("Your Profile");
 
@@ -648,15 +670,15 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel27.setText("Current Password");
         changePassPanel.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, 117, 28));
 
-        jTextField6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        changePassPanel.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 184, 35));
+        currentPassText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        changePassPanel.add(currentPassText, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 184, 35));
 
         jLabel28.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel28.setText("New Password");
         changePassPanel.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 117, 28));
 
-        jTextField7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        changePassPanel.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 184, 35));
+        newPassText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        changePassPanel.add(newPassText, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 184, 35));
 
         cancelChangeButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cancelChangeButton.setText("Cancel");
@@ -669,6 +691,11 @@ public class PeopleGUI extends javax.swing.JFrame {
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton3.setText("Confirm");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         changePassPanel.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 114, 37));
 
         jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
@@ -677,42 +704,47 @@ public class PeopleGUI extends javax.swing.JFrame {
         changeProfilePanel.setRequestFocusEnabled(false);
         changeProfilePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        changeProfilePanel.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 162, -1));
+        phoneNumText.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        changeProfilePanel.add(phoneNumText, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, 162, -1));
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel20.setText("Phone Number");
-        changeProfilePanel.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 130, -1));
+        changeProfilePanel.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 130, -1));
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel19.setText("Full Name as per IC / Passport");
-        changeProfilePanel.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 210, 20));
+        changeProfilePanel.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 210, 20));
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        changeProfilePanel.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 162, -1));
+        nameText.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        changeProfilePanel.add(nameText, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 162, -1));
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel23.setText("Date of Birth");
-        changeProfilePanel.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, 130, -1));
+        changeProfilePanel.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 130, -1));
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel24.setText("State");
-        changeProfilePanel.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 50, -1));
+        changeProfilePanel.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 90, 50, -1));
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel26.setText("Gender");
-        changeProfilePanel.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 220, 50, -1));
+        changeProfilePanel.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 260, 50, -1));
 
-        jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        changeProfilePanel.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 140, 162, -1));
+        citizenshipText.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        changeProfilePanel.add(citizenshipText, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 210, 162, -1));
 
         jLabel25.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel25.setText("Citizenship");
-        changeProfilePanel.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, 90, -1));
+        changeProfilePanel.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, 90, -1));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setText("Save");
-        changeProfilePanel.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, 118, 39));
+        saveProfileButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        saveProfileButton.setText("Save");
+        saveProfileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveProfileButtonActionPerformed(evt);
+            }
+        });
+        changeProfilePanel.add(saveProfileButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, 118, 39));
 
         changePassButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         changePassButton.setText("Change Password");
@@ -723,24 +755,32 @@ public class PeopleGUI extends javax.swing.JFrame {
         });
         changeProfilePanel.add(changePassButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 380, 153, 39));
 
-        jDateChooser1.setDateFormatString("dd-MM-yyyyy");
-        jDateChooser1.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        changeProfilePanel.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 240, 162, -1));
+        dobDateChooser.setDateFormatString("dd-MM-yyyy");
+        dobDateChooser.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        changeProfilePanel.add(dobDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 320, 162, -1));
 
         stateComboBox.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         stateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Johor", "Kedah", "Kelantan", "Kuala Lumpur", "Labuan", "Malacca", "Negeri Sembilan", "Pahang", "Perak", "Perlis", "Putrajaya", "Sabah", "Sarawak", "Selangor", "Sembilan", "Terengganu" }));
-        changeProfilePanel.add(stateComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 320, 162, -1));
+        changeProfilePanel.add(stateComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 120, 162, -1));
 
-        genderButtonGroup.add(jRadioButton2);
-        jRadioButton2.setText("Female");
-        changeProfilePanel.add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 250, -1, -1));
+        genderButtonGroup.add(femaleRadioButton);
+        femaleRadioButton.setText("Female");
+        changeProfilePanel.add(femaleRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 290, -1, -1));
 
-        genderButtonGroup.add(jRadioButton1);
-        jRadioButton1.setText("Male");
-        changeProfilePanel.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, -1, -1));
+        genderButtonGroup.add(maleRadioButton);
+        maleRadioButton.setText("Male");
+        changeProfilePanel.add(maleRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 290, -1, -1));
 
         jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
         changeProfilePanel.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 580, 410));
+
+        jLabel44.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jLabel44.setText("IC/Passport Number");
+        changeProfilePanel.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 210, 20));
+
+        userIDText.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        userIDText.setEnabled(false);
+        changeProfilePanel.add(userIDText, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 162, -1));
 
         javax.swing.GroupLayout profilePanelLayout = new javax.swing.GroupLayout(profilePanel);
         profilePanel.setLayout(profilePanelLayout);
@@ -749,10 +789,13 @@ public class PeopleGUI extends javax.swing.JFrame {
             .addGroup(profilePanelLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel14))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(changeProfilePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel14)
+                    .addGroup(profilePanelLayout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addComponent(changeProfilePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 752, Short.MAX_VALUE)
             .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(changePassPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 752, Short.MAX_VALUE))
         );
@@ -760,7 +803,9 @@ public class PeopleGUI extends javax.swing.JFrame {
             profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(profilePanelLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jLabel13)
+                .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13)
+                    .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -861,6 +906,46 @@ public class PeopleGUI extends javax.swing.JFrame {
         changeProfilePanel.setVisible(false);
     }//GEN-LAST:event_changePassButtonActionPerformed
 
+    private void saveProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveProfileButtonActionPerformed
+        // TODO add your handling code here:
+        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+        People existingPpl = getPeopleDetails();
+//        People newPeople = new People();
+//        newPeople.setUsername(userIDText.getText());
+//        newPeople.setName(nameText.getText());
+//        newPeople.setPhoneNum(Integer.parseInt(phoneNumText.getText()));
+//        newPeople.setDate(dcn.format(dobDateChooser.getDate()));
+//        newPeople.setState(String.valueOf(stateComboBox.getSelectedItem()));
+//        newPeople.setCitizenship(citizenshipText.getText());
+//        newPeople.setGender(getSelectedButton());
+//        newPeople.modifyProfile(newPeople);
+        existingPpl.setUsername(userIDText.getText());
+        existingPpl.setName(nameText.getText());
+        existingPpl.setPhoneNum(Integer.parseInt(phoneNumText.getText()));
+        existingPpl.setDate(dcn.format(dobDateChooser.getDate()));
+        existingPpl.setState(String.valueOf(stateComboBox.getSelectedItem()));
+        existingPpl.setCitizenship(citizenshipText.getText());
+        existingPpl.setGender(getSelectedButton());
+        existingPpl.modifyProfile(existingPpl);
+    }//GEN-LAST:event_saveProfileButtonActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        People existingPpl = getPeopleDetails();
+        if (existingPpl.getPassword().equals(currentPassText.getText()))
+        {
+            existingPpl.setPassword(newPassText.getText());
+            existingPpl.changePassword(existingPpl);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
+        // TODO add your handling code here:
+        Login login = new Login();
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_logOutButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -880,6 +965,64 @@ public class PeopleGUI extends javax.swing.JFrame {
             }
         });
     }
+    
+    private People getPeopleDetails()
+    {
+        People ppl = new People();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if(((People)obj).getUsername().equals(userID)){
+                    ppl = ((People)obj);
+                    break;
+                }
+            } 
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return ppl;
+    }
+    
+    private void showProfileDetails()
+    {
+        try {
+            People ppl = getPeopleDetails();
+            
+            Date dob = new SimpleDateFormat("dd-MM-yyyy").parse(ppl.getDate());
+            
+            userIDText.setText(userID);
+            nameText.setText(ppl.getName());
+            phoneNumText.setText(Integer.toString(ppl.getPhoneNum()));
+            dobDateChooser.setDate(dob);
+            stateComboBox.setSelectedItem(ppl.getState());
+            citizenshipText.setText(ppl.getCitizenship());
+            if (ppl.getGender().equals("Male")) { maleRadioButton.setSelected(true); }
+            else { femaleRadioButton.setSelected(true); }
+        } catch (ParseException ex) {
+            Logger.getLogger(PeopleGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private String getSelectedButton()
+    {  
+        for (Enumeration<AbstractButton> buttons = genderButtonGroup.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                    return button.getText();
+            }
+        }
+        return null;
+    }   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser apDateChooser;
@@ -893,14 +1036,16 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JButton changePassButton;
     private javax.swing.JPanel changePassPanel;
     private javax.swing.JPanel changeProfilePanel;
+    private javax.swing.JTextField citizenshipText;
     private javax.swing.JButton clearButton;
+    private javax.swing.JTextField currentPassText;
+    private com.toedter.calendar.JDateChooser dobDateChooser;
+    private javax.swing.JRadioButton femaleRadioButton;
     private javax.swing.ButtonGroup genderButtonGroup;
     private javax.swing.JLabel homeButtonLabel;
     private javax.swing.JPanel homePanel;
     private javax.swing.JPanel homePanelButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -939,6 +1084,7 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -950,19 +1096,18 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
+    private javax.swing.JButton logOutButton;
     private javax.swing.JPanel mainPanels;
+    private javax.swing.JRadioButton maleRadioButton;
+    private javax.swing.JTextField nameText;
+    private javax.swing.JTextField newPassText;
+    private javax.swing.JTextField phoneNumText;
     private javax.swing.JLabel profileButtonLabel;
     private javax.swing.JPanel profilePanel;
     private javax.swing.JPanel profilePanelButton;
     private javax.swing.JButton regButton;
+    private javax.swing.JButton saveProfileButton;
     private javax.swing.JPanel sideMenuPanel;
     private javax.swing.JSpinner spMinuteSlider;
     private javax.swing.JComboBox<String> stateComboBox;
@@ -973,6 +1118,7 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JTextField ucLocationDate;
     private javax.swing.JTextField ucLocationText;
     private javax.swing.JTextField ucTimeText;
+    private javax.swing.JTextField userIDText;
     private javax.swing.JComboBox<String> vaccineCombo;
     // End of variables declaration//GEN-END:variables
 }

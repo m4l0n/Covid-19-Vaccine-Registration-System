@@ -19,6 +19,7 @@ import java.io.ObjectOutputStream;
 public class Personnel extends User{
     private String personnelID;
     private final String dataUser = "dataUser.txt";
+    static final long serialVersionUID = 1L;
     
     public void setPersonnelID(String personnelID)
     {

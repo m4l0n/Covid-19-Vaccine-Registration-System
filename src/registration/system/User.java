@@ -22,6 +22,7 @@ public class User implements Serializable{
     private String userName;
     private String userPass;
     private String userType;
+    static final long serialVersionUID = 1L;
     
     public void setName(String name)
     {
@@ -53,7 +54,7 @@ public class User implements Serializable{
         return gender;
     }
     
-    public String getUserState()
+    public String getState()
     {
         return state;
     }

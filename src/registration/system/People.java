@@ -5,6 +5,7 @@
  */
 package registration.system;
 
+import java.awt.List;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,7 +25,10 @@ import java.io.Serializable;
  */
 public class People extends User implements Serializable{
     private String peopleID;
+    private String dose1;
+    private String dose2;
     private final String dataUser = "dataUser.txt";
+    static final long serialVersionUID = 1L;
     
     public void setPeopleID(String peopleID)
     {
@@ -36,15 +40,40 @@ public class People extends User implements Serializable{
         return peopleID;
     }
     
+    public void setDose1(String dose1)
+    {
+        this.dose1 = dose1;
+    }
+    
+    public String getDose1()
+    {
+        return dose1;
+    }
+    
+    public void setDose2(String dose2)
+    {
+        this.dose2 = dose2;
+    }
+    
+    public String getDose2()
+    {
+        return peopleID;
+    }
+    
     public void registerProfile(People newPeople)
     {
         ArrayList<People> tempPeople = new ArrayList<People>();
         ObjectInputStream ois = null;
+        Personnel personnel = null;
         try {
             ois = new ObjectInputStream(new FileInputStream(dataUser));
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
-                tempPeople.add((People)obj);
+                if (!((User)obj).getUsername().equals("ADMIN"))
+                {
+                    tempPeople.add((People)obj);
+                }
+                else { personnel = ((Personnel)obj); }
             }
         } catch (EOFException ex) {}
         catch (ClassNotFoundException ex) { ex.printStackTrace(); }
@@ -75,10 +104,11 @@ public class People extends User implements Serializable{
             for(People existingPeople:tempPeople){
                 oos.writeObject(existingPeople);
             }
+            oos.writeObject(personnel);
             JOptionPane.showMessageDialog(null, "Account registered "
                     + "successfully. Plese return to login page to continue.");
-            System.out.println(newPeople.toString());
             newPeople = null;
+            personnel = null;
             tempPeople.clear();
             oos.flush();
             oos.close();
@@ -94,4 +124,126 @@ public class People extends User implements Serializable{
             } catch (IOException ex) { ex.printStackTrace(); }
         }
     }
+    
+    public void modifyProfile(People modifiedPpl)
+    {
+        ArrayList<People> tempUsers = new ArrayList <>();
+        ObjectInputStream ois = null;
+        Personnel personnel = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (!((User)obj).getUsername().equals("ADMIN"))
+                {
+                    if (!((People)obj).getUsername().equals(modifiedPpl.getUsername()))
+                    {
+                        tempUsers.add((People)obj);
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Profile Updated Successfully!");
+//                        People newPeople = new People();
+//                        newPeople.setUsername(ppl.getUsername());
+//                        newPeople.setName(ppl.getName());
+//                        newPeople.setPhoneNum(ppl.getPhoneNum());
+//                        newPeople.setDate(ppl.getDate());
+//                        newPeople.setState(ppl.getState());
+//                        newPeople.setCitizenship(ppl.getCitizenship());
+//                        newPeople.setGender(ppl.getGender());
+//                        newPeople.setStatus(((People)obj).getStatus());
+//                        newPeople.setPassword(((People)obj).getPassword());
+//                        newPeople.setDose1(((People)obj).getDose1());
+//                        newPeople.setDose2(((People)obj).getDose2());
+//                        newPeople.setPeopleID(((People)obj).getPeopleID());
+//                        newPeople.setPeopleID(((People)obj).getUserType());
+//                        tempUsers.add(newPeople);
+                        tempUsers.add(modifiedPpl);
+                    }
+                }
+                else
+                {
+                    personnel = ((Personnel)obj);
+                }
+            }
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(dataUser));
+            for(People eachUser: tempUsers)
+            {
+                oos.writeObject(eachUser);
+            }
+            oos.writeObject(personnel);
+            personnel = null;
+            tempUsers.clear();
+            oos.flush();
+            oos.close();
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+    
+    public void changePassword(People changedPassPpl)
+    {
+        ArrayList<People> tempUsers = new ArrayList <>();
+        ObjectInputStream ois = null;
+        Personnel personnel = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (!((User)obj).getUsername().equals("ADMIN"))
+                {
+                    if (!((People)obj).getUsername().equals(changedPassPpl.getUsername()))
+                    {
+                        tempUsers.add((People)obj);
+                    }
+                    else
+                    {
+                        tempUsers.add(changedPassPpl);
+                    }
+                }
+                else {
+                    personnel = ((Personnel)obj);
+                }
+            } 
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(dataUser));
+            for(People eachUser: tempUsers)
+            {
+                oos.writeObject(eachUser);
+            }
+            oos.writeObject(personnel);
+            JOptionPane.showMessageDialog(null, "Password Changed Successfully!");
+            personnel = null;
+            tempUsers.clear();
+            oos.flush();
+            oos.close();
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+    
+
 }

@@ -108,7 +108,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel32 = new javax.swing.JLabel();
         apHourSlider = new javax.swing.JSpinner();
         jLabel17 = new javax.swing.JLabel();
-        spMinuteSlider = new javax.swing.JSpinner();
+        apMinuteSlider = new javax.swing.JSpinner();
         jLabel33 = new javax.swing.JLabel();
         centreCombo = new javax.swing.JComboBox<>();
         jLabel34 = new javax.swing.JLabel();
@@ -596,16 +596,16 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel17.setText(":");
         appointmentPanel.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(151, 286, -1, -1));
 
-        spMinuteSlider.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        spMinuteSlider.setModel(new javax.swing.SpinnerNumberModel(0, 0, 30, 30));
-        appointmentPanel.add(spMinuteSlider, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 285, -1, -1));
+        apMinuteSlider.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        apMinuteSlider.setModel(new javax.swing.SpinnerNumberModel(0, 0, 30, 30));
+        appointmentPanel.add(apMinuteSlider, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 285, -1, -1));
 
         jLabel33.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel33.setText("Vaccination Centre");
         appointmentPanel.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 330, -1, -1));
 
         centreCombo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        centreCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        centreCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "World Trade Centre KL", "Wisma Belia", "Stadium Tun Abdul Razak", "Pusat Sains dan Kreativiti", "Kuala Lumpur Convention Centre", "Ideal Convention Centre", "Borneo Convention Centre Kuching", "Axiata Arena Bukit jalil" }));
         appointmentPanel.add(centreCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 357, 143, -1));
 
         jLabel34.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -613,7 +613,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         appointmentPanel.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 400, -1, -1));
 
         vaccineCombo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        vaccineCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pfizer/BioNtech", "AstraZeneca", "Janssen/Ad26.COV 2.S", "Sinopharm", "Sinovac-CoronaVac" }));
+        vaccineCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pfizer-BioNtech", "AstraZeneca", "Janssen/Ad26.COV 2.S", "Sputnik V", "Sinovac-CoronaVac", "Cansino Biologics" }));
         appointmentPanel.add(vaccineCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 429, 144, -1));
 
         regButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1000,6 +1000,7 @@ public class PeopleGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser apDateChooser;
     private javax.swing.JSpinner apHourSlider;
+    private javax.swing.JSpinner apMinuteSlider;
     private javax.swing.JLabel appointmentButtonLabel;
     private javax.swing.JPanel appointmentPanel;
     private javax.swing.JPanel appointmentPanelButton;
@@ -1082,7 +1083,6 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JButton regButton;
     private javax.swing.JButton saveProfileButton;
     private javax.swing.JPanel sideMenuPanel;
-    private javax.swing.JSpinner spMinuteSlider;
     private javax.swing.JComboBox<String> stateComboBox;
     private javax.swing.JLabel statusButtonLabel;
     private javax.swing.JPanel statusPanel;

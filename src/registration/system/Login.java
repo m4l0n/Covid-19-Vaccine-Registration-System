@@ -366,7 +366,6 @@ public class Login extends javax.swing.JFrame {
                 {
                     People newPeople = new People();
                     newPeople.setName(nameText.getText());
-                    newPeople.setPeopleID("UID" + Integer.toString(generateNum(100000, 999999)));
                     newPeople.setPhoneNum(Integer.parseInt(phoneNumText.getText()));
                     newPeople.setUsername(idRegText.getText());
                     newPeople.setPassword(passRegText.getText());
@@ -379,6 +378,8 @@ public class Login extends javax.swing.JFrame {
                     newPeople.setDose1("NA");
                     newPeople.setDose2("NA");
                     newPeople.registerProfile(newPeople);
+                    JOptionPane.showMessageDialog(null, "Account registered "
+                    + "successfully. Plese return to login page to continue.");
                 }
             }
             else
@@ -389,6 +390,7 @@ public class Login extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+        
     }//GEN-LAST:event_regButtonActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
@@ -470,7 +472,7 @@ public class Login extends javax.swing.JFrame {
         return "Invalid";
     }
     
-    private static boolean isValidPassword(String password)
+    public static boolean isValidPassword(String password)
     {
         if (password.length() < 8)
         {
@@ -512,7 +514,7 @@ public class Login extends javax.swing.JFrame {
         return true; 
     }
     
-    private static boolean isValidUserID(String userID)
+    public static boolean isValidUserID(String userID)
     {
         return Pattern.compile("(([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))-([0-9]{2})-([0-9]{4})")
                 .matcher(userID).matches();
@@ -528,11 +530,6 @@ public class Login extends javax.swing.JFrame {
         }
         return null;
     }   
-    
-    private static int generateNum(int min, int max){
-        Random rand = new Random();
-        return min + rand.nextInt((max - min) + 1);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField citizenshipText;

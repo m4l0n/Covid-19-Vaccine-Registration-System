@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  *
@@ -57,7 +58,7 @@ public class People extends User implements Serializable{
     
     public String getDose2()
     {
-        return peopleID;
+        return dose2;
     }
     
     public void registerProfile(People newPeople)
@@ -89,6 +90,7 @@ public class People extends User implements Serializable{
         
         ObjectOutputStream oos = null;
         try {
+            newPeople.setPeopleID("UID" + Integer.toString(generateNum(100000, 999999)));
             oos = new ObjectOutputStream(new FileOutputStream(dataUser));
             boolean idExists = false;
             for(People existingPeople:tempPeople){
@@ -97,6 +99,7 @@ public class People extends User implements Serializable{
                 }
             }
             if (idExists == false) {
+                System.out.println(newPeople.getName() + "\n" + newPeople.getDate());
                 tempPeople.add(newPeople);
             } else {
                 registerProfile(newPeople);
@@ -105,8 +108,6 @@ public class People extends User implements Serializable{
                 oos.writeObject(existingPeople);
             }
             oos.writeObject(personnel);
-            JOptionPane.showMessageDialog(null, "Account registered "
-                    + "successfully. Plese return to login page to continue.");
             newPeople = null;
             personnel = null;
             tempPeople.clear();
@@ -245,5 +246,117 @@ public class People extends User implements Serializable{
         } catch (Exception e) { e.printStackTrace(); }
     }
     
+    public People searchPeople(String peopleID)
+    {
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (!((User)obj).getUsername().equals("ADMIN"))
+                {
+                    if(((People)obj).getPeopleID().equals(peopleID)){
+                        return ((People)obj);
+                    }
+                }
+            }
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return null;  
+    }
+    
+    public People getPeopleDetails(String userID)
+    {
+        People ppl = new People();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if(((People)obj).getUsername().equals(userID)){
+                    ppl = ((People)obj);
+                    break;
+                }
+            } 
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return ppl;
+    }
+    
+    public boolean deletePeople(String userID)
+    {
+        boolean idFound = false;
+        ArrayList<People> tempUsers = new ArrayList <>();
+        ObjectInputStream ois = null;
+        Personnel personnel = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (!((User)obj).getUsername().equals("ADMIN"))
+                {
+                    if (!((People)obj).getUsername().equals(userID))
+                    {
+                        tempUsers.add((People)obj);
+                    }
+                    else
+                    {
+                        idFound = true;
+                    }
+                }
+                else {
+                    personnel = ((Personnel)obj);
+                }
+            } 
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(dataUser));
+            for(People eachUser: tempUsers)
+            {
+                oos.writeObject(eachUser);
+            }
+            oos.writeObject(personnel);
+            personnel = null;
+            tempUsers.clear();
+            oos.flush();
+            oos.close();
+        } catch (Exception e) { e.printStackTrace(); }
+        finally { return idFound; }
+    }
+    
+    private static int generateNum(int min, int max){
+        Random rand = new Random();
+        return min + rand.nextInt((max - min) + 1);
+    }
 
 }

@@ -131,7 +131,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         newPassText = new javax.swing.JTextField();
         cancelChangeButton = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        confChangeButton = new javax.swing.JButton();
         jLabel29 = new javax.swing.JLabel();
         changeProfilePanel = new javax.swing.JPanel();
         phoneNumText = new javax.swing.JTextField();
@@ -689,14 +689,14 @@ public class PeopleGUI extends javax.swing.JFrame {
         });
         changePassPanel.add(cancelChangeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 300, 114, 37));
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton3.setText("Confirm");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        confChangeButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        confChangeButton.setText("Confirm");
+        confChangeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                confChangeButtonActionPerformed(evt);
             }
         });
-        changePassPanel.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 114, 37));
+        changePassPanel.add(confChangeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 114, 37));
 
         jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
         changePassPanel.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 580, 410));
@@ -909,7 +909,7 @@ public class PeopleGUI extends javax.swing.JFrame {
     private void saveProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveProfileButtonActionPerformed
         // TODO add your handling code here:
         SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
-        People existingPpl = getPeopleDetails();
+        People existingPpl = new People().getPeopleDetails(userID);
 //        People newPeople = new People();
 //        newPeople.setUsername(userIDText.getText());
 //        newPeople.setName(nameText.getText());
@@ -929,15 +929,15 @@ public class PeopleGUI extends javax.swing.JFrame {
         existingPpl.modifyProfile(existingPpl);
     }//GEN-LAST:event_saveProfileButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void confChangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confChangeButtonActionPerformed
         // TODO add your handling code here:
-        People existingPpl = getPeopleDetails();
+        People existingPpl = new People().getPeopleDetails(userID);
         if (existingPpl.getPassword().equals(currentPassText.getText()))
         {
             existingPpl.setPassword(newPassText.getText());
             existingPpl.changePassword(existingPpl);
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_confChangeButtonActionPerformed
 
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
         // TODO add your handling code here:
@@ -966,37 +966,10 @@ public class PeopleGUI extends javax.swing.JFrame {
         });
     }
     
-    private People getPeopleDetails()
-    {
-        People ppl = new People();
-        ObjectInputStream ois = null;
-        try {
-            ois = new ObjectInputStream(new FileInputStream(dataUser));
-            Object obj = null;
-            while ((obj = ois.readObject()) != null) {
-                if(((People)obj).getUsername().equals(userID)){
-                    ppl = ((People)obj);
-                    break;
-                }
-            } 
-        } catch (EOFException ex) {}
-        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
-        catch (FileNotFoundException ex) { ex.printStackTrace(); }
-        catch (IOException ex) { ex.printStackTrace(); }
-        finally {
-            try {
-                if (ois != null) {
-                    ois.close();
-                }
-            } catch (IOException ex) { ex.printStackTrace(); }
-        }
-        return ppl;
-    }
-    
     private void showProfileDetails()
     {
         try {
-            People ppl = getPeopleDetails();
+            People ppl = new People().getPeopleDetails(userID);
             
             Date dob = new SimpleDateFormat("dd-MM-yyyy").parse(ppl.getDate());
             
@@ -1038,6 +1011,7 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JPanel changeProfilePanel;
     private javax.swing.JTextField citizenshipText;
     private javax.swing.JButton clearButton;
+    private javax.swing.JButton confChangeButton;
     private javax.swing.JTextField currentPassText;
     private com.toedter.calendar.JDateChooser dobDateChooser;
     private javax.swing.JRadioButton femaleRadioButton;
@@ -1045,7 +1019,6 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JLabel homeButtonLabel;
     private javax.swing.JPanel homePanel;
     private javax.swing.JPanel homePanelButton;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

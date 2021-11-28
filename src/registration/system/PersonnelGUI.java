@@ -6,20 +6,41 @@
 package registration.system;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.toedter.calendar.JDateChooser;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author nigel
  */
 public class PersonnelGUI extends javax.swing.JFrame {
-    
+    private final String dataUser = "dataUser.txt";
     /**
      * Creates new form Personnel
      */
@@ -27,6 +48,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         initComponents();
         setPreferredSize(new Dimension(1080, 670));
         pack();
+        updatePeopleTable();
     }
 
     /**
@@ -76,7 +98,6 @@ public class PersonnelGUI extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         searchPeopleButton = new javax.swing.JButton();
         peopleNameText = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
         usernamePeopleText = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         passPeopleText = new javax.swing.JTextField();
@@ -84,7 +105,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         phonePeopleText = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
-        dobPeopleText = new com.toedter.calendar.JDateChooser();
+        dobPeopleChooser = new com.toedter.calendar.JDateChooser();
         jLabel22 = new javax.swing.JLabel();
         citizenPeopleText = new javax.swing.JTextField();
         jLabel25 = new javax.swing.JLabel();
@@ -95,6 +116,9 @@ public class PersonnelGUI extends javax.swing.JFrame {
         savePeopleButton = new javax.swing.JButton();
         clearPeopleButton = new javax.swing.JButton();
         stateComboBox = new javax.swing.JComboBox<>();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        statusPeopleText = new javax.swing.JTextField();
         vaccinePanel = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -342,15 +366,36 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         peopleTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "PeopleID", "Name", "UserID", "UserPassword", "Phone Number", "Date of Birth", "Gender", "State", "Citizenship", "Status", "Dose 1", "Dose 2"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        peopleTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        peopleTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                peopleTableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(peopleTable);
 
         peoplePanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 750, 170));
@@ -369,11 +414,13 @@ public class PersonnelGUI extends javax.swing.JFrame {
         jLabel16.setText("Name");
 
         searchPeopleButton.setText("Search");
+        searchPeopleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchPeopleButtonActionPerformed(evt);
+            }
+        });
 
         peopleNameText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel17.setText("Username");
 
         usernamePeopleText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -391,10 +438,10 @@ public class PersonnelGUI extends javax.swing.JFrame {
         jLabel20.setText("Date of Birth");
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel21.setText("State");
+        jLabel21.setText("Status");
 
-        dobPeopleText.setDateFormatString("dd-MM-yyyy");
-        dobPeopleText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        dobPeopleChooser.setDateFormatString("dd-MM-yyyy");
+        dobPeopleChooser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel22.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel22.setText("Citizenship");
@@ -404,15 +451,32 @@ public class PersonnelGUI extends javax.swing.JFrame {
         jLabel25.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel25.setText("Gender");
 
+        genderButtonGroup.add(malePeopleButton);
         malePeopleButton.setText("Male");
 
+        genderButtonGroup.add(femalePeopleButton);
         femalePeopleButton.setText("Female");
 
         addPeopleButton.setText("Add");
+        addPeopleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addPeopleButtonActionPerformed(evt);
+            }
+        });
 
         deletePeopleButton.setText("Delete");
+        deletePeopleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletePeopleButtonActionPerformed(evt);
+            }
+        });
 
         savePeopleButton.setText("Save");
+        savePeopleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                savePeopleButtonActionPerformed(evt);
+            }
+        });
 
         clearPeopleButton.setText("Clear");
         clearPeopleButton.addActionListener(new java.awt.event.ActionListener() {
@@ -424,57 +488,19 @@ public class PersonnelGUI extends javax.swing.JFrame {
         stateComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         stateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Johor", "Kedah", "Kelantan", "Kuala Lumpur", "Labuan", "Malacca", "Negeri Sembilan", "Pahang", "Perak", "Perlis", "Putrajaya", "Sabah", "Sarawak", "Selangor", "Sembilan", "Terengganu" }));
 
+        jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel24.setText("IC/Passport Number");
+
+        jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel26.setText("State");
+
+        statusPeopleText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        statusPeopleText.setEnabled(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(peopleNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usernamePeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(passPeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(34, 34, 34)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dobPeopleText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(phonePeopleText, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(stateComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(71, 71, 71)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(citizenPeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(malePeopleButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(femalePeopleButton))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(51, 51, 51)))
-                        .addGap(67, 67, 67))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(savePeopleButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(addPeopleButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(deletePeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(clearPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -483,11 +509,53 @@ public class PersonnelGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(peopleIDText, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(searchPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(searchPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(226, 226, 226)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(peopleNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(usernamePeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(passPeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel24))))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(dobPeopleChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                        .addComponent(phonePeopleText)
+                                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(stateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(58, 58, 58)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(statusPeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(malePeopleButton)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(femalePeopleButton))
+                                        .addComponent(citizenPeopleText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(savePeopleButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addPeopleButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(clearPeopleButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deletePeopleButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -496,62 +564,67 @@ public class PersonnelGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(peopleNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel19)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(phonePeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel20))
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(peopleNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel24)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel25)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel22))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(phonePeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(citizenPeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(addPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(savePeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(usernamePeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dobPeopleChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(malePeopleButton)
+                            .addComponent(femalePeopleButton))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(usernamePeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(50, 50, 50)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel18)
-                                    .addComponent(jLabel21))
+                                    .addComponent(jLabel21)
+                                    .addComponent(jLabel26)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(clearPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(passPeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(stateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(dobPeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(peopleIDText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(searchPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel22)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(citizenPeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel25)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(malePeopleButton)
-                            .addComponent(femalePeopleButton))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(clearPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(savePeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(deletePeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(stateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(statusPeopleText, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addComponent(deletePeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 7, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(peopleIDText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
         );
 
-        peoplePanel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 751, 330));
+        peoplePanel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 751, 350));
 
         mainPanels.add(peoplePanel, "peoplePanel");
 
@@ -691,7 +764,109 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
     private void clearPeopleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearPeopleButtonActionPerformed
         // TODO add your handling code here:
+//        peopleNameText.setText("");
+//        usernamePeopleText.setText("");
+//        passPeopleText.setText("");
+//        phonePeopleText.setText("");
+//        ((JTextField)dobPeopleChooser.getDateEditor().getUiComponent()).setText("Date of Birth");
+//        stateComboBox.setEditable(true);
+//        stateComboBox.setSelectedItem("State");
+//        citizenPeopleText.setText("");
+//        malePeopleButton.setSelected(false);
+//        femalePeopleButton.setSelected(false);
+//        statusPeopleText.setText("");
+        clearComponents(jPanel2);
     }//GEN-LAST:event_clearPeopleButtonActionPerformed
+
+    private void peopleTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_peopleTableMouseClicked
+        // TODO add your handling code here:
+        int row = peopleTable.getSelectedRow();
+        String peopleID = String.valueOf(peopleTable.getValueAt(row, 0));
+        displayPeopleDetails(new People().searchPeople(peopleID));
+    }//GEN-LAST:event_peopleTableMouseClicked
+
+    private void searchPeopleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchPeopleButtonActionPerformed
+        // TODO add your handling code here:
+        People ppl = new People();
+        ppl = ppl.searchPeople(peopleIDText.getText());
+        if (ppl != null)
+        {
+            displayPeopleDetails(ppl);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Customer with PeopleID" + 
+                    peopleIDText.getText() + " not found!", "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_searchPeopleButtonActionPerformed
+
+    private void addPeopleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPeopleButtonActionPerformed
+        // TODO add your handling code here:
+        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            if(new Login().isValidUserID(usernamePeopleText.getText()))
+            {
+                if (new Login().isValidPassword(passPeopleText.getText()))
+                {
+                    People newPeople = new People();
+                    newPeople.setName(peopleNameText.getText());
+                    newPeople.setPhoneNum(Integer.parseInt(phonePeopleText.getText()));
+                    newPeople.setUsername(usernamePeopleText.getText());
+                    newPeople.setPassword(passPeopleText.getText());
+                    newPeople.setDate(dcn.format(dobPeopleChooser.getDate()));
+                    newPeople.setState(String.valueOf(stateComboBox.getSelectedItem()));
+                    newPeople.setCitizenship(citizenPeopleText.getText());
+                    newPeople.setGender(getSelectedButton());
+                    newPeople.setUserType("People");
+                    newPeople.setStatus("Unvaccinated");
+                    newPeople.setDose1("NA");
+                    newPeople.setDose2("NA");
+                    newPeople.registerProfile(newPeople);
+                    JOptionPane.showMessageDialog(null, "Account registered "
+                    + "successfully.");
+                    updatePeopleTable();
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "IC/Passport Number Format is Invalid!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_addPeopleButtonActionPerformed
+
+    private void savePeopleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePeopleButtonActionPerformed
+        // TODO add your handling code here:
+        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+        People existingPpl = new People().getPeopleDetails(usernamePeopleText.getText());
+        existingPpl.setName(peopleNameText.getText());
+        existingPpl.setPhoneNum(Integer.parseInt(phonePeopleText.getText()));
+        existingPpl.setUsername(usernamePeopleText.getText());
+        existingPpl.setPassword(passPeopleText.getText());
+        existingPpl.setDate(dcn.format(dobPeopleChooser.getDate()));
+        existingPpl.setState(String.valueOf(stateComboBox.getSelectedItem()));
+        existingPpl.setCitizenship(citizenPeopleText.getText());
+        existingPpl.setGender(getSelectedButton());
+        existingPpl.modifyProfile(existingPpl);
+        updatePeopleTable();
+    }//GEN-LAST:event_savePeopleButtonActionPerformed
+
+    private void deletePeopleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletePeopleButtonActionPerformed
+        // TODO add your handling code here:
+        boolean idFound = new People().deletePeople(usernamePeopleText.getText());
+        if (idFound == true)
+            {
+                JOptionPane.showMessageDialog(null, "People Deleted Successfully.");
+                updatePeopleTable();
+                clearComponents(jPanel2);
+            }
+        else
+            {
+                JOptionPane.showMessageDialog(null, "UserID Not Found. Profile Cannot be Deleted.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+    }//GEN-LAST:event_deletePeopleButtonActionPerformed
     
     static JComponent createVerticalSeparator() {
         JSeparator x = new JSeparator(SwingConstants.VERTICAL);
@@ -723,6 +898,101 @@ public class PersonnelGUI extends javax.swing.JFrame {
         });
     }
     
+    private void updatePeopleTable()
+    {
+        DefaultTableModel table = (DefaultTableModel) peopleTable.getModel();
+        table.setRowCount(0);
+        int count=0;
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (((User)obj).getUserType().equals("People"))
+                {
+                    count++;
+                    String[] row = { ((People)obj).getPeopleID(), 
+                        ((People)obj).getName(),
+                        ((People)obj).getUsername(), ((People)obj).getPassword(), 
+                        Integer.toString(((People)obj).getPhoneNum()), 
+                        ((People)obj).getDate(), 
+                        ((People)obj).getGender(), 
+                        ((People)obj).getState(), ((People)obj).getCitizenship(), 
+                        ((People)obj).getStatus(), ((People)obj).getDose1(), 
+                        ((People)obj).getDose2()};
+                    table.addRow(row);
+                }
+            }
+        } catch (EOFException ex) {} 
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+    }
+    
+    private void displayPeopleDetails(People ppl)
+    {
+        try {
+            Date dob = new SimpleDateFormat("dd-MM-yyyy").parse(ppl.getDate());
+            peopleNameText.setText(ppl.getName());
+            usernamePeopleText.setText(ppl.getUsername());
+            passPeopleText.setText(ppl.getPassword());
+            phonePeopleText.setText(Integer.toString(ppl.getPhoneNum()));
+            dobPeopleChooser.setDate(dob);
+            stateComboBox.setSelectedItem(ppl.getState());
+            citizenPeopleText.setText(ppl.getCitizenship());
+            if (ppl.getGender().equals("Male")) { malePeopleButton.setSelected(true); }
+            else { femalePeopleButton.setSelected(true); }
+            statusPeopleText.setText(ppl.getStatus());
+        } catch (ParseException ex) {
+            Logger.getLogger(PersonnelGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private String getSelectedButton()
+    {  
+        for (Enumeration<AbstractButton> buttons = genderButtonGroup.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                    return button.getText();
+            }
+        }
+        return null;
+    }
+    
+    private void clearComponents(javax.swing.JPanel panel)
+    {
+        for(Component control : panel.getComponents())
+        {
+            if(control instanceof JTextField)
+            {
+                JTextField ctrl = (JTextField) control;
+                ctrl.setText("");
+            }
+            else if (control instanceof JComboBox)
+            {
+                JComboBox ctr = (JComboBox) control;
+                ctr.setEditable(true);
+                ctr.setSelectedItem("State");
+            }
+            else if (control instanceof JRadioButton)
+            {
+                JRadioButton rb = (JRadioButton) control;
+                rb.setSelected(false);
+            }
+            else if (control instanceof JDateChooser)
+            {
+                JDateChooser dc = (JDateChooser) control;
+                ((JTextField)dc.getDateEditor().getUiComponent()).setText("Date of Birth");
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addPeopleButton;
@@ -735,7 +1005,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private javax.swing.JTextField citizenPeopleText;
     private javax.swing.JButton clearPeopleButton;
     private javax.swing.JButton deletePeopleButton;
-    private com.toedter.calendar.JDateChooser dobPeopleText;
+    private com.toedter.calendar.JDateChooser dobPeopleChooser;
     private javax.swing.JRadioButton femalePeopleButton;
     private javax.swing.ButtonGroup genderButtonGroup;
     private javax.swing.JLabel homeButtonLabel;
@@ -749,7 +1019,6 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -757,7 +1026,9 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -788,6 +1059,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private javax.swing.JButton searchPeopleButton;
     private javax.swing.JPanel sidePanels;
     private javax.swing.JComboBox<String> stateComboBox;
+    private javax.swing.JTextField statusPeopleText;
     private javax.swing.JTextField usernamePeopleText;
     private javax.swing.JLabel vaccineButtonLabel;
     private javax.swing.JPanel vaccinePanel;

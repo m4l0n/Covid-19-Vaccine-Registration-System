@@ -246,7 +246,7 @@ public class People extends User implements Serializable{
         } catch (Exception e) { e.printStackTrace(); }
     }
     
-    public People searchPeople(String peopleID)
+    public People searchPeople(String userID)
     {
         ObjectInputStream ois = null;
         try {
@@ -255,7 +255,7 @@ public class People extends User implements Serializable{
             while ((obj = ois.readObject()) != null) {
                 if (!((User)obj).getUsername().equals("ADMIN"))
                 {
-                    if(((People)obj).getPeopleID().equals(peopleID)){
+                    if(((People)obj).getUsername().equals(userID)){
                         return ((People)obj);
                     }
                 }
@@ -282,7 +282,7 @@ public class People extends User implements Serializable{
             ois = new ObjectInputStream(new FileInputStream(dataUser));
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
-                if(((People)obj).getUsername().equals(userID)){
+                if(((User)obj).getUsername().equals(userID)){
                     ppl = ((People)obj);
                     break;
                 }

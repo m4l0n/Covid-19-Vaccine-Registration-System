@@ -12,8 +12,49 @@ import java.time.LocalDate;
  * @author nigel
  */
 public class Vaccine {
-    public int VaccineBatchID;
-    public String vaccineName;
-    public int vaccineQuantity;
-    public LocalDate vaccineExpiry;
+    private int vaccineBatchID;
+    private String vaccineName;
+    private int vaccineQuantity;
+    private LocalDate vaccineExpiry;
+
+    public void setVacBatchID()
+    {
+        this.vaccineBatchID = vaccineBatchID;
+    }
+    
+    public int getVacBatchID()
+    {
+        return vaccineBatchID;
+    }
+
+    public void setVaccineName()
+    {
+        this.vaccineName = vaccineName;
+    }
+    
+    public String sgtVaccineName()
+    {
+        return vaccineName;
+    }
+    
+    public void setVaccineQuantity()
+    {
+        this.vaccineQuantity = vaccineQuantity;
+    }
+    
+    public int getVaccineQuantity()
+    {
+        return vaccineQuantity;
+    }
+    
+    public void setVaccineExpiry()
+    {
+        this.vaccineExpiry = vaccineExpiry;
+    }
+    
+    public LocalDate getVaccineExpiry()
+    {
+        return vaccineExpiry;
+    }
+
 }

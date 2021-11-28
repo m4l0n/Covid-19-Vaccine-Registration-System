@@ -509,7 +509,7 @@
                         <StringItem index="4" value="Kuala Lumpur Convention Centre"/>
                         <StringItem index="5" value="Ideal Convention Centre"/>
                         <StringItem index="6" value="Borneo Convention Centre Kuching"/>
-                        <StringItem index="7" value="Axiata Arena Bukit jalil"/>
+                        <StringItem index="7" value="Axiata Arena Bukit Jalil"/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -834,10 +834,10 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
                                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="peopleIDText" min="-2" pref="145" max="-2" attributes="0"/>
+                                  <Component id="userIDText" min="-2" pref="145" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="searchPeopleButton" min="-2" pref="121" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -985,7 +985,7 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="peopleIDText" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="userIDText" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="searchPeopleButton" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
@@ -1009,10 +1009,10 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Enter People ID to Search: "/>
+                    <Property name="text" type="java.lang.String" value="Enter IC Number to Search: "/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="peopleIDText">
+                <Component class="javax.swing.JTextField" name="userIDText">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
@@ -1047,6 +1047,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel18">

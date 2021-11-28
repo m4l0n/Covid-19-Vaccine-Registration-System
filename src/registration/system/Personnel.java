@@ -11,12 +11,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  *
  * @author nigel
  */
-public class Personnel extends User{
+public class Personnel extends User implements Serializable{
     private String personnelID;
     private final String dataUser = "dataUser.txt";
     static final long serialVersionUID = 1L;

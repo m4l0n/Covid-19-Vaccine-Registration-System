@@ -83,4 +83,14 @@ public class Appointment implements Serializable{
         return doseNum;
     }
     
+    public Centre getCentre()
+    {
+        return centre;
+    }
+    
+    public void setCentre(Centre centre)
+    {
+        this.centre = centre;
+    }
+    
 }

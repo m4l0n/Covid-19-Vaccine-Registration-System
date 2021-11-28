@@ -113,7 +113,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
-        peopleIDText = new javax.swing.JTextField();
+        userIDText = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         searchPeopleButton = new javax.swing.JButton();
         peopleNameText = new javax.swing.JTextField();
@@ -315,7 +315,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         centreAPCombo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        centreAPCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "World Trade Centre KL", "Wisma Belia", "Stadium Tun Abdul Razak", "Pusat Sains dan Kreativiti", "Kuala Lumpur Convention Centre", "Ideal Convention Centre", "Borneo Convention Centre Kuching", "Axiata Arena Bukit jalil" }));
+        centreAPCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "World Trade Centre KL", "Wisma Belia", "Stadium Tun Abdul Razak", "Pusat Sains dan Kreativiti", "Kuala Lumpur Convention Centre", "Ideal Convention Centre", "Borneo Convention Centre Kuching", "Axiata Arena Bukit Jalil" }));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel3.setText("Add New Appointment");
@@ -581,9 +581,9 @@ public class PersonnelGUI extends javax.swing.JFrame {
         jLabel4.setText("Add New People");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Enter People ID to Search: ");
+        jLabel5.setText("Enter IC Number to Search: ");
 
-        peopleIDText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        userIDText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel16.setText("Name");
@@ -598,6 +598,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         peopleNameText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         usernamePeopleText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        usernamePeopleText.setEnabled(false);
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel18.setText("Password");
@@ -679,10 +680,10 @@ public class PersonnelGUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(130, 130, 130)
+                        .addGap(143, 143, 143)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(peopleIDText, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(userIDText, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(searchPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -794,7 +795,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(peopleIDText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userIDText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
@@ -962,15 +963,14 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
     private void searchPeopleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchPeopleButtonActionPerformed
         // TODO add your handling code here:
-        People ppl = new People();
-        ppl = ppl.searchPeople(peopleIDText.getText());
+        People ppl = new People().searchPeople(userIDText.getText());
         if (ppl != null)
         {
             displayPeopleDetails(ppl);
         }
         else{
             JOptionPane.showMessageDialog(null, "Customer with PeopleID" + 
-                    peopleIDText.getText() + " not found!", "Error", 
+                    userIDText.getText() + " not found!", "Error", 
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_searchPeopleButtonActionPerformed
@@ -1251,7 +1251,6 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private javax.swing.JTextField passPeopleText;
     private javax.swing.JTextField peopleAPText;
     private javax.swing.JLabel peopleButtonLabel;
-    private javax.swing.JTextField peopleIDText;
     private javax.swing.JTextField peopleNameText;
     private javax.swing.JPanel peoplePanel;
     private javax.swing.JPanel peoplePanelButton;
@@ -1264,6 +1263,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private javax.swing.JPanel sidePanels;
     private javax.swing.JComboBox<String> stateComboBox;
     private javax.swing.JTextField statusPeopleText;
+    private javax.swing.JTextField userIDText;
     private javax.swing.JTextField usernamePeopleText;
     private javax.swing.JComboBox<String> vaccineAPCombo;
     private javax.swing.JLabel vaccineButtonLabel;

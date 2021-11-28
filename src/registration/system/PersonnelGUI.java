@@ -72,17 +72,36 @@ public class PersonnelGUI extends javax.swing.JFrame {
         peoplePanelButton = new javax.swing.JPanel();
         peopleButtonLabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        logOutButton = new javax.swing.JButton();
         mainPanels = new javax.swing.JPanel();
         appointmentPanel = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         backgroundImage = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        centreAPCombo = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
-        appointmentIDText = new javax.swing.JTextField();
-        searchAppointmentButton = new javax.swing.JButton();
+        apIDSearchText = new javax.swing.JTextField();
+        searchAPButton = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        dateAPChooser = new com.toedter.calendar.JDateChooser();
+        jLabel28 = new javax.swing.JLabel();
+        apHourSlider = new javax.swing.JSpinner();
+        jLabel29 = new javax.swing.JLabel();
+        apMinuteSlider = new javax.swing.JSpinner();
+        jLabel30 = new javax.swing.JLabel();
+        vaccineAPCombo = new javax.swing.JComboBox<>();
+        adAPButton = new javax.swing.JButton();
+        clearAPButton = new javax.swing.JButton();
+        saveAPButton = new javax.swing.JButton();
+        deleteAPButton = new javax.swing.JButton();
+        jLabel31 = new javax.swing.JLabel();
+        apIDText = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        peopleAPText = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         appointmentTable = new javax.swing.JTable();
         peoplePanel = new javax.swing.JPanel();
@@ -148,16 +167,14 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         appointmentButtonLabel.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
         appointmentButtonLabel.setForeground(new java.awt.Color(255, 255, 255));
+        appointmentButtonLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         appointmentButtonLabel.setText("Appointments");
 
         javax.swing.GroupLayout appointmentPanelButtonLayout = new javax.swing.GroupLayout(appointmentPanelButton);
         appointmentPanelButton.setLayout(appointmentPanelButtonLayout);
         appointmentPanelButtonLayout.setHorizontalGroup(
             appointmentPanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, appointmentPanelButtonLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(appointmentButtonLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62))
+            .addComponent(appointmentButtonLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         appointmentPanelButtonLayout.setVerticalGroup(
             appointmentPanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,16 +190,14 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         vaccineButtonLabel.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
         vaccineButtonLabel.setForeground(new java.awt.Color(255, 255, 255));
+        vaccineButtonLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         vaccineButtonLabel.setText("Vaccine");
 
         javax.swing.GroupLayout vaccinePanelButtonLayout = new javax.swing.GroupLayout(vaccinePanelButton);
         vaccinePanelButton.setLayout(vaccinePanelButtonLayout);
         vaccinePanelButtonLayout.setHorizontalGroup(
             vaccinePanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, vaccinePanelButtonLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(vaccineButtonLabel)
-                .addGap(92, 92, 92))
+            .addComponent(vaccineButtonLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         vaccinePanelButtonLayout.setVerticalGroup(
             vaccinePanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,16 +212,14 @@ public class PersonnelGUI extends javax.swing.JFrame {
         });
 
         homeButtonLabel.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        homeButtonLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         homeButtonLabel.setText("Home");
 
         javax.swing.GroupLayout homePanelButtonLayout = new javax.swing.GroupLayout(homePanelButton);
         homePanelButton.setLayout(homePanelButtonLayout);
         homePanelButtonLayout.setHorizontalGroup(
             homePanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(homePanelButtonLayout.createSequentialGroup()
-                .addGap(104, 104, 104)
-                .addComponent(homeButtonLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(homeButtonLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         homePanelButtonLayout.setVerticalGroup(
             homePanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,36 +235,46 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         peopleButtonLabel.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
         peopleButtonLabel.setForeground(new java.awt.Color(255, 255, 255));
+        peopleButtonLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         peopleButtonLabel.setText("People");
 
         javax.swing.GroupLayout peoplePanelButtonLayout = new javax.swing.GroupLayout(peoplePanelButton);
         peoplePanelButton.setLayout(peoplePanelButtonLayout);
         peoplePanelButtonLayout.setHorizontalGroup(
             peoplePanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, peoplePanelButtonLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(peopleButtonLabel)
-                .addGap(95, 95, 95))
+            .addComponent(peopleButtonLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         peoplePanelButtonLayout.setVerticalGroup(
             peoplePanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(peopleButtonLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
         );
 
+        logOutButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        logOutButton.setText("Log Out");
+        logOutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout sidePanelsLayout = new javax.swing.GroupLayout(sidePanels);
         sidePanels.setLayout(sidePanelsLayout);
         sidePanelsLayout.setHorizontalGroup(
             sidePanelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(homePanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(appointmentPanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(peoplePanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(vaccinePanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(sidePanelsLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(sidePanelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
-            .addComponent(homePanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(appointmentPanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(peoplePanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(vaccinePanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidePanelsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77))
         );
         sidePanelsLayout.setVerticalGroup(
             sidePanelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,7 +290,9 @@ public class PersonnelGUI extends javax.swing.JFrame {
                 .addComponent(peoplePanelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(vaccinePanelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
 
         mainPanels.setLayout(new java.awt.CardLayout());
@@ -289,64 +314,214 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        centreAPCombo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        centreAPCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "World Trade Centre KL", "Wisma Belia", "Stadium Tun Abdul Razak", "Pusat Sains dan Kreativiti", "Kuala Lumpur Convention Centre", "Ideal Convention Centre", "Borneo Convention Centre Kuching", "Axiata Arena Bukit jalil" }));
+
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel3.setText("Add New Appointment");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Enter Appointment ID to Search: ");
 
-        appointmentIDText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        apIDSearchText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        searchAppointmentButton.setText("Search");
+        searchAPButton.setText("Search");
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel17.setText("Vaccination Centre");
+
+        jLabel27.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel27.setText("Date");
+
+        dateAPChooser.setDateFormatString("dd-MM-yyyy\n");
+        dateAPChooser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        jLabel28.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel28.setText("Time");
+
+        apHourSlider.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        apHourSlider.setModel(new javax.swing.SpinnerNumberModel(1, 1, 24, 1));
+
+        jLabel29.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel29.setText(":");
+
+        apMinuteSlider.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        apMinuteSlider.setModel(new javax.swing.SpinnerNumberModel(0, 0, 30, 30));
+
+        jLabel30.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel30.setText("Vaccination Type");
+
+        vaccineAPCombo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        vaccineAPCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pfizer-BioNtech", "AstraZeneca", "Janssen/Ad26.COV 2.S", "Sputnik V", "Sinovac-CoronaVac", "Cansino Biologics" }));
+
+        adAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        adAPButton.setText("Add");
+
+        clearAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        clearAPButton.setText("Clear");
+
+        saveAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        saveAPButton.setText("Save");
+
+        deleteAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        deleteAPButton.setText("Delete");
+        deleteAPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteAPButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel31.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel31.setText("Appointment ID");
+
+        apIDText.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        jLabel32.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel32.setText("People ID");
+
+        peopleAPText.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel31)
+                    .addComponent(apIDText, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel32)
+                    .addComponent(peopleAPText, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel27)
+                            .addComponent(dateAPChooser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel28)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(240, 240, 240)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(apHourSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(apMinuteSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(52, 52, 52)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel17)
+                    .addComponent(centreAPCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vaccineAPCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel30))
+                .addGap(52, 52, 52)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(deleteAPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(adAPButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(clearAPButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(saveAPButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(130, 130, 130)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(appointmentIDText, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(apIDSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(searchAppointmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(searchAPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(130, Short.MAX_VALUE))
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(240, 240, 240)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 217, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(adAPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(clearAPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(saveAPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(deleteAPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addGap(99, 99, 99)
+                                    .addComponent(jLabel30)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(vaccineAPCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel17)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(centreAPCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(75, 75, 75)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel27)
+                                    .addComponent(jLabel31))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dateAPChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(apIDText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(45, 45, 45)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel28)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(apHourSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(1, 1, 1)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                    .addComponent(jLabel29)
+                                                    .addComponent(apMinuteSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel32)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(peopleAPText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(34, 34, 34)))
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(appointmentIDText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchAppointmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(apIDSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchAPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
-        appointmentPanel.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 751, 330));
+        appointmentPanel.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 751, 350));
 
         appointmentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "AppointmentID", "Date", "Time", "Centre", "PeopleID", "Effective Period", "BatchID", "Dose Number"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(appointmentTable);
 
         appointmentPanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 750, 170));
@@ -699,7 +874,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainPanels, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
             .addComponent(sidePanels, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
         );
 
@@ -867,6 +1042,17 @@ public class PersonnelGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "UserID Not Found. Profile Cannot be Deleted.", "Error", JOptionPane.ERROR_MESSAGE);
             }
     }//GEN-LAST:event_deletePeopleButtonActionPerformed
+
+    private void deleteAPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAPButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteAPButtonActionPerformed
+
+    private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
+        // TODO add your handling code here:
+        Login login = new Login();
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_logOutButtonActionPerformed
     
     static JComponent createVerticalSeparator() {
         JSeparator x = new JSeparator(SwingConstants.VERTICAL);
@@ -995,15 +1181,23 @@ public class PersonnelGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton adAPButton;
     private javax.swing.JButton addPeopleButton;
+    private javax.swing.JSpinner apHourSlider;
+    private javax.swing.JTextField apIDSearchText;
+    private javax.swing.JTextField apIDText;
+    private javax.swing.JSpinner apMinuteSlider;
     private javax.swing.JLabel appointmentButtonLabel;
-    private javax.swing.JTextField appointmentIDText;
     private javax.swing.JPanel appointmentPanel;
     private javax.swing.JPanel appointmentPanelButton;
     private javax.swing.JTable appointmentTable;
     private javax.swing.JLabel backgroundImage;
+    private javax.swing.JComboBox<String> centreAPCombo;
     private javax.swing.JTextField citizenPeopleText;
+    private javax.swing.JButton clearAPButton;
     private javax.swing.JButton clearPeopleButton;
+    private com.toedter.calendar.JDateChooser dateAPChooser;
+    private javax.swing.JButton deleteAPButton;
     private javax.swing.JButton deletePeopleButton;
     private com.toedter.calendar.JDateChooser dobPeopleChooser;
     private javax.swing.JRadioButton femalePeopleButton;
@@ -1019,6 +1213,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -1029,7 +1224,13 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1044,9 +1245,11 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JButton logOutButton;
     private javax.swing.JPanel mainPanels;
     private javax.swing.JRadioButton malePeopleButton;
     private javax.swing.JTextField passPeopleText;
+    private javax.swing.JTextField peopleAPText;
     private javax.swing.JLabel peopleButtonLabel;
     private javax.swing.JTextField peopleIDText;
     private javax.swing.JTextField peopleNameText;
@@ -1054,13 +1257,15 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private javax.swing.JPanel peoplePanelButton;
     private javax.swing.JTable peopleTable;
     private javax.swing.JTextField phonePeopleText;
+    private javax.swing.JButton saveAPButton;
     private javax.swing.JButton savePeopleButton;
-    private javax.swing.JButton searchAppointmentButton;
+    private javax.swing.JButton searchAPButton;
     private javax.swing.JButton searchPeopleButton;
     private javax.swing.JPanel sidePanels;
     private javax.swing.JComboBox<String> stateComboBox;
     private javax.swing.JTextField statusPeopleText;
     private javax.swing.JTextField usernamePeopleText;
+    private javax.swing.JComboBox<String> vaccineAPCombo;
     private javax.swing.JLabel vaccineButtonLabel;
     private javax.swing.JPanel vaccinePanel;
     private javax.swing.JPanel vaccinePanelButton;

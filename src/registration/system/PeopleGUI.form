@@ -866,7 +866,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JSpinner" name="spMinuteSlider">
+            <Component class="javax.swing.JSpinner" name="apMinuteSlider">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>
@@ -900,11 +900,15 @@
                   <Font name="Segoe UI" size="14" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
+                  <StringArray count="8">
+                    <StringItem index="0" value="World Trade Centre KL"/>
+                    <StringItem index="1" value="Wisma Belia"/>
+                    <StringItem index="2" value="Stadium Tun Abdul Razak"/>
+                    <StringItem index="3" value="Pusat Sains dan Kreativiti"/>
+                    <StringItem index="4" value="Kuala Lumpur Convention Centre"/>
+                    <StringItem index="5" value="Ideal Convention Centre"/>
+                    <StringItem index="6" value="Borneo Convention Centre Kuching"/>
+                    <StringItem index="7" value="Axiata Arena Bukit jalil"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -936,12 +940,13 @@
                   <Font name="Segoe UI" size="14" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="5">
-                    <StringItem index="0" value="Pfizer/BioNtech"/>
+                  <StringArray count="6">
+                    <StringItem index="0" value="Pfizer-BioNtech"/>
                     <StringItem index="1" value="AstraZeneca"/>
                     <StringItem index="2" value="Janssen/Ad26.COV 2.S"/>
-                    <StringItem index="3" value="Sinopharm"/>
+                    <StringItem index="3" value="Sputnik V"/>
                     <StringItem index="4" value="Sinovac-CoronaVac"/>
+                    <StringItem index="5" value="Cansino Biologics"/>
                   </StringArray>
                 </Property>
               </Properties>

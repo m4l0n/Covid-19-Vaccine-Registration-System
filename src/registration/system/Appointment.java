@@ -18,9 +18,9 @@ public class Appointment implements Serializable{
     private LocalDate date;
     private LocalTime time;
     private Centre centre;
-    private int userID;
+    private String peopleID;
     private int effectivePeriod;
-    private int vacBatchID;
+    private String vacBatchID;
     private int doseNum;
     
     public void setDate(LocalDate date)
@@ -43,14 +43,14 @@ public class Appointment implements Serializable{
         return time;
     }  
     
-    public void setUserID(int userID)
+    public void setPeopleID(String peopleID)
     {
-        this.userID = userID;
+        this.peopleID = peopleID;
     }
     
-    public int getUserID()
+    public String getPeopleID()
     {
-        return userID;
+        return peopleID;
     }
     
     public void setEffectivePeriod(int effectivePeriod)
@@ -63,12 +63,12 @@ public class Appointment implements Serializable{
         return effectivePeriod;
     }
     
-    public void setVacBatchID(int vacBatchID)
+    public void setVacBatchID(String vacBatchID)
     {
         this.vacBatchID = vacBatchID;
     }
     
-    public int getVacBatchID()
+    public String getVacBatchID()
     {
         return vacBatchID;
     }

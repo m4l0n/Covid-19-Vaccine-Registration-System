@@ -141,7 +141,7 @@ public class Personnel extends User implements Serializable{
                 oos2 = new ObjectOutputStream(new FileOutputStream(new Centre().getDataCentre()));
                 Centre centre1 = new Centre();
                 centre1.setCentreID("CID" + Integer.toString(generateNum(100000, 999999)));
-                centre1.setCentreName("World Trade Centre Kuala Lumpur");
+                centre1.setCentreName("World Trade Centre KL");
                 centre1.setCentreLocation("Kuala Lumpur");
                 centre1.setVaccine(new ArrayList<Vaccine>(Arrays.asList(vaccine1, vaccine2)));
                 
@@ -150,7 +150,7 @@ public class Personnel extends User implements Serializable{
                 centre2.setCentreName("Wisma Belia");
                 centre2.setCentreLocation("Kuala Lumpur");
                 centre2.setVaccine(new ArrayList<Vaccine>(Arrays.asList(vaccine3, vaccine4)));
-                
+
                 Centre centre3 = new Centre();
                 centre3.setCentreID("CID" + Integer.toString(generateNum(100000, 999999)));
                 centre3.setCentreName("Stadium Tun Abdul Razak");

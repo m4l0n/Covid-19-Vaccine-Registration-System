@@ -8,14 +8,8 @@ package registration.system;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,10 +18,9 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -621,6 +614,11 @@ public class PeopleGUI extends javax.swing.JFrame {
 
         centreCombo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         centreCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "World Trade Centre KL", "Wisma Belia", "Stadium Tun Abdul Razak", "Pusat Sains dan Kreativiti", "Kuala Lumpur Convention Centre", "Ideal Convention Centre", "Borneo Convention Centre Kuching", "Axiata Arena Bukit Jalil" }));
+        centreCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                centreComboActionPerformed(evt);
+            }
+        });
         appointmentPanel.add(centreCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 357, 143, -1));
 
         jLabel34.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -628,7 +626,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         appointmentPanel.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 400, -1, -1));
 
         vaccineCombo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        vaccineCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pfizer-BioNtech", "AstraZeneca", "Janssen/Ad26.COV 2.S", "Sputnik V", "Sinovac-CoronaVac", "Cansino Biologics" }));
+        vaccineCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
         appointmentPanel.add(vaccineCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 429, 144, -1));
 
         regButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1157,6 +1155,14 @@ public class PeopleGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_searchStatusButtonActionPerformed
 
+    private void centreComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_centreComboActionPerformed
+        // TODO add your handling code here:
+        final DefaultComboBoxModel vaccineModel = new DefaultComboBoxModel(
+                (new Centre().getCentreVaccines((String) centreCombo
+                        .getSelectedItem()).toArray()));
+        vaccineCombo.setModel(vaccineModel);
+    }//GEN-LAST:event_centreComboActionPerformed
+    
     /**
      * @param args the command line arguments
      */

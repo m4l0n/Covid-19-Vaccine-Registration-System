@@ -20,8 +20,6 @@ import java.util.ArrayList;
 public class Vaccine {
     private int vaccineBatchID;
     private String vaccineName;
-    private int vaccineQuantity;
-    private LocalDate vaccineExpiry;
     private final String dataVaccine = "dataVaccine.txt";
     static final long serialVersionUID = 1L;
 
@@ -43,26 +41,6 @@ public class Vaccine {
     public String getVaccineName()
     {
         return vaccineName;
-    }
-    
-    public void setVaccineQuantity()
-    {
-        this.vaccineQuantity = vaccineQuantity;
-    }
-    
-    public int getVaccineQuantity()
-    {
-        return vaccineQuantity;
-    }
-    
-    public void setVaccineExpiry()
-    {
-        this.vaccineExpiry = vaccineExpiry;
-    }
-    
-    public LocalDate getVaccineExpiry()
-    {
-        return vaccineExpiry;
     }
     
     public String getDataVacine()

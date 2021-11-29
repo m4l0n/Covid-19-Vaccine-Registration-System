@@ -5,7 +5,14 @@
  */
 package registration.system;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -15,7 +22,9 @@ public class Centre implements Serializable{
     private int centreID;
     private String centreName;
     private String centreLocation;
-    private Vaccine vaccine;
+    private ArrayList<Vaccine> vaccineList;
+    private final String dataCentre = "dataCenter.txt";
+    static final long serialVersionUID = 1L;
     
     public void setCentreID()
     {
@@ -49,11 +58,102 @@ public class Centre implements Serializable{
     
     public void setVaccine()
     {
-        this.vaccine = vaccine;
+        this.vaccineList = vaccineList;
     }
     
-    public Vaccine vaccine()
+    public ArrayList<Vaccine> getVaccine()
     {
-        return vaccine;
+        return vaccineList;
     }
+    
+    public String getDataCentre()
+    {
+        return dataCentre;
+    }
+    
+    public ArrayList<Centre> searchCentre(String centreName)
+    {
+        ArrayList<Centre> centreList = new ArrayList<Centre>();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataCentre));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (!((Centre)obj).getCentreName().equals(centreName))
+                {
+                    centreList.add(((Centre)obj));
+                }
+            }
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return centreList; 
+    }
+    
+    public ArrayList<String> getCentreVaccines(String centreName)
+    {
+        ArrayList<String> vacNames = new ArrayList<String>();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataCentre));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (!((Centre)obj).getCentreName().equals(centreName))
+                {
+                    for(Vaccine eachVaccine:((Centre)obj).getVaccine())
+                    {
+                        vacNames.add(eachVaccine.getVaccineName());
+                    }
+                }
+            }
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return vacNames;
+    }
+    
+    public HashMap<String, String> getAllCentre()
+    {
+        HashMap<String, String> centreList = new HashMap<String, String>();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataCentre));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (!((Centre)obj).getCentreName().equals(centreName))
+                {
+                    centreList.put(((Centre)obj).getCentreName(), 
+                            ((Centre)obj).getCentreLocation());
+                }
+            }
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return centreList; 
+    }
+
 }

@@ -18,8 +18,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -27,6 +29,7 @@ import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -125,12 +128,12 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel45 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel46 = new javax.swing.JLabel();
-        centreAPCombo = new javax.swing.JComboBox<>();
-        vaccineAPCombo = new javax.swing.JComboBox<>();
+        centreSearchCombo = new javax.swing.JComboBox<>();
+        vaccineSearchCombo = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        statusTable = new javax.swing.JTable();
         jLabel47 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        searchStatusButton = new javax.swing.JButton();
         profilePanel = new javax.swing.JPanel();
         logOutButton = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
@@ -663,13 +666,13 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel46.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel46.setText("Search via Vaccination Centre");
 
-        centreAPCombo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        centreAPCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "World Trade Centre KL", "Wisma Belia", "Stadium Tun Abdul Razak", "Pusat Sains dan Kreativiti", "Kuala Lumpur Convention Centre", "Ideal Convention Centre", "Borneo Convention Centre Kuching", "Axiata Arena Bukit Jalil" }));
+        centreSearchCombo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        centreSearchCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "World Trade Centre KL", "Wisma Belia", "Stadium Tun Abdul Razak", "Pusat Sains dan Kreativiti", "Kuala Lumpur Convention Centre", "Ideal Convention Centre", "Borneo Convention Centre Kuching", "Axiata Arena Bukit Jalil" }));
 
-        vaccineAPCombo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        vaccineAPCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pfizer-BioNtech", "AstraZeneca", "Janssen/Ad26.COV 2.S", "Sputnik V", "Sinovac-CoronaVac", "Cansino Biologics" }));
+        vaccineSearchCombo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        vaccineSearchCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Pfizer-BioNtech", "AstraZeneca", "Janssen/Ad26.COV 2.S", "Sputnik V", "Sinovac-CoronaVac", "Cansino Biologics" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        statusTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -688,13 +691,18 @@ public class PeopleGUI extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(statusTable);
 
         jLabel47.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel47.setText("Vaccination Status on ");
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jButton1.setText("Search");
+        searchStatusButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        searchStatusButton.setText("Search");
+        searchStatusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchStatusButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -712,11 +720,11 @@ public class PeopleGUI extends javax.swing.JFrame {
                             .addComponent(jLabel45)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addComponent(vaccineAPCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(vaccineSearchCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(102, 102, 102)
-                                .addComponent(centreAPCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(centreSearchCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(116, 116, 116)
                                 .addComponent(jLabel46))))
@@ -727,7 +735,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(311, 311, 311)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(searchStatusButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -739,10 +747,10 @@ public class PeopleGUI extends javax.swing.JFrame {
                     .addComponent(jLabel46))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(vaccineAPCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(centreAPCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(vaccineSearchCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(centreSearchCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchStatusButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1053,6 +1061,91 @@ public class PeopleGUI extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_logOutButtonActionPerformed
 
+    private void searchStatusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchStatusButtonActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel table = (DefaultTableModel) statusTable.getModel();
+        table.setRowCount(0);
+        int count=0;
+        ArrayList<Vaccine> vacList = new ArrayList<Vaccine>();
+        ArrayList<Centre> centreList = new ArrayList<Centre>();
+        if (!vaccineSearchCombo.getSelectedItem().equals("None"))
+        {
+            vacList = new Vaccine()
+                    .searchVaccine(String.valueOf(vaccineSearchCombo
+                            .getSelectedItem()));
+        }
+        if (!centreSearchCombo.getSelectedItem().equals("None"))
+        {
+            centreList = new Centre()
+                    .searchCentre(String.valueOf(centreSearchCombo
+                            .getSelectedItem()));
+        }
+        
+        if (!vaccineSearchCombo.getSelectedItem().equals("None") && 
+                !centreSearchCombo.getSelectedItem().equals("None"))
+        {
+            for (Centre eachCentre:centreList)
+            {
+                for (Vaccine eachVaccine:vacList)
+                {
+                    if (eachCentre.getCentreVaccines(eachCentre.getCentreName())
+                            .contains(eachVaccine.getVaccineName()))
+                    {
+                        count++;
+                        String[] row = {eachCentre.getCentreName(), 
+                            eachCentre.getCentreLocation(), 
+                            eachVaccine.getVaccineName(), 
+                            Integer.toString(eachVaccine.getVaccineQuantity())};
+                        table.addRow(row);
+                    }
+                }
+            }
+        }
+        else if (vaccineSearchCombo.getSelectedItem().equals("None") && 
+                !centreSearchCombo.getSelectedItem().equals("None"))
+        {
+            HashMap<String, String> allCentre = new Centre().getAllCentre();
+            for (String eachCentreName:allCentre.keySet())
+            {
+                for (Vaccine eachVaccine:vacList)
+                {
+                    if (new Centre().getCentreVaccines(eachCentreName)
+                            .contains(eachVaccine.getVaccineName()))
+                    {
+                        count++;
+                        String[] row = {eachCentreName, 
+                            allCentre.get(allCentre), 
+                            eachVaccine.getVaccineName(), 
+                            Integer.toString(eachVaccine.getVaccineQuantity())};
+                        table.addRow(row);
+                    }
+                }
+            }
+        }
+        else if (!vaccineSearchCombo.getSelectedItem().equals("None") && 
+                centreSearchCombo.getSelectedItem().equals("None"))
+        {
+            for (Centre eachCentre:centreList)
+            {
+                for (Vaccine eachVaccine:eachCentre.getVaccine())
+                {
+                    count++;
+                    String[] row = {eachCentre.getCentreName(), 
+                        eachCentre.getCentreLocation(), 
+                        eachVaccine.getVaccineName(), 
+                        Integer.toString(eachVaccine.getVaccineQuantity())};
+                    table.addRow(row);
+                }
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, 
+                    "No options are selected to search!", "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_searchStatusButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1113,8 +1206,8 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JPanel appointmentPanelButton;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton cancelChangeButton;
-    private javax.swing.JComboBox<String> centreAPCombo;
     private javax.swing.JComboBox<String> centreCombo;
+    private javax.swing.JComboBox<String> centreSearchCombo;
     private javax.swing.JButton changePassButton;
     private javax.swing.JPanel changePassPanel;
     private javax.swing.JPanel changeProfilePanel;
@@ -1128,7 +1221,6 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JLabel homeButtonLabel;
     private javax.swing.JPanel homePanel;
     private javax.swing.JPanel homePanelButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1186,7 +1278,6 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton logOutButton;
     private javax.swing.JPanel mainPanels;
     private javax.swing.JRadioButton maleRadioButton;
@@ -1198,17 +1289,19 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JPanel profilePanelButton;
     private javax.swing.JButton regButton;
     private javax.swing.JButton saveProfileButton;
+    private javax.swing.JButton searchStatusButton;
     private javax.swing.JPanel sideMenuPanel;
     private javax.swing.JComboBox<String> stateComboBox;
     private javax.swing.JLabel statusButtonLabel;
     private javax.swing.JPanel statusPanel;
     private javax.swing.JPanel statusPanelButton;
+    private javax.swing.JTable statusTable;
     private javax.swing.JTextField ucDateText;
     private javax.swing.JTextField ucLocationDate;
     private javax.swing.JTextField ucLocationText;
     private javax.swing.JTextField ucTimeText;
     private javax.swing.JTextField userIDText;
-    private javax.swing.JComboBox<String> vaccineAPCombo;
     private javax.swing.JComboBox<String> vaccineCombo;
+    private javax.swing.JComboBox<String> vaccineSearchCombo;
     // End of variables declaration//GEN-END:variables
 }

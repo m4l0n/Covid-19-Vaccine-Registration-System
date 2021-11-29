@@ -5,7 +5,13 @@
  */
 package registration.system;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,6 +22,8 @@ public class Vaccine {
     private String vaccineName;
     private int vaccineQuantity;
     private LocalDate vaccineExpiry;
+    private final String dataVaccine = "dataVaccine.txt";
+    static final long serialVersionUID = 1L;
 
     public void setVacBatchID()
     {
@@ -32,7 +40,7 @@ public class Vaccine {
         this.vaccineName = vaccineName;
     }
     
-    public String sgtVaccineName()
+    public String getVaccineName()
     {
         return vaccineName;
     }
@@ -55,6 +63,39 @@ public class Vaccine {
     public LocalDate getVaccineExpiry()
     {
         return vaccineExpiry;
+    }
+    
+    public String getDataVacine()
+    {
+        return dataVaccine;
+    }
+    
+    public ArrayList<Vaccine> searchVaccine(String vaccineName)
+    {
+        ArrayList<Vaccine> vacList = new ArrayList<Vaccine>();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataVaccine));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (!((Vaccine)obj).getVaccineName().equals(vaccineName))
+                {
+                    vacList.add(((Vaccine)obj));
+                }
+            }
+            return vacList;
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return null;  
     }
 
 }

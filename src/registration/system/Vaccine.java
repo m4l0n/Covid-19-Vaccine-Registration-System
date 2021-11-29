@@ -8,32 +8,36 @@ package registration.system;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
  * @author nigel
  */
 public class Vaccine {
-    private int vaccineBatchID;
+    private String vaccineID;
     private String vaccineName;
+    private int effectivePeriod;
     private final String dataVaccine = "dataVaccine.txt";
     static final long serialVersionUID = 1L;
 
-    public void setVacBatchID()
+    public void setVacID(String vaccineID)
     {
-        this.vaccineBatchID = vaccineBatchID;
+        this.vaccineID = vaccineID;
     }
     
-    public int getVacBatchID()
+    public String getVacID()
     {
-        return vaccineBatchID;
+        return vaccineID;
     }
 
-    public void setVaccineName()
+    public void setVaccineName(String vaccineName)
     {
         this.vaccineName = vaccineName;
     }
@@ -43,10 +47,21 @@ public class Vaccine {
         return vaccineName;
     }
     
-    public String getDataVacine()
+    public String getDataVaccine()
     {
         return dataVaccine;
     }
+    
+    public void setEffectivePeriod(int effectivePeriod)
+    {
+        this.vaccineName = vaccineName;
+    }
+    
+    public int getEffectivePeriod()
+    {
+        return effectivePeriod;
+    }
+    
     
     public ArrayList<Vaccine> searchVaccine(String vaccineName)
     {
@@ -75,5 +90,4 @@ public class Vaccine {
         }
         return null;  
     }
-
 }

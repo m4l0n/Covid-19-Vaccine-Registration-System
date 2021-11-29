@@ -93,6 +93,7 @@ public class Login extends javax.swing.JFrame {
         loginErrorLabel.setText("");
         
         new Personnel().firstAdmin();
+        new Personnel().firstVaccineCentres();
     }
 
     /**

@@ -28,7 +28,6 @@ public class People extends User implements Serializable{
     private String peopleID;
     private String dose1;
     private String dose2;
-    private final String dataUser = "dataUser.txt";
     static final long serialVersionUID = 1L;
     
     public void setPeopleID(String peopleID)
@@ -67,7 +66,7 @@ public class People extends User implements Serializable{
         ObjectInputStream ois = null;
         Personnel personnel = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            ois = new ObjectInputStream(new FileInputStream(new User().getDataUser()));
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
                 if (!((User)obj).getUsername().equals("ADMIN"))
@@ -90,20 +89,7 @@ public class People extends User implements Serializable{
         
         ObjectOutputStream oos = null;
         try {
-            newPeople.setPeopleID("UID" + Integer.toString(generateNum(100000, 999999)));
-            oos = new ObjectOutputStream(new FileOutputStream(dataUser));
-            boolean idExists = false;
-            for(People existingPeople:tempPeople){
-                if(existingPeople.getPeopleID().equals(newPeople.getPeopleID())) {
-                    idExists = true;
-                }
-            }
-            if (idExists == false) {
-                System.out.println(newPeople.getName() + "\n" + newPeople.getDate());
-                tempPeople.add(newPeople);
-            } else {
-                registerProfile(newPeople);
-            }
+
             for(People existingPeople:tempPeople){
                 oos.writeObject(existingPeople);
             }
@@ -132,7 +118,7 @@ public class People extends User implements Serializable{
         ObjectInputStream ois = null;
         Personnel personnel = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            ois = new ObjectInputStream(new FileInputStream(new User().getDataUser()));
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
                 if (!((User)obj).getUsername().equals("ADMIN"))
@@ -181,7 +167,7 @@ public class People extends User implements Serializable{
         
         ObjectOutputStream oos = null;
         try {
-            oos = new ObjectOutputStream(new FileOutputStream(dataUser));
+            oos = new ObjectOutputStream(new FileOutputStream(new User().getDataUser()));
             for(People eachUser: tempUsers)
             {
                 oos.writeObject(eachUser);
@@ -200,7 +186,7 @@ public class People extends User implements Serializable{
         ObjectInputStream ois = null;
         Personnel personnel = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            ois = new ObjectInputStream(new FileInputStream(new User().getDataUser()));
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
                 if (!((User)obj).getUsername().equals("ADMIN"))
@@ -232,7 +218,7 @@ public class People extends User implements Serializable{
         
         ObjectOutputStream oos = null;
         try {
-            oos = new ObjectOutputStream(new FileOutputStream(dataUser));
+            oos = new ObjectOutputStream(new FileOutputStream(new User().getDataUser()));
             for(People eachUser: tempUsers)
             {
                 oos.writeObject(eachUser);
@@ -250,7 +236,7 @@ public class People extends User implements Serializable{
     {
         ObjectInputStream ois = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            ois = new ObjectInputStream(new FileInputStream(new User().getDataUser()));
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
                 if (!((User)obj).getUsername().equals("ADMIN"))
@@ -279,7 +265,7 @@ public class People extends User implements Serializable{
         People ppl = new People();
         ObjectInputStream ois = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            ois = new ObjectInputStream(new FileInputStream(new User().getDataUser()));
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
                 if(((User)obj).getUsername().equals(userID)){
@@ -308,7 +294,7 @@ public class People extends User implements Serializable{
         ObjectInputStream ois = null;
         Personnel personnel = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            ois = new ObjectInputStream(new FileInputStream(new User().getDataUser()));
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
                 if (!((User)obj).getUsername().equals("ADMIN"))
@@ -340,7 +326,7 @@ public class People extends User implements Serializable{
         
         ObjectOutputStream oos = null;
         try {
-            oos = new ObjectOutputStream(new FileOutputStream(dataUser));
+            oos = new ObjectOutputStream(new FileOutputStream(new User().getDataUser()));
             for(People eachUser: tempUsers)
             {
                 oos.writeObject(eachUser);

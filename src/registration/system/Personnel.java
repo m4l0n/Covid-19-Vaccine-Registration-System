@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  *
@@ -19,7 +20,6 @@ import java.io.Serializable;
  */
 public class Personnel extends User implements Serializable{
     private String personnelID;
-    private final String dataUser = "dataUser.txt";
     static final long serialVersionUID = 1L;
     
     public void setPersonnelID(String personnelID)
@@ -36,11 +36,11 @@ public class Personnel extends User implements Serializable{
     {
         ObjectInputStream ois = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            ois = new ObjectInputStream(new FileInputStream(new User().getDataUser()));
         } catch (FileNotFoundException ex) {
             ObjectOutputStream oos = null;
             try {
-                oos = new ObjectOutputStream(new FileOutputStream(dataUser));
+                oos = new ObjectOutputStream(new FileOutputStream(new User().getDataUser()));
                 Personnel firstAdmin = new Personnel();
                 firstAdmin.setName("ADMIN");
                 firstAdmin.setUsername("ADMIN");
@@ -65,5 +65,32 @@ public class Personnel extends User implements Serializable{
                 }
             } catch (IOException ex) { ex.printStackTrace(); }
         }
+        
+        Centre centre1 = new Centre();
+        centre1.setCentreID("CID" + Integer.toString(generateNum(100000, 999999)));
+        centre1.setCentreName("World Trade Centre Kuala Lumpur");
+        centre1.setCentreLocation("");
+        
+        ObjectInputStream ois2 = null;
+        try {
+            ois2 = new ObjectInputStream(new FileInputStream(new Centre().getDataCentre()));
+        } catch (FileNotFoundException ex) {
+            ObjectOutputStream oos = null;
+            try {
+                oos = new ObjectOutputStream(new FileOutputStream(new Centre().getDataCentre()));
+            } catch (Exception e) {}
+        } catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+    }
+    
+    private static int generateNum(int min, int max){
+        Random rand = new Random();
+        return min + rand.nextInt((max - min) + 1);
     }
 }

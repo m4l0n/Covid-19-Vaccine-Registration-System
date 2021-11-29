@@ -106,7 +106,7 @@ public class Centre implements Serializable{
             ois = new ObjectInputStream(new FileInputStream(dataCentre));
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
-                if (!((Centre)obj).getCentreName().equals(centreName))
+                if (((Centre)obj).getCentreName().equals(centreName))
                 {
                     for(Vaccine eachVaccine:((Centre)obj).getVaccine())
                     {

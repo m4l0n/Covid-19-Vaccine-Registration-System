@@ -1066,14 +1066,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         DefaultTableModel table = (DefaultTableModel) statusTable.getModel();
         table.setRowCount(0);
         int count=0;
-        ArrayList<Vaccine> vacList = new ArrayList<Vaccine>();
         ArrayList<Centre> centreList = new ArrayList<Centre>();
-        if (!vaccineSearchCombo.getSelectedItem().equals("None"))
-        {
-            vacList = new Vaccine()
-                    .searchVaccine(String.valueOf(vaccineSearchCombo
-                            .getSelectedItem()));
-        }
         if (!centreSearchCombo.getSelectedItem().equals("None"))
         {
             centreList = new Centre()
@@ -1086,18 +1079,16 @@ public class PeopleGUI extends javax.swing.JFrame {
         {
             for (Centre eachCentre:centreList)
             {
-                for (Vaccine eachVaccine:vacList)
+                if (eachCentre.getCentreVaccines(eachCentre.getCentreName())
+                        .contains(String.valueOf(vaccineSearchCombo
+                        .getSelectedItem())))
                 {
-                    if (eachCentre.getCentreVaccines(eachCentre.getCentreName())
-                            .contains(eachVaccine.getVaccineName()))
-                    {
-                        count++;
-                        String[] row = {eachCentre.getCentreName(), 
-                            eachCentre.getCentreLocation(), 
-                            eachVaccine.getVaccineName(), 
-                            Integer.toString(eachVaccine.getVaccineQuantity())};
-                        table.addRow(row);
-                    }
+                    count++;
+                    String[] row = {eachCentre.getCentreName(), 
+                        eachCentre.getCentreLocation(), 
+                        String.valueOf(vaccineSearchCombo
+                            .getSelectedItem()) };
+                    table.addRow(row);
                 }
             }
         }
@@ -1107,18 +1098,16 @@ public class PeopleGUI extends javax.swing.JFrame {
             HashMap<String, String> allCentre = new Centre().getAllCentre();
             for (String eachCentreName:allCentre.keySet())
             {
-                for (Vaccine eachVaccine:vacList)
+                if (new Centre().getCentreVaccines(eachCentreName)
+                        .contains(String.valueOf(vaccineSearchCombo
+                        .getSelectedItem())))
                 {
-                    if (new Centre().getCentreVaccines(eachCentreName)
-                            .contains(eachVaccine.getVaccineName()))
-                    {
-                        count++;
-                        String[] row = {eachCentreName, 
-                            allCentre.get(allCentre), 
-                            eachVaccine.getVaccineName(), 
-                            Integer.toString(eachVaccine.getVaccineQuantity())};
-                        table.addRow(row);
-                    }
+                    count++;
+                    String[] row = {eachCentreName, 
+                        allCentre.get(allCentre), 
+                        String.valueOf(vaccineSearchCombo
+                        .getSelectedItem())};
+                    table.addRow(row);
                 }
             }
         }
@@ -1132,8 +1121,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                     count++;
                     String[] row = {eachCentre.getCentreName(), 
                         eachCentre.getCentreLocation(), 
-                        eachVaccine.getVaccineName(), 
-                        Integer.toString(eachVaccine.getVaccineQuantity())};
+                        eachVaccine.getVaccineName()};
                     table.addRow(row);
                 }
             }

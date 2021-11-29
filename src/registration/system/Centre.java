@@ -136,11 +136,8 @@ public class Centre implements Serializable{
             ois = new ObjectInputStream(new FileInputStream(dataCentre));
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
-                if (!((Centre)obj).getCentreName().equals(centreName))
-                {
-                    centreList.put(((Centre)obj).getCentreName(), 
-                            ((Centre)obj).getCentreLocation());
-                }
+                centreList.put(((Centre)obj).getCentreName(), 
+                        ((Centre)obj).getCentreLocation());
             }
         } catch (EOFException ex) {}
         catch (ClassNotFoundException ex) { ex.printStackTrace(); }

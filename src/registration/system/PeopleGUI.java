@@ -128,7 +128,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel47 = new javax.swing.JLabel();
         searchStatusButton = new javax.swing.JButton();
         jLabel48 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        statusDateChooser = new com.toedter.calendar.JDateChooser();
         profilePanel = new javax.swing.JPanel();
         logOutButton = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
@@ -707,8 +707,8 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel48.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel48.setText("Date");
 
-        jDateChooser1.setDateFormatString("dd-MM-yyyy");
-        jDateChooser1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        statusDateChooser.setDateFormatString("dd-MM-yyyy");
+        statusDateChooser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -742,7 +742,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(statusDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel48)
@@ -761,7 +761,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addComponent(jLabel48)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(statusDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addComponent(jLabel45)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1084,6 +1084,8 @@ public class PeopleGUI extends javax.swing.JFrame {
 
     private void searchStatusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchStatusButtonActionPerformed
         // TODO add your handling code here:
+        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+        jLabel47.setText("Vaccination Status on " + dcn.format(statusDateChooser.getDate()));
         DefaultTableModel table = (DefaultTableModel) statusTable.getModel();
         table.setRowCount(0);
         int count=0;
@@ -1238,7 +1240,6 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JLabel homeButtonLabel;
     private javax.swing.JPanel homePanel;
     private javax.swing.JPanel homePanelButton;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1312,6 +1313,7 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JPanel sideMenuPanel;
     private javax.swing.JComboBox<String> stateComboBox;
     private javax.swing.JLabel statusButtonLabel;
+    private com.toedter.calendar.JDateChooser statusDateChooser;
     private javax.swing.JPanel statusPanel;
     private javax.swing.JPanel statusPanelButton;
     private javax.swing.JTable statusTable;

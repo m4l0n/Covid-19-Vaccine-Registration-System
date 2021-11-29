@@ -23,6 +23,7 @@ public class User implements Serializable{
     private String userPass;
     private String userType;
     static final long serialVersionUID = 1L;
+    private final String dataUser = "dataUser.txt";
     
     public void setName(String name)
     {
@@ -122,5 +123,10 @@ public class User implements Serializable{
     public String getStatus()
     {
         return status;
+    }
+    
+    public String getDataUser()
+    {
+        return dataUser;
     }
 }

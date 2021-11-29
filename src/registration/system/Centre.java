@@ -19,24 +19,24 @@ import java.util.HashMap;
  * @author nigel
  */
 public class Centre implements Serializable{
-    private int centreID;
+    private String centreID;
     private String centreName;
     private String centreLocation;
     private ArrayList<Vaccine> vaccineList;
     private final String dataCentre = "dataCenter.txt";
     static final long serialVersionUID = 1L;
     
-    public void setCentreID()
+    public void setCentreID(String centreID)
     {
         this.centreID = centreID;
     }
     
-    public int getCentreID()
+    public String getCentreID()
     {
         return centreID;
     }
     
-    public void setCentreName()
+    public void setCentreName(String centreName)
     {
         this.centreName = centreName;
     }
@@ -46,7 +46,7 @@ public class Centre implements Serializable{
         return centreName;
     }
     
-    public void setCentreLocation()
+    public void setCentreLocation(String centreLocation)
     {
         this.centreLocation = centreLocation;
     }
@@ -56,7 +56,7 @@ public class Centre implements Serializable{
         return centreLocation;
     }
     
-    public void setVaccine()
+    public void setVaccine(ArrayList<Vaccine> vaccineList)
     {
         this.vaccineList = vaccineList;
     }
@@ -155,5 +155,4 @@ public class Centre implements Serializable{
         }
         return centreList; 
     }
-
 }

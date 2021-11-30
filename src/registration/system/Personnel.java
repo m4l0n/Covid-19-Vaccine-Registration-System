@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -131,7 +132,15 @@ public class Personnel extends User implements Serializable{
             } catch (IOException ex) { ex.printStackTrace(); }
         }
 
-        
+        Centre centre1 = new Centre();
+        Centre centre2 = new Centre();
+        Centre centre3 = new Centre();
+        Centre centre4 = new Centre();
+        Centre centre5 = new Centre();
+        Centre centre6 = new Centre();
+        Centre centre7 = new Centre();
+        Centre centre8 = new Centre();
+
         ObjectInputStream ois2 = null;
         try {
             ois = new ObjectInputStream(new FileInputStream(new Centre().getDataCentre()));
@@ -139,49 +148,47 @@ public class Personnel extends User implements Serializable{
             ObjectOutputStream oos2 = null;
             try {
                 oos2 = new ObjectOutputStream(new FileOutputStream(new Centre().getDataCentre()));
-                Centre centre1 = new Centre();
+                vaccine1.setVaccineQuantity(500);
+                vaccine2.setVaccineQuantity(500);
+                vaccine3.setVaccineQuantity(500);
+                vaccine4.setVaccineQuantity(500);
+                vaccine5.setVaccineQuantity(500);
+                vaccine6.setVaccineQuantity(500);
                 centre1.setCentreID("CID" + Integer.toString(generateNum(100000, 999999)));
                 centre1.setCentreName("World Trade Centre KL");
                 centre1.setCentreLocation("Kuala Lumpur");
                 centre1.setVaccine(new ArrayList<Vaccine>(Arrays.asList(vaccine1, vaccine2)));
                 
-                Centre centre2 = new Centre();
                 centre2.setCentreID("CID" + Integer.toString(generateNum(100000, 999999)));
                 centre2.setCentreName("Wisma Belia");
                 centre2.setCentreLocation("Kuala Lumpur");
                 centre2.setVaccine(new ArrayList<Vaccine>(Arrays.asList(vaccine3, vaccine4)));
 
-                Centre centre3 = new Centre();
                 centre3.setCentreID("CID" + Integer.toString(generateNum(100000, 999999)));
                 centre3.setCentreName("Stadium Tun Abdul Razak");
                 centre3.setCentreLocation("Pahang");
                 centre3.setVaccine(new ArrayList<Vaccine>(Arrays.asList(vaccine5)));
                 
-                Centre centre4 = new Centre();
                 centre4.setCentreID("CID" + Integer.toString(generateNum(100000, 999999)));
                 centre4.setCentreName("Pusat Sains dan Kreativiti");
                 centre4.setCentreLocation("Terengganu");
                 centre4.setVaccine(new ArrayList<Vaccine>(Arrays.asList(vaccine6)));
                 
-                Centre centre5 = new Centre();
                 centre5.setCentreID("CID" + Integer.toString(generateNum(100000, 999999)));
                 centre5.setCentreName("Kuala Lumpur Convention Centre");
                 centre5.setCentreLocation("Kuala Lumpur");
                 centre5.setVaccine(new ArrayList<Vaccine>(Arrays.asList(vaccine1,vaccine3)));
                 
-                Centre centre6 = new Centre();
                 centre6.setCentreID("CID" + Integer.toString(generateNum(100000, 999999)));
                 centre6.setCentreName("Ideal Convention Centre");
                 centre6.setCentreLocation("Selangor");
                 centre6.setVaccine(new ArrayList<Vaccine>(Arrays.asList(vaccine2,vaccine5)));
                 
-                Centre centre7 = new Centre();
                 centre7.setCentreID("CID" + Integer.toString(generateNum(100000, 999999)));
                 centre7.setCentreName("Borneo Convention Centre Kuching");
                 centre7.setCentreLocation("Sarawak");
                 centre7.setVaccine(new ArrayList<Vaccine>(Arrays.asList(vaccine4)));
                 
-                Centre centre8 = new Centre();
                 centre8.setCentreID("CID" + Integer.toString(generateNum(100000, 999999)));
                 centre8.setCentreName("Axiata Arena Bukit Jalil");
                 centre8.setCentreLocation("Kuala Lumpur");
@@ -201,6 +208,72 @@ public class Personnel extends User implements Serializable{
             try {
                 if (ois2 != null) {
                     ois2.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        
+        ObjectInputStream ois3 = null;
+        try {
+            ois3 = new ObjectInputStream(new FileInputStream(new Appointment().getDataAppointment()));
+        } catch (FileNotFoundException ex) {
+            ObjectOutputStream oos3 = null;
+            try {
+                oos3 = new ObjectOutputStream(new FileOutputStream(new Appointment().getDataAppointment()));
+                Appointment appointment1 = new Appointment();
+                appointment1.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
+                appointment1.setDate("01-12-2021");
+                appointment1.setTime(LocalTime.parse("12:00"));
+                appointment1.setPeople(new People().getPeopleDetails("010718-14-0985"));
+                appointment1.setCentre(centre1);
+                appointment1.setVaccine(vaccine1);
+                appointment1.setDoseNum(1);
+
+                Appointment appointment2 = new Appointment();
+                appointment2.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
+                appointment2.setDate("01-12-2021");
+                appointment2.setTime(LocalTime.parse("11:00"));
+                appointment2.setPeople(new People().getPeopleDetails("011123-14-1234"));
+                appointment2.setCentre(centre1);
+                appointment2.setVaccine(vaccine1);
+                appointment2.setDoseNum(2);
+
+                Appointment appointment3 = new Appointment();
+                appointment3.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
+                appointment3.setDate("02-12-2021");
+                appointment3.setTime(LocalTime.parse("13:30"));
+                appointment3.setPeople(new People().getPeopleDetails("021123-16-1973"));
+                appointment3.setCentre(centre1);
+                appointment3.setVaccine(vaccine2);
+                appointment3.setDoseNum(1);
+
+                Appointment appointment4= new Appointment();
+                appointment4.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
+                appointment4.setDate("03-12-2021");
+                appointment4.setTime(LocalTime.parse("14:00"));
+                appointment4.setPeople(new People().getPeopleDetails("031201-12-2014"));
+                appointment4.setCentre(centre1);
+                appointment4.setVaccine(vaccine2);
+                appointment4.setDoseNum(1);
+
+                Appointment appointment5 = new Appointment();
+                appointment5.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
+                appointment5.setDate("01-12-2021");
+                appointment5.setTime(LocalTime.parse("12:00"));
+                appointment5.setPeople(new People().getPeopleDetails("020201-12-0531"));
+                appointment5.setCentre(centre1);
+                appointment5.setVaccine(vaccine1);
+                appointment5.setDoseNum(1);
+                
+                Appointment apList[] = {appointment1, appointment2, appointment3, appointment4, appointment5};
+                for (Appointment eachAP:apList){oos3.writeObject(eachAP);}
+                oos3.flush();
+                oos3.close();
+            } catch (Exception e) {}
+        } catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois3 != null) {
+                    ois3.close();
                 }
             } catch (IOException ex) { ex.printStackTrace(); }
         }

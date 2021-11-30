@@ -1085,72 +1085,87 @@ public class PeopleGUI extends javax.swing.JFrame {
     private void searchStatusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchStatusButtonActionPerformed
         // TODO add your handling code here:
         SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
-        jLabel47.setText("Vaccination Status on " + dcn.format(statusDateChooser.getDate()));
-        DefaultTableModel table = (DefaultTableModel) statusTable.getModel();
-        table.setRowCount(0);
-        int count=0;
-        Centre centreDetails = new Centre();
-        if (!centreSearchCombo.getSelectedItem().equals("None"))
-        {
-            centreDetails = centreDetails
-                    .searchCentre(String.valueOf(centreSearchCombo
-                            .getSelectedItem()));
-        }
-
-        if (!vaccineSearchCombo.getSelectedItem().equals("None") && 
-                !centreSearchCombo.getSelectedItem().equals("None"))
-        {
-            for (Vaccine vaccine:centreDetails.getVaccine())
+        try{
+            String dateSelected = dcn.format(statusDateChooser.getDate());
+            jLabel47.setText("Vaccination Status on " + dcn.format(statusDateChooser.getDate()));
+            DefaultTableModel table = (DefaultTableModel) statusTable.getModel();
+            table.setRowCount(0);
+            int count=0;
+            Centre centreDetails = new Centre();
+            if (!centreSearchCombo.getSelectedItem().equals("None"))
             {
-                if (vaccine.getVaccineName()
-                        .equals(String.valueOf(vaccineSearchCombo
-                        .getSelectedItem())))
+                centreDetails = centreDetails
+                        .searchCentre(String.valueOf(centreSearchCombo
+                                .getSelectedItem()));
+            }
+
+            if (!vaccineSearchCombo.getSelectedItem().equals("None") && 
+                    !centreSearchCombo.getSelectedItem().equals("None"))
+            {
+                for (Vaccine vaccine:centreDetails.getVaccine())
+                {
+                    if (vaccine.getVaccineName()
+                            .equals(String.valueOf(vaccineSearchCombo
+                            .getSelectedItem())))
+                    {
+                        count++;
+                        String[] row = {centreDetails.getCentreName(), 
+                            centreDetails.getCentreLocation(), 
+                            String.valueOf(vaccineSearchCombo
+                                .getSelectedItem()), 
+                            Integer.toString(getRemainingVaccine(
+                                    vaccine.getVaccineName(), 
+                                    centreDetails.getCentreName(),dateSelected)) };
+                        table.addRow(row);
+                    }
+                }
+            }
+            else if (!vaccineSearchCombo.getSelectedItem().equals("None") && 
+                    centreSearchCombo.getSelectedItem().equals("None"))
+            {
+                HashMap<String, String> allCentre = new Centre().getAllCentre();
+                for (String eachCentreName:allCentre.keySet())
+                {
+                    if (new Centre().getCentreVaccines(eachCentreName)
+                            .contains(String.valueOf(vaccineSearchCombo
+                            .getSelectedItem())))
+                    {
+                        count++;
+                        String[] row = {eachCentreName, 
+                            allCentre.get(allCentre), 
+                            String.valueOf(vaccineSearchCombo.getSelectedItem()), 
+                            Integer.toString(getRemainingVaccine(
+                                    (String) vaccineSearchCombo.getSelectedItem(), 
+                                    eachCentreName, dateSelected))};
+                        table.addRow(row);
+                    }
+                }
+            }
+            else if (vaccineSearchCombo.getSelectedItem().equals("None") && 
+                    !centreSearchCombo.getSelectedItem().equals("None"))
+            {
+                for (Vaccine vaccine:centreDetails.getVaccine())
                 {
                     count++;
                     String[] row = {centreDetails.getCentreName(), 
                         centreDetails.getCentreLocation(), 
-                        String.valueOf(vaccineSearchCombo
-                            .getSelectedItem()) };
+                        vaccine.getVaccineName(), 
+                        Integer.toString(getRemainingVaccine(
+                                vaccine.getVaccineName(), 
+                                centreDetails.getCentreName(), dateSelected))};
                     table.addRow(row);
                 }
             }
-        }
-        else if (vaccineSearchCombo.getSelectedItem().equals("None") && 
-                !centreSearchCombo.getSelectedItem().equals("None"))
-        {
-            HashMap<String, String> allCentre = new Centre().getAllCentre();
-            for (String eachCentreName:allCentre.keySet())
+            else
             {
-                if (new Centre().getCentreVaccines(eachCentreName)
-                        .contains(String.valueOf(vaccineSearchCombo
-                        .getSelectedItem())))
-                {
-                    count++;
-                    String[] row = {eachCentreName, 
-                        allCentre.get(allCentre), 
-                        String.valueOf(vaccineSearchCombo
-                        .getSelectedItem())};
-                    table.addRow(row);
-                }
+                JOptionPane.showMessageDialog(null, 
+                        "No options are selected to search!", "Error", 
+                        JOptionPane.ERROR_MESSAGE);
             }
-        }
-        else if (!vaccineSearchCombo.getSelectedItem().equals("None") && 
-                centreSearchCombo.getSelectedItem().equals("None"))
-        {
-            for (Vaccine vaccine:centreDetails.getVaccine())
-            {
-                count++;
-                String[] row = {centreDetails.getCentreName(), 
-                    centreDetails.getCentreLocation(), 
-                    vaccine.getVaccineName()};
-                table.addRow(row);
-            }
-        }
-        else
-        {
+        } catch(NullPointerException ex) {
             JOptionPane.showMessageDialog(null, 
-                    "No options are selected to search!", "Error", 
-                    JOptionPane.ERROR_MESSAGE);
+                        "Please select a date to search!", "Error", 
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_searchStatusButtonActionPerformed
 
@@ -1212,6 +1227,33 @@ public class PeopleGUI extends javax.swing.JFrame {
         }
         return null;
     }   
+    
+    private int getRemainingVaccine(String vacName, String centreName, String apDate)
+    {
+        int count=0;
+        ArrayList<Appointment> apList = new Appointment().getAppointments(vacName, centreName);
+        if (!apList.isEmpty())
+        {
+            for (Appointment eachAP:apList)
+            {
+                if (eachAP.getDate().equals(apDate))
+                {
+                    count++;
+                }
+            }
+            int vacQuantity = 0;
+            for (Vaccine eachVac:new Centre().searchCentre(centreName).getVaccine())
+            {
+                if (eachVac.getVaccineName().equals(vacName))
+                {
+                    vacQuantity = eachVac.getVaccineQuantity();
+                }
+            }
+            int remainingVac = vacQuantity - count;
+            return remainingVac;
+        }
+        else { return 500; }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser apDateChooser;

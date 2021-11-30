@@ -353,9 +353,19 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         vaccineAPCombo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         vaccineAPCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pfizer-BioNtech", "AstraZeneca", "Janssen/Ad26.COV 2.S", "Sputnik V", "Sinovac-CoronaVac", "Cansino Biologics" }));
+        vaccineAPCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vaccineAPComboActionPerformed(evt);
+            }
+        });
 
         adAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         adAPButton.setText("Add");
+        adAPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adAPButtonActionPerformed(evt);
+            }
+        });
 
         clearAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         clearAPButton.setText("Clear");
@@ -1053,6 +1063,25 @@ public class PersonnelGUI extends javax.swing.JFrame {
         login.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_logOutButtonActionPerformed
+
+    private void adAPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adAPButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            Appointment newAppointment = new Appointment();
+            newAppointment.setDate((dateAPChooser.getDate()));
+            newAppointment.setTime((apHourSlider.getValue()));
+            newAppointment.setPeopleID(peopleAPText.getText());
+            newAppointment.regAppointment(newAppointment);
+            } 
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_adAPButtonActionPerformed
+
+    private void vaccineAPComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vaccineAPComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_vaccineAPComboActionPerformed
     
     static JComponent createVerticalSeparator() {
         JSeparator x = new JSeparator(SwingConstants.VERTICAL);

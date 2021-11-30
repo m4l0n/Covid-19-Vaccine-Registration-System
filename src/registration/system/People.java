@@ -99,7 +99,7 @@ public class People extends User implements Serializable{
             }
             if (idExist == false) { tempPeople.add(newPeople); }
             else { registerProfile(newPeople); }
-                
+            oos = new ObjectOutputStream(new FileOutputStream(new User().getDataUser()));   
             for(People existingPeople:tempPeople){
                 oos.writeObject(existingPeople);
             }
@@ -242,34 +242,6 @@ public class People extends User implements Serializable{
         } catch (Exception e) { e.printStackTrace(); }
     }
     
-    public People searchPeople(String userID)
-    {
-        ObjectInputStream ois = null;
-        try {
-            ois = new ObjectInputStream(new FileInputStream(new User().getDataUser()));
-            Object obj = null;
-            while ((obj = ois.readObject()) != null) {
-                if (!((User)obj).getUsername().equals("ADMIN"))
-                {
-                    if(((People)obj).getUsername().equals(userID)){
-                        return ((People)obj);
-                    }
-                }
-            }
-        } catch (EOFException ex) {}
-        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
-        catch (FileNotFoundException ex) { ex.printStackTrace(); }
-        catch (IOException ex) { ex.printStackTrace(); }
-        finally {
-            try {
-                if (ois != null) {
-                    ois.close();
-                }
-            } catch (IOException ex) { ex.printStackTrace(); }
-        }
-        return null;  
-    }
-    
     public People getPeopleDetails(String userID)
     {
         People ppl = new People();
@@ -279,8 +251,7 @@ public class People extends User implements Serializable{
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
                 if(((User)obj).getUsername().equals(userID)){
-                    ppl = ((People)obj);
-                    break;
+                    return ((People)obj);
                 }
             } 
         } catch (EOFException ex) {}
@@ -294,7 +265,7 @@ public class People extends User implements Serializable{
                 }
             } catch (IOException ex) { ex.printStackTrace(); }
         }
-        return ppl;
+        return null;
     }
     
     public boolean deletePeople(String userID)

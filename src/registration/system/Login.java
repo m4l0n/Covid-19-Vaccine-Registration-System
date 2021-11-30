@@ -376,8 +376,8 @@ public class Login extends javax.swing.JFrame {
                     newPeople.setGender(getSelectedButton());
                     newPeople.setUserType("People");
                     newPeople.setStatus("Unvaccinated");
-                    newPeople.setDose1("NA");
-                    newPeople.setDose2("NA");
+                    newPeople.setDose1(null);
+                    newPeople.setDose2(null);
                     newPeople.registerProfile(newPeople);
                     JOptionPane.showMessageDialog(null, "Account registered "
                     + "successfully. Plese return to login page to continue.");

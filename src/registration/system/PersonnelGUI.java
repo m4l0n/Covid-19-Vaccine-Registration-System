@@ -1003,8 +1003,8 @@ public class PersonnelGUI extends javax.swing.JFrame {
                     newPeople.setGender(getSelectedButton());
                     newPeople.setUserType("People");
                     newPeople.setStatus("Unvaccinated");
-                    newPeople.setDose1("NA");
-                    newPeople.setDose2("NA");
+                    newPeople.setDose1(null);
+                    newPeople.setDose2(null);
                     newPeople.registerProfile(newPeople);
                     JOptionPane.showMessageDialog(null, "Account registered "
                     + "successfully.");
@@ -1071,7 +1071,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
             newAppointment.setDate(dcn.format(dateAPChooser.getDate()));
             String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
             newAppointment.setTime(LocalTime.parse(time));
-            newAppointment.setPeopleID(peopleAPText.getText());
+            newAppointment.setPeople(new People().getPeopleDetails(peopleAPText.getText()));
             newAppointment.setCentre(new Centre().searchCentre((String) centreAPCombo.getSelectedItem()));
             //newAppointment.setVaccine(vaccineAPCombo.getSelectedItem());
             newAppointment.regAppointment(newAppointment);
@@ -1132,8 +1132,8 @@ public class PersonnelGUI extends javax.swing.JFrame {
                         ((People)obj).getDate(), 
                         ((People)obj).getGender(), 
                         ((People)obj).getState(), ((People)obj).getCitizenship(), 
-                        ((People)obj).getStatus(), ((People)obj).getDose1(), 
-                        ((People)obj).getDose2()};
+                        ((People)obj).getStatus(), ((People)obj).getDose1().getAppointmentID(), 
+                        ((People)obj).getDose2().getAppointmentID() };
                     table.addRow(row);
                 }
             }

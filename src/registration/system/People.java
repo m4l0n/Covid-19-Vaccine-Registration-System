@@ -26,8 +26,8 @@ import java.util.Random;
  */
 public class People extends User implements Serializable{
     private String peopleID;
-    private String dose1;
-    private String dose2;
+    private Appointment dose1;
+    private Appointment dose2;
     static final long serialVersionUID = 1L;
     
     public void setPeopleID(String peopleID)
@@ -40,22 +40,22 @@ public class People extends User implements Serializable{
         return peopleID;
     }
     
-    public void setDose1(String dose1)
+    public void setDose1(Appointment dose1)
     {
         this.dose1 = dose1;
     }
     
-    public String getDose1()
+    public Appointment getDose1()
     {
         return dose1;
     }
     
-    public void setDose2(String dose2)
+    public void setDose2(Appointment dose2)
     {
         this.dose2 = dose2;
     }
     
-    public String getDose2()
+    public Appointment getDose2()
     {
         return dose2;
     }

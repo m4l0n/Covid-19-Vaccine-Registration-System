@@ -44,7 +44,6 @@ public class Appointment implements Serializable{
         return appointmentID;
     }
     
-    
     public void setDate(String date)
     {
         this.date = date;
@@ -164,6 +163,35 @@ public class Appointment implements Serializable{
                 }
             } catch (IOException ex) { ex.printStackTrace(); }
         }
+    }
+    
+    public ArrayList<Appointment> getAppointments(String vacName, String centreName)
+    {
+        ArrayList<Appointment> tempAppointment = new ArrayList<Appointment>();
+        ObjectInputStream ois = null;
+        Appointment appointment = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(new Appointment().getDataAppointment()));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (((Appointment)obj).getCentre().getCentreName().equals(centreName) 
+                        && ((Appointment)obj).getVaccine().getVaccineName().equals(vacName))
+                {
+                    tempAppointment.add((Appointment)obj);
+                }
+            }
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return tempAppointment;
     }
     
     private static int generateNum(int min, int max){

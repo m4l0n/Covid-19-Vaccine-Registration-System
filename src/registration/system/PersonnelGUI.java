@@ -992,6 +992,8 @@ public class PersonnelGUI extends javax.swing.JFrame {
             {
                 if (new Login().isValidPassword(passPeopleText.getText()))
                 {
+                    Appointment emptyAppointment = new Appointment();
+                    emptyAppointment.setAppointmentID("null");
                     People newPeople = new People();
                     newPeople.setName(peopleNameText.getText());
                     newPeople.setPhoneNum(Integer.parseInt(phonePeopleText.getText()));
@@ -1003,8 +1005,8 @@ public class PersonnelGUI extends javax.swing.JFrame {
                     newPeople.setGender(getSelectedButton());
                     newPeople.setUserType("People");
                     newPeople.setStatus("Unvaccinated");
-                    newPeople.setDose1(null);
-                    newPeople.setDose2(null);
+                    newPeople.setDose1(emptyAppointment);
+                    newPeople.setDose2(emptyAppointment);
                     newPeople.registerProfile(newPeople);
                     JOptionPane.showMessageDialog(null, "Account registered "
                     + "successfully.");
@@ -1133,7 +1135,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                         ((People)obj).getGender(), 
                         ((People)obj).getState(), ((People)obj).getCitizenship(), 
                         ((People)obj).getStatus(), ((People)obj).getDose1().getAppointmentID(), 
-                        ((People)obj).getDose2().getAppointmentID() };
+                        (((People)obj).getDose2()).getAppointmentID() };
                     table.addRow(row);
                 }
             }

@@ -24,7 +24,7 @@ import java.util.Random;
  */
 public class Appointment implements Serializable{
     private String appointmentID;
-    private LocalDate date;
+    private String date;
     private LocalTime time;
     private Centre centre;
     private String peopleID;
@@ -44,12 +44,12 @@ public class Appointment implements Serializable{
     }
     
     
-    public void setDate(LocalDate date)
+    public void setDate(String date)
     {
         this.date = date;
     }
     
-    public LocalDate getDate()
+    public String getDate()
     {
         return date;
     }

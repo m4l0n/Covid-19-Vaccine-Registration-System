@@ -21,6 +21,7 @@ public class Vaccine implements Serializable{
     private String vaccineID;
     private String vaccineName;
     private int effectivePeriod;
+    private int vaccineQuantity;
     private final String dataVaccine = "dataVaccine.txt";
     static final long serialVersionUID = 1L;
 
@@ -59,10 +60,19 @@ public class Vaccine implements Serializable{
         return effectivePeriod;
     }
     
-    
-    public ArrayList<Vaccine> searchVaccine(String vaccineName)
+    public void setVaccineQuantity(int vaccineQuantity)
     {
-        ArrayList<Vaccine> vacList = new ArrayList<Vaccine>();
+        this.vaccineQuantity = vaccineQuantity;
+    }
+    
+    public int getVaccineQuantity()
+    {
+        return vaccineQuantity;
+    }
+    
+    
+    public Vaccine searchVaccine(String vaccineName)
+    {
         ObjectInputStream ois = null;
         try {
             ois = new ObjectInputStream(new FileInputStream(dataVaccine));
@@ -70,10 +80,9 @@ public class Vaccine implements Serializable{
             while ((obj = ois.readObject()) != null) {
                 if (!((Vaccine)obj).getVaccineName().equals(vaccineName))
                 {
-                    vacList.add(((Vaccine)obj));
+                    return ((Vaccine)obj);
                 }
             }
-            return vacList;
         } catch (EOFException ex) {}
         catch (ClassNotFoundException ex) { ex.printStackTrace(); }
         catch (FileNotFoundException ex) { ex.printStackTrace(); }

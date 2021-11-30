@@ -326,4 +326,29 @@ public class People extends User implements Serializable{
         return min + rand.nextInt((max - min) + 1);
     }
 
+    public boolean checkUserID(String userID)
+    {
+        People ppl = new People();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(new User().getDataUser()));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if(((User)obj).getUsername().equals(userID)){
+                    return true;
+                }
+            } 
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return false;
+    }
 }

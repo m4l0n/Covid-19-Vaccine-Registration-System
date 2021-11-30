@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -362,6 +363,11 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         centreAPCombo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         centreAPCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "World Trade Centre KL", "Wisma Belia", "Stadium Tun Abdul Razak", "Pusat Sains dan Kreativiti", "Kuala Lumpur Convention Centre", "Ideal Convention Centre", "Borneo Convention Centre Kuching", "Axiata Arena Bukit Jalil" }));
+        centreAPCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                centreAPComboActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel3.setText("Add New Appointment");
@@ -1069,17 +1075,23 @@ public class PersonnelGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
         try {
-            Appointment newAppointment = new Appointment();
-            newAppointment.setDate(dcn.format(dateAPChooser.getDate()));
-            String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
-            newAppointment.setTime(LocalTime.parse(time));
-            newAppointment.setPeople(new People().getPeopleDetails(peopleAPText.getText()));
-            newAppointment.setCentre(new Centre().searchCentre((String) centreAPCombo.getSelectedItem()));
-            //newAppointment.setVaccine(vaccineAPCombo.getSelectedItem());
-            newAppointment.regAppointment(newAppointment);
-            
+            if (new People().checkUserID(peopleAPText.getText()) == true)
+            {
+                Appointment newAppointment = new Appointment();
+                newAppointment.setDate(dcn.format(dateAPChooser.getDate()));
+                String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
+                newAppointment.setTime(LocalTime.parse(time));
+                newAppointment.setPeople(new People().getPeopleDetails(peopleAPText.getText()));
+                newAppointment.setCentre(new Centre().searchCentre((String) centreAPCombo.getSelectedItem()));
+                newAppointment.setVaccine(new Vaccine().searchVaccine((String) vaccineAPCombo.getSelectedItem()));
+                newAppointment.regAppointment(newAppointment);  
+                JOptionPane.showMessageDialog(null, "Appointment Added Successfully.");
             } 
-        catch(Exception e)
+            else
+            {
+                JOptionPane.showMessageDialog(null, "IC/Passport Number Not Found.");
+            }
+        }catch(Exception e)
         {
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -1088,6 +1100,13 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private void vaccineAPComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vaccineAPComboActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_vaccineAPComboActionPerformed
+
+    private void centreAPComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_centreAPComboActionPerformed
+        final DefaultComboBoxModel vaccineModel = new DefaultComboBoxModel(
+                (new Centre().getCentreVaccines((String) centreAPCombo
+                        .getSelectedItem()).toArray()));
+        vaccineAPCombo.setModel(vaccineModel);        // TODO add your handling code here:
+    }//GEN-LAST:event_centreAPComboActionPerformed
     
     static JComponent createVerticalSeparator() {
         JSeparator x = new JSeparator(SwingConstants.VERTICAL);

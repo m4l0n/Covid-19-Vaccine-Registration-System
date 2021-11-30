@@ -28,7 +28,7 @@ public class Appointment implements Serializable{
     private String date;
     private LocalTime time;
     private Centre centre;
-    private String peopleID;
+    private People people;
     private Vaccine vaccine;
     private int doseNum;
     private final String dataAppointment = "dataAppointment.txt";
@@ -65,14 +65,14 @@ public class Appointment implements Serializable{
         return time;
     }  
     
-    public void setPeopleID(String peopleID)
+    public void setPeople(People people)
     {
-        this.peopleID = peopleID;
+        this.people = people;
     }
     
-    public String getPeopleID()
+    public People getPeople()
     {
-        return peopleID;
+        return people;
     }
     
     public void setVaccine(Vaccine vaccine)

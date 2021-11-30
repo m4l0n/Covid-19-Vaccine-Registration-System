@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.logging.Level;
@@ -1068,9 +1069,11 @@ public class PersonnelGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             Appointment newAppointment = new Appointment();
-            newAppointment.setDate((dateAPChooser.getDate()));
-            newAppointment.setTime((apHourSlider.getValue()));
+//            newAppointment.setDate((dateAPChooser.getDate()));
+            String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
+            newAppointment.setTime(LocalTime.parse(time));
             newAppointment.setPeopleID(peopleAPText.getText());
+            newAppointment.setCentre(new Centre().searchCentre((String) centreAPCombo.getSelectedItem()));
             newAppointment.regAppointment(newAppointment);
             } 
         catch(Exception e)

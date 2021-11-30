@@ -73,7 +73,7 @@ public class People extends User implements Serializable{
                 {
                     tempPeople.add((People)obj);
                 }
-                else { personnel = ((Personnel)obj); }
+                else if (((User)obj).getUsername().equals("ADMIN")) { personnel = ((Personnel)obj); }
             }
         } catch (EOFException ex) {}
         catch (ClassNotFoundException ex) { ex.printStackTrace(); }
@@ -86,10 +86,20 @@ public class People extends User implements Serializable{
                 }
             } catch (IOException ex) { ex.printStackTrace(); }
         }
-        
+        newPeople.setPeopleID("PID" + Integer.toString(generateNum(100000, 999999)));
         ObjectOutputStream oos = null;
         try {
-
+            boolean idExist = false;
+            for(People existingPeople:tempPeople){
+                if (existingPeople.getPeopleID().equals(newPeople.getPeopleID()))
+                {
+                    idExist = true;
+                    break;
+                }
+            }
+            if (idExist == false) { tempPeople.add(newPeople); }
+            else { registerProfile(newPeople); }
+                
             for(People existingPeople:tempPeople){
                 oos.writeObject(existingPeople);
             }

@@ -16,22 +16,33 @@ import java.time.LocalTime;
 import javax.swing.JOptionPane;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
  * @author nigel
  */
 public class Appointment implements Serializable{
-    private int appointmentID;
+    private String appointmentID;
     private LocalDate date;
     private LocalTime time;
     private Centre centre;
     private String peopleID;
-    private int effectivePeriod;
-    private String vacBatchID;
+    private Vaccine vaccine;
     private int doseNum;
     private final String dataAppointment = "dataAppointment.txt";
     static final long serialVersionUID = 1L;
+    
+    public void setAppointmentID(String appointmentID)
+    {
+        this.appointmentID = appointmentID;
+    }
+    
+    public String getAppointmentID()
+    {
+        return appointmentID;
+    }
+    
     
     public void setDate(LocalDate date)
     {
@@ -63,24 +74,14 @@ public class Appointment implements Serializable{
         return peopleID;
     }
     
-    public void setEffectivePeriod(int effectivePeriod)
+    public void setVaccine(Vaccine vaccine)
     {
-        this.effectivePeriod = effectivePeriod;
+        this.vaccine = vaccine;
     }
     
-    public int getEffectivePeriod()
+    public Vaccine getVaccine()
     {
-        return effectivePeriod;
-    }
-    
-    public void setVacBatchID(String vacBatchID)
-    {
-        this.vacBatchID = vacBatchID;
-    }
-    
-    public String getVacBatchID()
-    {
-        return vacBatchID;
+        return vaccine;
     }
 
     public void setDoseNum(int doseNum)
@@ -117,6 +118,7 @@ public class Appointment implements Serializable{
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
                 tempAppointment.add((Appointment)obj);
+
             }
         } catch (EOFException ex) {}
         catch (ClassNotFoundException ex) { ex.printStackTrace(); }
@@ -129,10 +131,19 @@ public class Appointment implements Serializable{
                 }
             } catch (IOException ex) { ex.printStackTrace(); }
         }
-        
+        newAppointment.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
         ObjectOutputStream oos = null;
         try {
-
+            boolean idExist = false;
+            for (Appointment existingAppointment:tempAppointment){
+                if (existingAppointment.getAppointmentID().equals(newAppointment.getAppointmentID()))
+                {
+                    idExist = true;
+                    break;
+                }
+            }
+            if (idExist = true) { regAppointment(newAppointment); }
+            else { tempAppointment.add(newAppointment); }
             for(Appointment existingAppointment:tempAppointment){
                 oos.writeObject(existingAppointment);
             }
@@ -153,4 +164,8 @@ public class Appointment implements Serializable{
         }
     }
     
+    private static int generateNum(int min, int max){
+        Random rand = new Random();
+        return min + rand.nextInt((max - min) + 1);
+    }
 }

@@ -71,9 +71,8 @@ public class Centre implements Serializable{
         return dataCentre;
     }
     
-    public ArrayList<Centre> searchCentre(String centreName)
+    public Centre searchCentre(String centreName)
     {
-        ArrayList<Centre> centreList = new ArrayList<Centre>();
         ObjectInputStream ois = null;
         try {
             ois = new ObjectInputStream(new FileInputStream(dataCentre));
@@ -81,7 +80,7 @@ public class Centre implements Serializable{
             while ((obj = ois.readObject()) != null) {
                 if (!((Centre)obj).getCentreName().equals(centreName))
                 {
-                    centreList.add(((Centre)obj));
+                    return ((Centre)obj);
                 }
             }
         } catch (EOFException ex) {}
@@ -95,7 +94,7 @@ public class Centre implements Serializable{
                 }
             } catch (IOException ex) { ex.printStackTrace(); }
         }
-        return centreList; 
+        return null; 
     }
     
     public ArrayList<String> getCentreVaccines(String centreName)

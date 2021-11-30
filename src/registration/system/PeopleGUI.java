@@ -1092,9 +1092,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         ArrayList<Centre> centreList = new ArrayList<Centre>();
         if (!centreSearchCombo.getSelectedItem().equals("None"))
         {
-            centreList = new Centre()
-                    .searchCentre(String.valueOf(centreSearchCombo
-                            .getSelectedItem()));
+            //To be fixed
         }
         
         if (!vaccineSearchCombo.getSelectedItem().equals("None") && 

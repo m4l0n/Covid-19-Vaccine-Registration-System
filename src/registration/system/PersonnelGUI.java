@@ -36,6 +36,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -421,6 +423,11 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         clearAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         clearAPButton.setText("Clear");
+        clearAPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearAPButtonActionPerformed(evt);
+            }
+        });
 
         saveAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         saveAPButton.setText("Save");
@@ -1107,6 +1114,11 @@ public class PersonnelGUI extends javax.swing.JFrame {
                         .getSelectedItem()).toArray()));
         vaccineAPCombo.setModel(vaccineModel);        // TODO add your handling code here:
     }//GEN-LAST:event_centreAPComboActionPerformed
+
+    private void clearAPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAPButtonActionPerformed
+        // TODO add your handling code here:
+        clearAppointment(jPanel1);
+    }//GEN-LAST:event_clearAPButtonActionPerformed
     
     static JComponent createVerticalSeparator() {
         JSeparator x = new JSeparator(SwingConstants.VERTICAL);
@@ -1225,6 +1237,39 @@ public class PersonnelGUI extends javax.swing.JFrame {
             {
                 JDateChooser dc = (JDateChooser) control;
                 ((JTextField)dc.getDateEditor().getUiComponent()).setText("Date of Birth");
+            }
+        }
+    }
+    
+    private void clearAppointment(javax.swing.JPanel panel)
+    {
+        for(Component control : panel.getComponents())
+        {
+            if(control instanceof JTextField)
+            {
+                JTextField ctrl = (JTextField) control;
+                ctrl.setText("");
+            }
+            else if (control instanceof JComboBox)
+            {
+                JComboBox ctr = (JComboBox) control;
+                ctr.setEditable(true);
+                ctr.setSelectedItem("Select an Option");
+            }
+            else if (control instanceof JRadioButton)
+            {
+                JRadioButton rb = (JRadioButton) control;
+                rb.setSelected(false);
+            }
+            else if (control instanceof JDateChooser)
+            {
+                JDateChooser dc = (JDateChooser) control;
+                ((JTextField)dc.getDateEditor().getUiComponent()).setText("Appointment Date");
+            }
+            else if (control instanceof JSpinner)
+            {
+                JSpinner spinner = (JSpinner) control;
+                spinner.setValue(((SpinnerNumberModel) spinner.getModel()).getMinimum());
             }
         }
     }

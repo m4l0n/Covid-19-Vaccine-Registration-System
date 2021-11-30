@@ -1089,24 +1089,26 @@ public class PeopleGUI extends javax.swing.JFrame {
         DefaultTableModel table = (DefaultTableModel) statusTable.getModel();
         table.setRowCount(0);
         int count=0;
-        ArrayList<Centre> centreList = new ArrayList<Centre>();
+        Centre centreDetails = new Centre();
         if (!centreSearchCombo.getSelectedItem().equals("None"))
         {
-            //To be fixed
+            centreDetails = centreDetails
+                    .searchCentre(String.valueOf(centreSearchCombo
+                            .getSelectedItem()));
         }
-        
+
         if (!vaccineSearchCombo.getSelectedItem().equals("None") && 
                 !centreSearchCombo.getSelectedItem().equals("None"))
         {
-            for (Centre eachCentre:centreList)
+            for (Vaccine vaccine:centreDetails.getVaccine())
             {
-                if (eachCentre.getCentreVaccines(eachCentre.getCentreName())
-                        .contains(String.valueOf(vaccineSearchCombo
+                if (vaccine.getVaccineName()
+                        .equals(String.valueOf(vaccineSearchCombo
                         .getSelectedItem())))
                 {
                     count++;
-                    String[] row = {eachCentre.getCentreName(), 
-                        eachCentre.getCentreLocation(), 
+                    String[] row = {centreDetails.getCentreName(), 
+                        centreDetails.getCentreLocation(), 
                         String.valueOf(vaccineSearchCombo
                             .getSelectedItem()) };
                     table.addRow(row);
@@ -1135,16 +1137,13 @@ public class PeopleGUI extends javax.swing.JFrame {
         else if (!vaccineSearchCombo.getSelectedItem().equals("None") && 
                 centreSearchCombo.getSelectedItem().equals("None"))
         {
-            for (Centre eachCentre:centreList)
+            for (Vaccine vaccine:centreDetails.getVaccine())
             {
-                for (Vaccine eachVaccine:eachCentre.getVaccine())
-                {
-                    count++;
-                    String[] row = {eachCentre.getCentreName(), 
-                        eachCentre.getCentreLocation(), 
-                        eachVaccine.getVaccineName()};
-                    table.addRow(row);
-                }
+                count++;
+                String[] row = {centreDetails.getCentreName(), 
+                    centreDetails.getCentreLocation(), 
+                    vaccine.getVaccineName()};
+                table.addRow(row);
             }
         }
         else

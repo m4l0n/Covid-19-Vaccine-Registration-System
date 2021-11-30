@@ -1067,14 +1067,17 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
     private void adAPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adAPButtonActionPerformed
         // TODO add your handling code here:
+        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
         try {
             Appointment newAppointment = new Appointment();
-//            newAppointment.setDate((dateAPChooser.getDate()));
+            newAppointment.setDate(dcn.format(dateAPChooser.getDate()));
             String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
             newAppointment.setTime(LocalTime.parse(time));
             newAppointment.setPeopleID(peopleAPText.getText());
             newAppointment.setCentre(new Centre().searchCentre((String) centreAPCombo.getSelectedItem()));
+            //newAppointment.setVaccine(vaccineAPCombo.getSelectedItem());
             newAppointment.regAppointment(newAppointment);
+            
             } 
         catch(Exception e)
         {
@@ -1197,7 +1200,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
             {
                 JComboBox ctr = (JComboBox) control;
                 ctr.setEditable(true);
-                ctr.setSelectedItem("State");
+                ctr.setSelectedItem("Select an Option");
             }
             else if (control instanceof JRadioButton)
             {

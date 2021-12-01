@@ -40,37 +40,26 @@ public class Personnel extends User implements Serializable{
     
     public void firstAdmin()
     {
-        ObjectInputStream ois = null;
+        ObjectOutputStream oos = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream(new User().getDataUser()));
-        } catch (FileNotFoundException ex) {
-            ObjectOutputStream oos = null;
-            try {
-                oos = new ObjectOutputStream(new FileOutputStream(new User().getDataUser()));
-                Personnel firstAdmin = new Personnel();
-                firstAdmin.setName("ADMIN");
-                firstAdmin.setUsername("ADMIN");
-                firstAdmin.setPassword("AdminPersonnel1");
-                firstAdmin.setGender("Male");
-                firstAdmin.setDate("01-01-1990");
-                firstAdmin.setPhoneNum("0111111111");
-                firstAdmin.setStatus("Fully Vaccinated");
-                firstAdmin.setState("Kuala Lumpur");
-                firstAdmin.setUserType("Personnel");
-                firstAdmin.setCitizenship("Malaysian");
-                oos.writeObject(firstAdmin);
-                firstAdmin = null;
-                oos.flush();
-                oos.close();
-            } catch (Exception e) {}
-        } catch (IOException ex) { ex.printStackTrace(); }
-        finally {
-            try {
-                if (ois != null) {
-                    ois.close();
-                }
-            } catch (IOException ex) { ex.printStackTrace(); }
-        }
+            oos = new ObjectOutputStream(new FileOutputStream(new User().getDataUser()));
+            Personnel firstAdmin = new Personnel();
+            firstAdmin.setName("ADMIN");
+            firstAdmin.setUsername("ADMIN");
+            firstAdmin.setPassword("AdminPersonnel1");
+            firstAdmin.setGender("Male");
+            firstAdmin.setDate("01-01-1990");
+            firstAdmin.setPhoneNum("0111111111");
+            firstAdmin.setStatus("Fully Vaccinated");
+            firstAdmin.setState("Kuala Lumpur");
+            firstAdmin.setUserType("Personnel");
+            firstAdmin.setCitizenship("Malaysian");
+            oos.writeObject(firstAdmin);
+            System.out.println(firstAdmin.getName());
+            firstAdmin = null;
+            oos.flush();
+            oos.close();
+        } catch (Exception e) {}
     }
     
     public void firstVaccineCentres()
@@ -288,6 +277,9 @@ public class Personnel extends User implements Serializable{
             ObjectOutputStream oos = null;
             try {
                 oos = new ObjectOutputStream(new FileOutputStream(new User().getDataUser()));
+                oos.flush();
+                oos.close();
+                firstAdmin();
                 Appointment emptyAppointment = new Appointment();
                 emptyAppointment.setAppointmentID("none");
                 People newPeople1 = new People();
@@ -425,11 +417,6 @@ public class Personnel extends User implements Serializable{
                 newPeople9.setDose2(emptyAppointment);
                 newPeople9.registerProfile(newPeople9);
                 
-                People allPeople[] = {newPeople1, newPeople2, newPeople3, newPeople4, newPeople5, newPeople6, newPeople7, newPeople8, newPeople9};
-                for (People eachPeople:allPeople)
-                {
-                    oos.writeObject(eachPeople);
-                }
             } catch (Exception e) {}
         } catch (IOException ex) { ex.printStackTrace(); }
         finally {

@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import javax.swing.JOptionPane;
 import java.io.ObjectOutputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,6 +31,7 @@ public class Appointment implements Serializable{
     private Centre centre;
     private People people;
     private Vaccine vaccine;
+    private String expDate;
     private int doseNum;
     private final String dataAppointment = "dataAppointment.txt";
     static final long serialVersionUID = 1L;
@@ -83,10 +85,55 @@ public class Appointment implements Serializable{
     {
         return vaccine;
     }
-
-    public void setDoseNum(int doseNum)
+    
+    public void setExpDate(String date)
     {
-        this.doseNum = doseNum;
+        Vaccine vaccine = new Vaccine();
+        int ep = vaccine.getEffectivePeriod();
+        this.expDate = LocalDate.parse(date).plusDays(ep).toString();
+    }
+    
+    public String getExpDate() 
+    {
+        return expDate;
+    }
+    
+    public boolean checkDoseNum(String userID)
+    {
+        Appointment app = new Appointment();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(new Appointment().getDataAppointment()));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if(((User)obj).getUsername().equals(userID)){
+                    return true;
+                }
+            } 
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return false;
+    }
+
+    public void setDoseNum(boolean result)
+    {
+        if (result = false)
+        {
+            doseNum = 1; 
+        }
+        else 
+        {
+            doseNum = 2;
+        }
     }
     
     public int getDoseNum()
@@ -198,4 +245,62 @@ public class Appointment implements Serializable{
         Random rand = new Random();
         return min + rand.nextInt((max - min) + 1);
     }
+    
+    public Appointment getAppointmentDetails(String appointmentID)
+    {
+        Appointment app = new Appointment();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(new Appointment().getDataAppointment()));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if(((Appointment)obj).getAppointmentID().equals(appointmentID)){
+                    return ((Appointment)obj);
+                }
+            } 
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return null;
+    }
+    
+    public ArrayList<Appointment> getFutureAppointments(String userID, LocalDate currentDate)
+    {
+        ArrayList<Appointment> tempAppointment = new ArrayList<Appointment>();
+        ObjectInputStream ois = null;
+        Appointment appointment = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        try {
+            ois = new ObjectInputStream(new FileInputStream(new Appointment().getDataAppointment()));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (((Appointment)obj).getPeople().getUsername().equals(userID) && 
+                        (LocalDate.parse(((Appointment)obj).getDate(), formatter)
+                                .compareTo(currentDate) > 0))
+                {
+                    tempAppointment.add((Appointment)obj);
+                }
+            }
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return tempAppointment;
+    }
+    
 }

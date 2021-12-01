@@ -53,6 +53,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         setPreferredSize(new Dimension(1080, 670));
         pack();
         updatePeopleTable();
+        updateAppointmentTable();
     }
 
     /**
@@ -577,7 +578,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "AppointmentID", "Date", "Time", "Centre", "PeopleID", "Effective Period", "BatchID", "Dose Number"
+                "AppointmentID", "Date", "Time", "Centre", "User ID", "Effective Period", "Vaccine Type", "Dose Number"
             }
         ) {
             Class[] types = new Class [] {
@@ -586,6 +587,11 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        appointmentTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                appointmentTableMouseClicked(evt);
             }
         });
         jScrollPane3.setViewportView(appointmentTable);
@@ -617,7 +623,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false, false, false, false
@@ -1009,7 +1015,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                     emptyAppointment.setAppointmentID("null");
                     People newPeople = new People();
                     newPeople.setName(peopleNameText.getText());
-                    newPeople.setPhoneNum(Integer.parseInt(phonePeopleText.getText()));
+                    newPeople.setPhoneNum(phonePeopleText.getText());
                     newPeople.setUsername(usernamePeopleText.getText());
                     newPeople.setPassword(passPeopleText.getText());
                     newPeople.setDate(dcn.format(dobPeopleChooser.getDate()));
@@ -1041,7 +1047,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
         People existingPpl = new People().getPeopleDetails(usernamePeopleText.getText());
         existingPpl.setName(peopleNameText.getText());
-        existingPpl.setPhoneNum(Integer.parseInt(phonePeopleText.getText()));
+        existingPpl.setPhoneNum(phonePeopleText.getText());
         existingPpl.setUsername(usernamePeopleText.getText());
         existingPpl.setPassword(passPeopleText.getText());
         existingPpl.setDate(dcn.format(dobPeopleChooser.getDate()));
@@ -1086,13 +1092,16 @@ public class PersonnelGUI extends javax.swing.JFrame {
             {
                 Appointment newAppointment = new Appointment();
                 newAppointment.setDate(dcn.format(dateAPChooser.getDate()));
+                newAppointment.setExpDate(dcn.format(dateAPChooser.getDate()));
                 String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
+                newAppointment.setDoseNum(newAppointment.checkDoseNum(peopleAPText.getText()));
                 newAppointment.setTime(LocalTime.parse(time));
                 newAppointment.setPeople(new People().getPeopleDetails(peopleAPText.getText()));
                 newAppointment.setCentre(new Centre().searchCentre((String) centreAPCombo.getSelectedItem()));
                 newAppointment.setVaccine(new Vaccine().searchVaccine((String) vaccineAPCombo.getSelectedItem()));
                 newAppointment.regAppointment(newAppointment);  
                 JOptionPane.showMessageDialog(null, "Appointment Added Successfully.");
+                updateAppointmentTable();
             } 
             else
             {
@@ -1119,6 +1128,13 @@ public class PersonnelGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         clearAppointment(jPanel1);
     }//GEN-LAST:event_clearAPButtonActionPerformed
+
+    private void appointmentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentTableMouseClicked
+        // TODO add your handling code here:
+        int row = appointmentTable.getSelectedRow();
+        String appointmentID = String.valueOf(appointmentTable.getValueAt(row, 0));
+        displayAppointmentDetails(new Appointment().getAppointmentDetails(appointmentID));
+    }//GEN-LAST:event_appointmentTableMouseClicked
     
     static JComponent createVerticalSeparator() {
         JSeparator x = new JSeparator(SwingConstants.VERTICAL);
@@ -1161,7 +1177,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                     String[] row = { ((People)obj).getPeopleID(), 
                         ((People)obj).getName(),
                         ((People)obj).getUsername(), ((People)obj).getPassword(), 
-                        Integer.toString(((People)obj).getPhoneNum()), 
+                        (((People)obj).getPhoneNum()), 
                         ((People)obj).getDate(), 
                         ((People)obj).getGender(), 
                         ((People)obj).getState(), ((People)obj).getCitizenship(), 
@@ -1190,7 +1206,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
             peopleNameText.setText(ppl.getName());
             usernamePeopleText.setText(ppl.getUsername());
             passPeopleText.setText(ppl.getPassword());
-            phonePeopleText.setText(Integer.toString(ppl.getPhoneNum()));
+            phonePeopleText.setText(ppl.getPhoneNum());
             dobPeopleChooser.setDate(dob);
             stateComboBox.setSelectedItem(ppl.getState());
             citizenPeopleText.setText(ppl.getCitizenship());
@@ -1271,6 +1287,57 @@ public class PersonnelGUI extends javax.swing.JFrame {
                 JSpinner spinner = (JSpinner) control;
                 spinner.setValue(((SpinnerNumberModel) spinner.getModel()).getMinimum());
             }
+        }
+    }
+    
+    private void displayAppointmentDetails(Appointment appointment)
+    {
+        try {
+            apIDText.setText(appointment.getAppointmentID());
+            Date date = new SimpleDateFormat("dd-MM-yyyy").parse(appointment.getDate());
+            dateAPChooser.setDate(date);
+            peopleAPText.setText(appointment.getPeople().getUsername());
+            centreAPCombo.setSelectedItem(appointment.getCentre());
+            vaccineAPCombo.setSelectedItem(appointment.getVaccine());
+        } catch (ParseException ex) {
+            Logger.getLogger(PersonnelGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void updateAppointmentTable()
+    {
+        DefaultTableModel table = (DefaultTableModel) appointmentTable.getModel();
+        table.setRowCount(0);
+        int count=0;
+        ObjectInputStream ois = null;
+        
+        try {
+            ois = new ObjectInputStream(new FileInputStream(new Appointment().getDataAppointment()));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                count++;
+                LocalTime time = ((Appointment)obj).getTime();
+                String[] row = { ((Appointment)obj).getAppointmentID(), 
+                    ((Appointment)obj).getDate(),
+                    time.toString(),
+                    ((Appointment)obj).getCentre().getCentreName(), 
+                    ((Appointment)obj).getPeople().getUsername(), 
+                    ((Appointment)obj).getExpDate(), 
+                    ((Appointment)obj).getVaccine().getVaccineName(), 
+                    Integer.toString(((Appointment)obj).getDoseNum())};
+                table.addRow(row);
+
+            }
+        } catch (EOFException ex) {} 
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
         }
     }
 

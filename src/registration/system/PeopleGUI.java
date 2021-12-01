@@ -48,12 +48,6 @@ public class PeopleGUI extends javax.swing.JFrame {
         initComponents();
         showProfileDetails();
         updateDashboard();
-        
-        ImageIcon virusImage1 = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/resources/coronavirus2.png")));
-        Image virusImage2 = virusImage1.getImage();
-        Image virusImage3 = virusImage2.getScaledInstance(virusImage.getWidth(), virusImage.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon i3 = new ImageIcon(virusImage3);
-        virusImage.setIcon(i3);
     }
 
     /**

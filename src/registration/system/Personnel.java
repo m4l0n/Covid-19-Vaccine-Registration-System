@@ -226,7 +226,7 @@ public class Personnel extends User implements Serializable{
                 appointment1.setPeople(new People().getPeopleDetails("010718-14-0985"));
                 appointment1.setCentre(centre1);
                 appointment1.setVaccine(vaccine1);
-                appointment1.setDoseNum(1);
+                appointment1.setDoseNum(false);
 
                 Appointment appointment2 = new Appointment();
                 appointment2.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
@@ -235,7 +235,7 @@ public class Personnel extends User implements Serializable{
                 appointment2.setPeople(new People().getPeopleDetails("011201-14-1032"));
                 appointment2.setCentre(centre1);
                 appointment2.setVaccine(vaccine1);
-                appointment2.setDoseNum(2);
+                appointment2.setDoseNum(true);
 
                 Appointment appointment3 = new Appointment();
                 appointment3.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
@@ -244,7 +244,7 @@ public class Personnel extends User implements Serializable{
                 appointment3.setPeople(new People().getPeopleDetails("020314-13-0853"));
                 appointment3.setCentre(centre1);
                 appointment3.setVaccine(vaccine2);
-                appointment3.setDoseNum(1);
+                appointment3.setDoseNum(false);
 
                 Appointment appointment4= new Appointment();
                 appointment4.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
@@ -253,7 +253,7 @@ public class Personnel extends User implements Serializable{
                 appointment4.setPeople(new People().getPeopleDetails("050219-10-1942"));
                 appointment4.setCentre(centre1);
                 appointment4.setVaccine(vaccine2);
-                appointment4.setDoseNum(1);
+                appointment4.setDoseNum(false);
 
                 Appointment appointment5 = new Appointment();
                 appointment5.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
@@ -262,7 +262,7 @@ public class Personnel extends User implements Serializable{
                 appointment5.setPeople(new People().getPeopleDetails("010329-02-1934"));
                 appointment5.setCentre(centre1);
                 appointment5.setVaccine(vaccine1);
-                appointment5.setDoseNum(1);
+                appointment5.setDoseNum(false);
                 
                 Appointment apList[] = {appointment1, appointment2, appointment3, appointment4, appointment5};
                 for (Appointment eachAP:apList){oos3.writeObject(eachAP);}
@@ -424,6 +424,12 @@ public class Personnel extends User implements Serializable{
                 newPeople9.setDose1(emptyAppointment);
                 newPeople9.setDose2(emptyAppointment);
                 newPeople9.registerProfile(newPeople9);
+                
+                People allPeople[] = {newPeople1, newPeople2, newPeople3, newPeople4, newPeople5, newPeople6, newPeople7, newPeople8, newPeople9};
+                for (People eachPeople:allPeople)
+                {
+                    oos.writeObject(eachPeople);
+                }
             } catch (Exception e) {}
         } catch (IOException ex) { ex.printStackTrace(); }
         finally {

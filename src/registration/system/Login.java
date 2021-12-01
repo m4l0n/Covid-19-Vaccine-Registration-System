@@ -94,6 +94,7 @@ public class Login extends javax.swing.JFrame {
         
         new Personnel().firstAdmin();
         new Personnel().firstVaccineCentres();
+        new Personnel().firstUsers();
     }
 
     /**

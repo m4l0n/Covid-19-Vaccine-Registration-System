@@ -1268,31 +1268,31 @@ public class PeopleGUI extends javax.swing.JFrame {
     {
         People thisPeople = new People().getPeopleDetails(userID);
         jLabel2.setText("Welcome, " + thisPeople.getName());
-        LocalDate currentDate = LocalDate.now();
-        jLabel3.setText("You have " + Integer.toString(
-                new Appointment().getFutureAppointments(userID, currentDate)
-                        .size()) + " upcoming vaccination appointment");
-        if (!thisPeople.getDose1().getAppointmentID().equals("none"))
-        {
-            jLabel39.setText("Date:\n" + thisPeople.getDose1().getDate());
-            jLabel40.setText("Vaccine Name:\n" + thisPeople.getDose1().getVaccine().getVaccineName());
-            jLabel42.setText("Location:\n" + thisPeople.getDose1().getCentre().getCentreName());
-            
-            if(!thisPeople.getDose2().getAppointmentID().equals("none"))
-            {
-                jLabel41.setText("Date:\n" + thisPeople.getDose2().getDate());
-                jLabel43.setText("Vaccine Name:\n" + thisPeople.getDose2().getVaccine().getVaccineName());
-                jLabel49.setText("Location:\n" + thisPeople.getDose2().getCentre().getCentreName());
-            }
-            else {
-                jPanel6.setVisible(false);
-            }
-        }
-        else {
-            jPanel5.setVisible(false);
-            jPanel6.setVisible(false);
-            jLabel50.setText("Unvaccinated");
-        }
+//        LocalDate currentDate = LocalDate.now();
+//        jLabel3.setText("You have " + Integer.toString(
+//                new Appointment().getFutureAppointments(userID, currentDate)
+//                        .size()) + " upcoming vaccination appointment");
+//        if (!thisPeople.getDose1().getAppointmentID().equals("none"))
+//        {
+//            jLabel39.setText("Date:\n" + thisPeople.getDose1().getDate());
+//            jLabel40.setText("Vaccine Name:\n" + thisPeople.getDose1().getVaccine().getVaccineName());
+//            jLabel42.setText("Location:\n" + thisPeople.getDose1().getCentre().getCentreName());
+//            
+//            if(!thisPeople.getDose2().getAppointmentID().equals("none"))
+//            {
+//                jLabel41.setText("Date:\n" + thisPeople.getDose2().getDate());
+//                jLabel43.setText("Vaccine Name:\n" + thisPeople.getDose2().getVaccine().getVaccineName());
+//                jLabel49.setText("Location:\n" + thisPeople.getDose2().getCentre().getCentreName());
+//            }
+//            else {
+//                jPanel6.setVisible(false);
+//            }
+//        }
+//        else {
+//            jPanel5.setVisible(false);
+//            jPanel6.setVisible(false);
+//            jLabel50.setText("Unvaccinated");
+//        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

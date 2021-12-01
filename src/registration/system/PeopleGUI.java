@@ -6,8 +6,10 @@
 package registration.system;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.toedter.calendar.JDateChooser;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -15,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +28,12 @@ import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -111,7 +119,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel37 = new javax.swing.JLabel();
         ucLocationText = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
-        ucLocationDate = new javax.swing.JTextField();
+        ucVaccineText = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
         apHourSlider = new javax.swing.JSpinner();
         jLabel17 = new javax.swing.JLabel();
@@ -524,6 +532,11 @@ public class PeopleGUI extends javax.swing.JFrame {
 
         cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_cancel_26px.png"))); // NOI18N
         cancelButton.setText("Cancel Appointment");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel5.setText("Date");
@@ -544,10 +557,10 @@ public class PeopleGUI extends javax.swing.JFrame {
         ucLocationText.setEnabled(false);
 
         jLabel38.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel38.setText("Date");
+        jLabel38.setText("Vaccine Type");
 
-        ucLocationDate.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        ucLocationDate.setEnabled(false);
+        ucVaccineText.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        ucVaccineText.setEnabled(false);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -567,7 +580,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                         .addComponent(jLabel37)
                         .addGap(186, 186, 186))
                     .addComponent(ucLocationText)
-                    .addComponent(ucLocationDate)
+                    .addComponent(ucVaccineText)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -598,7 +611,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel38)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ucLocationDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ucVaccineText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -645,10 +658,20 @@ public class PeopleGUI extends javax.swing.JFrame {
 
         regButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         regButton.setText("Register");
+        regButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                regButtonActionPerformed(evt);
+            }
+        });
         appointmentPanel.add(regButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(298, 285, 97, -1));
 
         clearButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         clearButton.setText("Clear");
+        clearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButtonActionPerformed(evt);
+            }
+        });
         appointmentPanel.add(clearButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(298, 357, 97, -1));
 
         apDateChooser.setDateFormatString("dd-MM-yyyy");
@@ -1018,6 +1041,17 @@ public class PeopleGUI extends javax.swing.JFrame {
         appointmentButtonLabel.setForeground(Color.black);
         statusButtonLabel.setForeground(Color.white);
         profileButtonLabel.setForeground(Color.white);
+        Appointment appointment = new Appointment().getAppointmentDetails(userID);
+        try {
+            ucDateText.setText(appointment.getDate());
+            ucTimeText.setText(appointment.getTime().toString());
+            ucLocationText.setText(String.valueOf(appointment.getCentre()));
+            ucVaccineText.setText(String.valueOf(appointment.getVaccine()));
+        } 
+        catch (Exception e)
+        {
+            
+        }
     }//GEN-LAST:event_appointmentPanelButtonMouseClicked
 
     private void statusPanelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusPanelButtonMouseClicked
@@ -1202,6 +1236,45 @@ public class PeopleGUI extends javax.swing.JFrame {
                         .getSelectedItem()).toArray()));
         vaccineCombo.setModel(vaccineModel);
     }//GEN-LAST:event_centreComboActionPerformed
+
+    private void regButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regButtonActionPerformed
+        // TODO add your handling code here:
+        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+        Appointment newAppointment = new Appointment();
+        newAppointment.setDate(dcn.format(apDateChooser.getDate()));
+        newAppointment.setExpDate(dcn.format(apDateChooser.getDate()));
+        String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
+        newAppointment.setDoseNum(newAppointment.checkDoseNum(userID));
+        newAppointment.setTime(LocalTime.parse(time));
+        newAppointment.setPeople(new People().getPeopleDetails(userID));
+        newAppointment.setCentre(new Centre().searchCentre((String) centreCombo.getSelectedItem()));
+        newAppointment.setVaccine(new Vaccine().searchVaccine((String) vaccineCombo.getSelectedItem()));
+        newAppointment.regAppointment(newAppointment);  
+    }//GEN-LAST:event_regButtonActionPerformed
+
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+        // TODO add your handling code here:
+            ((JTextField)apDateChooser.getDateEditor().getUiComponent()).setText("Appointment Date");
+            centreCombo.setEditable(true);
+            centreCombo.setSelectedItem("Select a Centre");
+            vaccineCombo.setEditable(true);
+            vaccineCombo.setSelectedItem("Please Select a Centre First");
+            apHourSlider.setValue(((SpinnerNumberModel) apHourSlider.getModel()).getMinimum());
+            apMinuteSlider.setValue(((SpinnerNumberModel) apMinuteSlider.getModel()).getMinimum());
+    }//GEN-LAST:event_clearButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        // TODO add your handling code here:
+        boolean idFound = new Appointment().deleteAppointment(userID);
+        if (idFound == true)
+            {
+                JOptionPane.showMessageDialog(null, "Appointment Cancel Successfully.");
+            }
+        else
+            {
+                JOptionPane.showMessageDialog(null, "Appointment Not Found.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+    }//GEN-LAST:event_cancelButtonActionPerformed
     
     /**
      * @param args the command line arguments
@@ -1418,9 +1491,9 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JPanel statusPanelButton;
     private javax.swing.JTable statusTable;
     private javax.swing.JTextField ucDateText;
-    private javax.swing.JTextField ucLocationDate;
     private javax.swing.JTextField ucLocationText;
     private javax.swing.JTextField ucTimeText;
+    private javax.swing.JTextField ucVaccineText;
     private javax.swing.JTextField userIDText;
     private javax.swing.JComboBox<String> vaccineCombo;
     private javax.swing.JComboBox<String> vaccineSearchCombo;

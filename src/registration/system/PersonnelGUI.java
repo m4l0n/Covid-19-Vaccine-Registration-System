@@ -1143,7 +1143,6 @@ public class PersonnelGUI extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "Appointment Not Found.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
     }//GEN-LAST:event_deleteAPButtonActionPerformed
 
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
@@ -1392,12 +1391,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                 JComboBox ctr = (JComboBox) control;
                 ctr.setEditable(true);
                 ctr.setSelectedItem("Select an Option");
-            }
-            else if (control instanceof JRadioButton)
-            {
-                JRadioButton rb = (JRadioButton) control;
-                rb.setSelected(false);
-            }
+            }          
             else if (control instanceof JDateChooser)
             {
                 JDateChooser dc = (JDateChooser) control;
@@ -1425,9 +1419,8 @@ public class PersonnelGUI extends javax.swing.JFrame {
             int minute = time.getMinute();
             apHourSlider.setValue(hour);
             apMinuteSlider.setValue(minute);
-            
-            
-        } catch (ParseException ex) {
+        } 
+        catch (ParseException ex) {
             Logger.getLogger(PersonnelGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

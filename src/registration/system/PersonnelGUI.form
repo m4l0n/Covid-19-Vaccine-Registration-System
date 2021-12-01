@@ -756,6 +756,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Clear"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearAPButtonActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="saveAPButton">
                   <Properties>
@@ -829,13 +832,16 @@
                         <Column editable="true" title="Date" type="java.lang.String"/>
                         <Column editable="true" title="Time" type="java.lang.String"/>
                         <Column editable="true" title="Centre" type="java.lang.String"/>
-                        <Column editable="true" title="PeopleID" type="java.lang.String"/>
+                        <Column editable="true" title="User ID" type="java.lang.String"/>
                         <Column editable="true" title="Effective Period" type="java.lang.Integer"/>
-                        <Column editable="true" title="BatchID" type="java.lang.String"/>
+                        <Column editable="true" title="Vaccine Type" type="java.lang.String"/>
                         <Column editable="true" title="Dose Number" type="java.lang.Integer"/>
                       </Table>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="appointmentTableMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -903,7 +909,7 @@
                         <Column editable="false" title="Name" type="java.lang.Object"/>
                         <Column editable="false" title="UserID" type="java.lang.String"/>
                         <Column editable="false" title="UserPassword" type="java.lang.String"/>
-                        <Column editable="false" title="Phone Number" type="java.lang.Integer"/>
+                        <Column editable="false" title="Phone Number" type="java.lang.String"/>
                         <Column editable="false" title="Date of Birth" type="java.lang.String"/>
                         <Column editable="false" title="Gender" type="java.lang.String"/>
                         <Column editable="false" title="State" type="java.lang.String"/>

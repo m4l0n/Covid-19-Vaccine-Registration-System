@@ -53,7 +53,7 @@ public class Personnel extends User implements Serializable{
                 firstAdmin.setPassword("AdminPersonnel1");
                 firstAdmin.setGender("Male");
                 firstAdmin.setDate("01-01-1990");
-                firstAdmin.setPhoneNum(0111111111);
+                firstAdmin.setPhoneNum("0111111111");
                 firstAdmin.setStatus("Fully Vaccinated");
                 firstAdmin.setState("Kuala Lumpur");
                 firstAdmin.setUserType("Personnel");
@@ -232,7 +232,7 @@ public class Personnel extends User implements Serializable{
                 appointment2.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
                 appointment2.setDate("01-12-2021");
                 appointment2.setTime(LocalTime.parse("11:00"));
-                appointment2.setPeople(new People().getPeopleDetails("011123-14-1234"));
+                appointment2.setPeople(new People().getPeopleDetails("011201-14-1032"));
                 appointment2.setCentre(centre1);
                 appointment2.setVaccine(vaccine1);
                 appointment2.setDoseNum(2);
@@ -241,7 +241,7 @@ public class Personnel extends User implements Serializable{
                 appointment3.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
                 appointment3.setDate("02-12-2021");
                 appointment3.setTime(LocalTime.parse("13:30"));
-                appointment3.setPeople(new People().getPeopleDetails("021123-16-1973"));
+                appointment3.setPeople(new People().getPeopleDetails("020314-13-0853"));
                 appointment3.setCentre(centre1);
                 appointment3.setVaccine(vaccine2);
                 appointment3.setDoseNum(1);
@@ -250,7 +250,7 @@ public class Personnel extends User implements Serializable{
                 appointment4.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
                 appointment4.setDate("03-12-2021");
                 appointment4.setTime(LocalTime.parse("14:00"));
-                appointment4.setPeople(new People().getPeopleDetails("031201-12-2014"));
+                appointment4.setPeople(new People().getPeopleDetails("050219-10-1942"));
                 appointment4.setCentre(centre1);
                 appointment4.setVaccine(vaccine2);
                 appointment4.setDoseNum(1);
@@ -259,7 +259,7 @@ public class Personnel extends User implements Serializable{
                 appointment5.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
                 appointment5.setDate("01-12-2021");
                 appointment5.setTime(LocalTime.parse("12:00"));
-                appointment5.setPeople(new People().getPeopleDetails("020201-12-0531"));
+                appointment5.setPeople(new People().getPeopleDetails("010329-02-1934"));
                 appointment5.setCentre(centre1);
                 appointment5.setVaccine(vaccine1);
                 appointment5.setDoseNum(1);
@@ -274,6 +274,162 @@ public class Personnel extends User implements Serializable{
             try {
                 if (ois3 != null) {
                     ois3.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+    }
+    
+    public void firstUsers()
+    {
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(new User().getDataUser()));
+        } catch (FileNotFoundException ex) {
+            ObjectOutputStream oos = null;
+            try {
+                oos = new ObjectOutputStream(new FileOutputStream(new User().getDataUser()));
+                Appointment emptyAppointment = new Appointment();
+                emptyAppointment.setAppointmentID("none");
+                People newPeople1 = new People();
+                newPeople1.setName("Ali");
+                newPeople1.setPhoneNum("0104234524");
+                newPeople1.setUsername("011201-14-1032");
+                newPeople1.setPassword("Testing1");
+                newPeople1.setDate("01-12-1996");
+                newPeople1.setState("Kelantan");
+                newPeople1.setCitizenship("Malaysian");
+                newPeople1.setGender("Male");
+                newPeople1.setUserType("People");
+                newPeople1.setStatus("Unvaccinated");
+                newPeople1.setDose1(emptyAppointment);
+                newPeople1.setDose2(emptyAppointment);
+                newPeople1.registerProfile(newPeople1);
+                
+                People newPeople2 = new People();
+                newPeople2.setName("Muthu");
+                newPeople2.setPhoneNum("0123258934");
+                newPeople2.setUsername("020314-13-0853");
+                newPeople2.setPassword("Testing2");
+                newPeople2.setDate("14-03-2001");
+                newPeople2.setState("Kuala Lumpur");
+                newPeople2.setCitizenship("Malaysian");
+                newPeople2.setGender("Female");
+                newPeople2.setUserType("People");
+                newPeople2.setStatus("Unvaccinated");
+                newPeople2.setDose1(emptyAppointment);
+                newPeople2.setDose2(emptyAppointment);
+                newPeople2.registerProfile(newPeople2);
+                
+                People newPeople3 = new People();
+                newPeople3.setName("Powell");
+                newPeople3.setPhoneNum("0123417648");
+                newPeople3.setUsername("050219-10-1942");
+                newPeople3.setPassword("Testing3");
+                newPeople3.setDate("19-02-1983");
+                newPeople3.setState("Selangor");
+                newPeople3.setCitizenship("Malaysian");
+                newPeople3.setGender("Male");
+                newPeople3.setUserType("People");
+                newPeople3.setStatus("Unvaccinated");
+                newPeople3.setDose1(emptyAppointment);
+                newPeople3.setDose2(emptyAppointment);
+                newPeople3.registerProfile(newPeople3);
+                
+                People newPeople4 = new People();
+                newPeople4.setName("Omar");
+                newPeople4.setPhoneNum("0173174375");
+                newPeople4.setUsername("010329-02-1934");
+                newPeople4.setPassword("Testing4");
+                newPeople4.setDate("29-03-1999");
+                newPeople4.setState("Sarawak");
+                newPeople4.setCitizenship("Malaysian");
+                newPeople4.setGender("Female");
+                newPeople4.setUserType("People");
+                newPeople4.setStatus("Unvaccinated");
+                newPeople4.setDose1(emptyAppointment);
+                newPeople4.setDose2(emptyAppointment);
+                newPeople4.registerProfile(newPeople4);
+                
+                People newPeople5 = new People();
+                newPeople5.setName("Lee Sheng Yi");
+                newPeople5.setPhoneNum("0146732674");
+                newPeople5.setUsername("020213-14-0921");
+                newPeople5.setPassword("Testing5");
+                newPeople5.setDate("13-02-1994");
+                newPeople5.setState("Labuan");
+                newPeople5.setCitizenship("Malaysian");
+                newPeople5.setGender("Male");
+                newPeople5.setUserType("People");
+                newPeople5.setStatus("Unvaccinated");
+                newPeople5.setDose1(emptyAppointment);
+                newPeople5.setDose2(emptyAppointment);
+                newPeople5.registerProfile(newPeople5);
+                
+                People newPeople6 = new People();
+                newPeople6.setName("Wong Jie Hao");
+                newPeople6.setPhoneNum("0124527854");
+                newPeople6.setUsername("030713-14-9782");
+                newPeople6.setPassword("Testing6");
+                newPeople6.setDate("13-07-1990");
+                newPeople6.setState("Pahang");
+                newPeople6.setCitizenship("Malaysian");
+                newPeople6.setGender("Female");
+                newPeople6.setUserType("People");
+                newPeople6.setStatus("Unvaccinated");
+                newPeople6.setDose1(emptyAppointment);
+                newPeople6.setDose2(emptyAppointment);
+                newPeople6.registerProfile(newPeople6);
+                
+                People newPeople7 = new People();
+                newPeople7.setName("Camille");
+                newPeople7.setPhoneNum("0137532785");
+                newPeople7.setUsername("021014-13-0932");
+                newPeople7.setPassword("Testing7");
+                newPeople7.setDate("14-10-1983");
+                newPeople7.setState("Kuala Lumpur");
+                newPeople7.setCitizenship("Malaysian");
+                newPeople7.setGender("Male");
+                newPeople7.setUserType("People");
+                newPeople7.setStatus("Unvaccinated");
+                newPeople7.setDose1(emptyAppointment);
+                newPeople7.setDose2(emptyAppointment);
+                newPeople7.registerProfile(newPeople7);
+                
+                People newPeople8 = new People();
+                newPeople8.setName("Liew Yee Jing");
+                newPeople8.setPhoneNum("0127538762");
+                newPeople8.setUsername("010201-13-1832");
+                newPeople8.setPassword("Testing8");
+                newPeople8.setDate("01-02-2001");
+                newPeople8.setState("Perak");
+                newPeople8.setCitizenship("Malaysian");
+                newPeople8.setGender("Female");
+                newPeople8.setUserType("People");
+                newPeople8.setStatus("Unvaccinated");
+                newPeople8.setDose1(emptyAppointment);
+                newPeople8.setDose2(emptyAppointment);
+                newPeople8.registerProfile(newPeople8);
+                
+                People newPeople9 = new People();
+                newPeople9.setName("Booma");
+                newPeople9.setPhoneNum("0153276538");
+                newPeople9.setUsername("031219-13-0124");
+                newPeople9.setPassword("Testing9");
+                newPeople9.setDate("19-12-1999");
+                newPeople9.setState("Kedah");
+                newPeople9.setCitizenship("Indonesian");
+                newPeople9.setGender("Male");
+                newPeople9.setUserType("People");
+                newPeople9.setStatus("Unvaccinated");
+                newPeople9.setDose1(emptyAppointment);
+                newPeople9.setDose2(emptyAppointment);
+                newPeople9.registerProfile(newPeople9);
+            } catch (Exception e) {}
+        } catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
                 }
             } catch (IOException ex) { ex.printStackTrace(); }
         }

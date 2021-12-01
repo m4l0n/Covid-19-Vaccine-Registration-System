@@ -828,14 +828,14 @@
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="8" rowCount="4">
-                        <Column editable="true" title="AppointmentID" type="java.lang.String"/>
-                        <Column editable="true" title="Date" type="java.lang.String"/>
-                        <Column editable="true" title="Time" type="java.lang.String"/>
-                        <Column editable="true" title="Centre" type="java.lang.String"/>
-                        <Column editable="true" title="User ID" type="java.lang.String"/>
-                        <Column editable="true" title="Effective Period" type="java.lang.Integer"/>
-                        <Column editable="true" title="Vaccine Type" type="java.lang.String"/>
-                        <Column editable="true" title="Dose Number" type="java.lang.Integer"/>
+                        <Column editable="false" title="AppointmentID" type="java.lang.String"/>
+                        <Column editable="false" title="Date" type="java.lang.String"/>
+                        <Column editable="false" title="Time" type="java.lang.String"/>
+                        <Column editable="false" title="Centre" type="java.lang.String"/>
+                        <Column editable="false" title="User ID" type="java.lang.String"/>
+                        <Column editable="false" title="Effective Period" type="java.lang.Integer"/>
+                        <Column editable="false" title="Vaccine Type" type="java.lang.String"/>
+                        <Column editable="false" title="Dose Number" type="java.lang.Integer"/>
                       </Table>
                     </Property>
                   </Properties>

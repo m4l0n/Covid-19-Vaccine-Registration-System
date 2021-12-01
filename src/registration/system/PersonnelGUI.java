@@ -584,9 +584,16 @@ public class PersonnelGUI extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         appointmentTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1127,6 +1134,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private void clearAPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAPButtonActionPerformed
         // TODO add your handling code here:
         clearAppointment(jPanel1);
+        peopleAPText.setEnabled(true);
     }//GEN-LAST:event_clearAPButtonActionPerformed
 
     private void appointmentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentTableMouseClicked
@@ -1134,6 +1142,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         int row = appointmentTable.getSelectedRow();
         String appointmentID = String.valueOf(appointmentTable.getValueAt(row, 0));
         displayAppointmentDetails(new Appointment().getAppointmentDetails(appointmentID));
+        peopleAPText.setEnabled(false);
     }//GEN-LAST:event_appointmentTableMouseClicked
     
     static JComponent createVerticalSeparator() {
@@ -1299,6 +1308,13 @@ public class PersonnelGUI extends javax.swing.JFrame {
             peopleAPText.setText(appointment.getPeople().getUsername());
             centreAPCombo.setSelectedItem(appointment.getCentre());
             vaccineAPCombo.setSelectedItem(appointment.getVaccine());
+            LocalTime time = appointment.getTime();
+            int hour = time.getHour();
+            int minute = time.getMinute();
+            apHourSlider.setValue(hour);
+            apMinuteSlider.setValue(minute);
+            
+            
         } catch (ParseException ex) {
             Logger.getLogger(PersonnelGUI.class.getName()).log(Level.SEVERE, null, ex);
         }

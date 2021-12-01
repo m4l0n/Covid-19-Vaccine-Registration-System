@@ -197,7 +197,7 @@ public class Personnel extends User implements Serializable{
             try {
                 if (ois2 != null) {
                     ois2.close();
-                }
+                }sh
             } catch (IOException ex) { ex.printStackTrace(); }
         }
         
@@ -208,14 +208,14 @@ public class Personnel extends User implements Serializable{
             ObjectOutputStream oos3 = null;
             try {
                 oos3 = new ObjectOutputStream(new FileOutputStream(new Appointment().getDataAppointment()));
-                Appointment appointment1 = new Appointment();
-                appointment1.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
-                appointment1.setDate("01-12-2021");
-                appointment1.setTime(LocalTime.parse("12:00"));
-                appointment1.setPeople(new People().getPeopleDetails("010718-14-0985"));
-                appointment1.setCentre(centre1);
-                appointment1.setVaccine(vaccine1);
-                appointment1.setDoseNum(false);
+//                Appointment appointment1 = new Appointment();
+//                appointment1.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
+//                appointment1.setDate("01-12-2021");
+//                appointment1.setTime(LocalTime.parse("12:00"));
+//                appointment1.setPeople(new People().getPeopleDetails("010718-14-0985"));
+//                appointment1.setCentre(centre1);
+//                appointment1.setVaccine(vaccine1);
+//                appointment1.setDoseNum(false);
 
                 Appointment appointment2 = new Appointment();
                 appointment2.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
@@ -253,7 +253,7 @@ public class Personnel extends User implements Serializable{
                 appointment5.setVaccine(vaccine1);
                 appointment5.setDoseNum(false);
                 
-                Appointment apList[] = {appointment1, appointment2, appointment3, appointment4, appointment5};
+                Appointment apList[] = {appointment2, appointment3, appointment4, appointment5};
                 for (Appointment eachAP:apList){oos3.writeObject(eachAP);}
                 oos3.flush();
                 oos3.close();

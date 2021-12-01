@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 public class User implements Serializable{
     private String name;
-    private int phoneNum;
+    private String phoneNum;
     private String gender;
     private String state;
     private String citizenship;
@@ -35,12 +35,12 @@ public class User implements Serializable{
         return name;
     }
     
-    public void setPhoneNum(int phoneNum)
+    public void setPhoneNum(String phoneNum)
     {
         this.phoneNum = phoneNum;
     }
     
-    public int getPhoneNum()
+    public String getPhoneNum()
     {
         return phoneNum;
     }

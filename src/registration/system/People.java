@@ -97,11 +97,14 @@ public class People extends User implements Serializable{
                     break;
                 }
             }
-            if (idExist == false) { tempPeople.add(newPeople); }
+            if (idExist == false) { 
+                tempPeople.add(newPeople);
+            }
             else { registerProfile(newPeople); }
             oos = new ObjectOutputStream(new FileOutputStream(new User().getDataUser()));   
             for(People existingPeople:tempPeople){
                 oos.writeObject(existingPeople);
+                System.out.println(existingPeople.getUsername());
             }
             oos.writeObject(personnel);
             newPeople = null;

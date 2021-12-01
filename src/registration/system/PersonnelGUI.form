@@ -1181,7 +1181,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
                     </Property>
-                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel18">
@@ -1294,6 +1293,7 @@
                       <Image iconType="3" name="/resources/icons8_Delete_26px.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Delete"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deletePeopleButtonActionPerformed"/>
@@ -1305,6 +1305,7 @@
                       <Image iconType="3" name="/resources/icons8_save_26px.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Save"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="savePeopleButtonActionPerformed"/>

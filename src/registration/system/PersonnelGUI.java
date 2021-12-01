@@ -693,7 +693,6 @@ public class PersonnelGUI extends javax.swing.JFrame {
         peopleNameText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         usernamePeopleText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        usernamePeopleText.setEnabled(false);
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel18.setText("Password");
@@ -738,6 +737,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         deletePeopleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_Delete_26px.png"))); // NOI18N
         deletePeopleButton.setText("Delete");
+        deletePeopleButton.setEnabled(false);
         deletePeopleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deletePeopleButtonActionPerformed(evt);
@@ -746,6 +746,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         savePeopleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_save_26px.png"))); // NOI18N
         savePeopleButton.setText("Save");
+        savePeopleButton.setEnabled(false);
         savePeopleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 savePeopleButtonActionPerformed(evt);
@@ -1006,6 +1007,10 @@ public class PersonnelGUI extends javax.swing.JFrame {
 //        femalePeopleButton.setSelected(false);
 //        statusPeopleText.setText("");
         clearComponents(jPanel2);
+        usernamePeopleText.setEnabled(true);
+        deletePeopleButton.setEnabled(false);
+        addPeopleButton.setEnabled(true);
+        savePeopleButton.setEnabled(false);
     }//GEN-LAST:event_clearPeopleButtonActionPerformed
 
     private void peopleTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_peopleTableMouseClicked
@@ -1013,6 +1018,10 @@ public class PersonnelGUI extends javax.swing.JFrame {
         int row = peopleTable.getSelectedRow();
         String userID = String.valueOf(peopleTable.getValueAt(row, 2));
         displayPeopleDetails(new People().getPeopleDetails(userID));
+        usernamePeopleText.setEnabled(false);
+        deletePeopleButton.setEnabled(true);
+        addPeopleButton.setEnabled(false);
+        savePeopleButton.setEnabled(true);
     }//GEN-LAST:event_peopleTableMouseClicked
 
     private void searchPeopleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchPeopleButtonActionPerformed
@@ -1021,6 +1030,10 @@ public class PersonnelGUI extends javax.swing.JFrame {
         if (ppl != null)
         {
             displayPeopleDetails(ppl);
+            usernamePeopleText.setEnabled(false);
+            deletePeopleButton.setEnabled(true);
+            addPeopleButton.setEnabled(false);
+            savePeopleButton.setEnabled(true);
         }
         else{
             JOptionPane.showMessageDialog(null, "Customer with PeopleID" + 
@@ -1066,6 +1079,11 @@ public class PersonnelGUI extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+        clearComponents(jPanel2);
+        usernamePeopleText.setEnabled(true);
+        deletePeopleButton.setEnabled(false);
+        addPeopleButton.setEnabled(true);
+        savePeopleButton.setEnabled(false);
     }//GEN-LAST:event_addPeopleButtonActionPerformed
 
     private void savePeopleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePeopleButtonActionPerformed
@@ -1082,6 +1100,11 @@ public class PersonnelGUI extends javax.swing.JFrame {
         existingPpl.setGender(getSelectedButton());
         existingPpl.modifyProfile(existingPpl);
         updatePeopleTable();
+        clearComponents(jPanel2);
+        usernamePeopleText.setEnabled(true);
+        deletePeopleButton.setEnabled(false);
+        addPeopleButton.setEnabled(true);
+        savePeopleButton.setEnabled(false);
     }//GEN-LAST:event_savePeopleButtonActionPerformed
 
     private void deletePeopleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletePeopleButtonActionPerformed
@@ -1092,6 +1115,10 @@ public class PersonnelGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "People Deleted Successfully.");
                 updatePeopleTable();
                 clearComponents(jPanel2);
+                usernamePeopleText.setEnabled(true);
+                deletePeopleButton.setEnabled(false);
+                addPeopleButton.setEnabled(true);
+                savePeopleButton.setEnabled(false);
             }
         else
             {
@@ -1116,7 +1143,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "Appointment Not Found.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        
+
     }//GEN-LAST:event_deleteAPButtonActionPerformed
 
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed

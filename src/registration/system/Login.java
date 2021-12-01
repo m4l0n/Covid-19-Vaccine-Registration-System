@@ -366,10 +366,12 @@ public class Login extends javax.swing.JFrame {
                 if (isValidPassword(passRegText.getText()))
                 {
                     Appointment emptyAppointment = new Appointment();
-                    emptyAppointment.setAppointmentID("null");
+                    emptyAppointment.setAppointmentID("none");
                     People newPeople = new People();
                     newPeople.setName(nameText.getText());
-                    newPeople.setPhoneNum(Integer.parseInt(phoneNumText.getText()));
+                    if (isValidPhoneNum(phoneNumText.getText())){
+                        newPeople.setPhoneNum(phoneNumText.getText());
+                    } else { throw new PhoneNumberFormatException("Phone Number Format Invalid!");}
                     newPeople.setUsername(idRegText.getText());
                     newPeople.setPassword(passRegText.getText());
                     newPeople.setDate(dcn.format(dobCalendar.getDate()));
@@ -389,7 +391,10 @@ public class Login extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "IC/Passport Number format is invalid!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch(Exception e)
+        } catch (PhoneNumberFormatException e){
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+        } 
+        catch(Exception e)
         {
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -521,6 +526,11 @@ public class Login extends javax.swing.JFrame {
     {
         return Pattern.compile("(([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))-([0-9]{2})-([0-9]{4})")
                 .matcher(userID).matches();
+    }
+    
+    public static boolean isValidPhoneNum(String phoneNum)
+    {
+        return Pattern.compile("\\+?6?(?:01[0-46-9]\\d{7,8}|0\\d{8})").matcher(phoneNum).matches();
     }
     
     private String getSelectedButton()

@@ -197,7 +197,7 @@ public class Personnel extends User implements Serializable{
             try {
                 if (ois2 != null) {
                     ois2.close();
-                }sh
+                }
             } catch (IOException ex) { ex.printStackTrace(); }
         }
         

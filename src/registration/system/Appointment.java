@@ -303,4 +303,85 @@ public class Appointment implements Serializable{
         return tempAppointment;
     }
     
+    public void modifyAppointment(Appointment savedAppointment)
+    {
+        ArrayList<Appointment> tempAppointment = new ArrayList <>();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(new Appointment().getDataAppointment()));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) 
+            {
+                if (!((Appointment)obj).getAppointmentID().equals(savedAppointment.getAppointmentID()))
+                {
+                    tempAppointment.add((Appointment)obj);
+                }
+                else
+                {
+                    tempAppointment.add(savedAppointment);
+                    JOptionPane.showMessageDialog(null, "Appointment Updated Successfully!");
+                }
+            }
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(new Appointment().getDataAppointment()));
+            oos.writeObject(tempAppointment);
+            tempAppointment.clear();
+            oos.flush();
+            oos.close();
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+    
+    public boolean deleteAppointment(String appointmentID)
+    {
+        boolean idFound = false;
+        ArrayList<Appointment> tempAppointment = new ArrayList <>();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(new Appointment().getDataAppointment()));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (!((Appointment)obj).getAppointmentID().equals(appointmentID))
+                {
+                    tempAppointment.add((Appointment)obj);
+                }
+                else
+                {
+                    idFound = true;
+                }
+            } 
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(new Appointment().getDataAppointment()));
+            oos.writeObject(tempAppointment);
+            tempAppointment.clear();
+            oos.flush();
+            oos.close();
+        } catch (Exception e) { e.printStackTrace(); }
+        finally { return idFound; }
+    }
 }

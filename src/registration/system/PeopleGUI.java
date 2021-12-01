@@ -111,7 +111,6 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel31 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        cancelButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         ucDateText = new javax.swing.JTextField();
         jLabel36 = new javax.swing.JLabel();
@@ -120,6 +119,8 @@ public class PeopleGUI extends javax.swing.JFrame {
         ucLocationText = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
         ucVaccineText = new javax.swing.JTextField();
+        cancelButton1 = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         jLabel32 = new javax.swing.JLabel();
         apHourSlider = new javax.swing.JSpinner();
         jLabel17 = new javax.swing.JLabel();
@@ -530,14 +531,6 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jLabel16.setText("Your Upcoming Appointment");
 
-        cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_cancel_26px.png"))); // NOI18N
-        cancelButton.setText("Cancel Appointment");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
-            }
-        });
-
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel5.setText("Date");
 
@@ -562,35 +555,59 @@ public class PeopleGUI extends javax.swing.JFrame {
         ucVaccineText.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         ucVaccineText.setEnabled(false);
 
+        cancelButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_edit_property_26px.png"))); // NOI18N
+        cancelButton1.setText("Modify");
+        cancelButton1.setToolTipText("");
+        cancelButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButton1ActionPerformed(evt);
+            }
+        });
+
+        cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_cancel_26px.png"))); // NOI18N
+        cancelButton.setText("Delete");
+        cancelButton.setToolTipText("");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel36)
-                .addGap(217, 217, 217))
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ucDateText)
-                    .addComponent(ucTimeText)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel37)
-                        .addGap(186, 186, 186))
-                    .addComponent(ucLocationText)
-                    .addComponent(ucVaccineText)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel38)
+                            .addComponent(ucDateText)
+                            .addComponent(ucTimeText)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel37)
+                                .addGap(186, 186, 186))
+                            .addComponent(ucLocationText)
+                            .addComponent(ucVaccineText)
                             .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(cancelButton)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel38))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                .addComponent(jLabel36)
+                                .addGap(217, 217, 217))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cancelButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(15, 15, 15))))))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -612,9 +629,11 @@ public class PeopleGUI extends javax.swing.JFrame {
                 .addComponent(jLabel38)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ucVaccineText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
         );
 
         appointmentPanel.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 110, 260, 440));
@@ -1275,6 +1294,10 @@ public class PeopleGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Appointment Not Found.", "Error", JOptionPane.ERROR_MESSAGE);
             }
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void cancelButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelButton1ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -1393,6 +1416,7 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JPanel appointmentPanel;
     private javax.swing.JPanel appointmentPanelButton;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JButton cancelButton1;
     private javax.swing.JButton cancelChangeButton;
     private javax.swing.JComboBox<String> centreCombo;
     private javax.swing.JComboBox<String> centreSearchCombo;

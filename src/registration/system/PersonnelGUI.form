@@ -260,6 +260,9 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="0"/>
             </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resources/icons8_Logout_26px.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Log Out"/>
           </Properties>
           <Events>
@@ -454,7 +457,7 @@
                               <Component id="jLabel32" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="peopleAPText" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="52" max="32767" attributes="0"/>
+                          <EmptySpace pref="41" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" alignment="0" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
@@ -485,14 +488,12 @@
                               <Component id="vaccineAPCombo" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                               <Component id="jLabel30" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="deleteAPButton" alignment="1" min="-2" pref="87" max="-2" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                                  <Component id="adAPButton" alignment="1" min="-2" pref="87" max="-2" attributes="0"/>
-                                  <Component id="clearAPButton" alignment="1" min="-2" pref="87" max="-2" attributes="0"/>
-                                  <Component id="saveAPButton" alignment="1" min="-2" pref="87" max="-2" attributes="0"/>
-                              </Group>
+                          <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="saveAPButton" max="32767" attributes="0"/>
+                              <Component id="deleteAPButton" alignment="1" max="32767" attributes="0"/>
+                              <Component id="clearAPButton" alignment="1" max="32767" attributes="0"/>
+                              <Component id="adAPButton" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
@@ -583,8 +584,8 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="apIDSearchText" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="searchAPButton" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="apIDSearchText" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="searchAPButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       </Group>
@@ -644,6 +645,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="searchAPButton">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/resources/icons8_search_26px_2.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Search"/>
                   </Properties>
                   <Events>
@@ -746,6 +750,9 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="16" style="0"/>
                     </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/resources/icons8_add_26px_1.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Add"/>
                   </Properties>
                   <Events>
@@ -768,6 +775,9 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="16" style="0"/>
                     </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/resources/icons8_save_26px.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Save"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -779,6 +789,9 @@
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="16" style="0"/>
+                    </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/resources/icons8_Delete_26px.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Delete"/>
                     <Property name="enabled" type="boolean" value="false"/>
@@ -841,7 +854,7 @@
                         <Column editable="false" title="Time" type="java.lang.String"/>
                         <Column editable="false" title="Centre" type="java.lang.String"/>
                         <Column editable="false" title="User ID" type="java.lang.String"/>
-                        <Column editable="false" title="Effective Period" type="java.lang.Integer"/>
+                        <Column editable="false" title="Expiry Date" type="java.lang.Integer"/>
                         <Column editable="false" title="Vaccine Type" type="java.lang.String"/>
                         <Column editable="false" title="Dose Number" type="java.lang.Integer"/>
                       </Table>
@@ -1266,6 +1279,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="addPeopleButton">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/resources/icons8_registration_26px.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Add"/>
                   </Properties>
                   <Events>
@@ -1274,6 +1290,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="deletePeopleButton">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/resources/icons8_Delete_26px.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Delete"/>
                   </Properties>
                   <Events>
@@ -1282,6 +1301,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="savePeopleButton">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/resources/icons8_save_26px.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Save"/>
                   </Properties>
                   <Events>

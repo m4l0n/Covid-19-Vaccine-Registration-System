@@ -256,6 +256,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         );
 
         logOutButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        logOutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_Logout_26px.png"))); // NOI18N
         logOutButton.setText("Log Out");
         logOutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -380,6 +381,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         apIDSearchText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+        searchAPButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_search_26px_2.png"))); // NOI18N
         searchAPButton.setText("Search");
         searchAPButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -420,6 +422,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         });
 
         adAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        adAPButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_add_26px_1.png"))); // NOI18N
         adAPButton.setText("Add");
         adAPButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -436,6 +439,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         });
 
         saveAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        saveAPButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_save_26px.png"))); // NOI18N
         saveAPButton.setText("Save");
         saveAPButton.setEnabled(false);
         saveAPButton.addActionListener(new java.awt.event.ActionListener() {
@@ -445,6 +449,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         });
 
         deleteAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        deleteAPButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_Delete_26px.png"))); // NOI18N
         deleteAPButton.setText("Delete");
         deleteAPButton.setEnabled(false);
         deleteAPButton.addActionListener(new java.awt.event.ActionListener() {
@@ -475,7 +480,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                     .addComponent(apIDText, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel32)
                     .addComponent(peopleAPText, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -499,13 +504,12 @@ public class PersonnelGUI extends javax.swing.JFrame {
                     .addComponent(centreAPCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(vaccineAPCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel30))
-                .addGap(52, 52, 52)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(deleteAPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(adAPButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(clearAPButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(saveAPButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(46, 46, 46)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(saveAPButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteAPButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(clearAPButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(adAPButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(26, 26, 26))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -575,8 +579,8 @@ public class PersonnelGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(apIDSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchAPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(apIDSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchAPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
@@ -590,7 +594,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "AppointmentID", "Date", "Time", "Centre", "User ID", "Effective Period", "Vaccine Type", "Dose Number"
+                "AppointmentID", "Date", "Time", "Centre", "User ID", "Expiry Date", "Vaccine Type", "Dose Number"
             }
         ) {
             Class[] types = new Class [] {
@@ -724,6 +728,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         genderButtonGroup.add(femalePeopleButton);
         femalePeopleButton.setText("Female");
 
+        addPeopleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_registration_26px.png"))); // NOI18N
         addPeopleButton.setText("Add");
         addPeopleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -731,6 +736,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
             }
         });
 
+        deletePeopleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_Delete_26px.png"))); // NOI18N
         deletePeopleButton.setText("Delete");
         deletePeopleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -738,6 +744,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
             }
         });
 
+        savePeopleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_save_26px.png"))); // NOI18N
         savePeopleButton.setText("Save");
         savePeopleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -151,6 +151,7 @@ public class Login extends javax.swing.JFrame {
         passText.setToolTipText("Enter Password");
 
         loginButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        loginButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_login_26px_1.png"))); // NOI18N
         loginButton.setText("Login");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

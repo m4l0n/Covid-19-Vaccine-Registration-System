@@ -74,6 +74,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         mainPanels = new javax.swing.JPanel();
         homePanel = new javax.swing.JPanel();
+        jLabel52 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -96,6 +97,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         virusImage = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         appointmentPanel = new javax.swing.JPanel();
+        jLabel35 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
@@ -119,13 +121,12 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel34 = new javax.swing.JLabel();
         vaccineCombo = new javax.swing.JComboBox<>();
         regButton = new javax.swing.JButton();
-        jLabel35 = new javax.swing.JLabel();
         clearButton = new javax.swing.JButton();
         apDateChooser = new com.toedter.calendar.JDateChooser();
         statusPanel = new javax.swing.JPanel();
+        jLabel51 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel45 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -138,19 +139,21 @@ public class PeopleGUI extends javax.swing.JFrame {
         searchStatusButton = new javax.swing.JButton();
         jLabel48 = new javax.swing.JLabel();
         statusDateChooser = new com.toedter.calendar.JDateChooser();
+        jLabel22 = new javax.swing.JLabel();
         profilePanel = new javax.swing.JPanel();
         logOutButton = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         changePassPanel = new javax.swing.JPanel();
+        jLabel29 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         currentPassText = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         newPassText = new javax.swing.JTextField();
         cancelChangeButton = new javax.swing.JButton();
         confChangeButton = new javax.swing.JButton();
-        jLabel29 = new javax.swing.JLabel();
         changeProfilePanel = new javax.swing.JPanel();
+        jLabel30 = new javax.swing.JLabel();
         phoneNumText = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -166,7 +169,6 @@ public class PeopleGUI extends javax.swing.JFrame {
         stateComboBox = new javax.swing.JComboBox<>();
         femaleRadioButton = new javax.swing.JRadioButton();
         maleRadioButton = new javax.swing.JRadioButton();
-        jLabel30 = new javax.swing.JLabel();
         jLabel44 = new javax.swing.JLabel();
         userIDText = new javax.swing.JTextField();
 
@@ -318,6 +320,9 @@ public class PeopleGUI extends javax.swing.JFrame {
 
         homePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel52.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
+        homePanel.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 580, 410));
+
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel8.setText("Dashboard");
         homePanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 6, -1, -1));
@@ -355,7 +360,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -496,6 +501,10 @@ public class PeopleGUI extends javax.swing.JFrame {
 
         appointmentPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel35.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
+        appointmentPanel.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 580, 410));
+
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel9.setText("Appointment Booking");
         appointmentPanel.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 6, -1, -1));
@@ -513,6 +522,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jLabel16.setText("Your Upcoming Appointment");
 
+        cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_cancel_26px.png"))); // NOI18N
         cancelButton.setText("Cancel Appointment");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -553,6 +563,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                     .addComponent(ucDateText)
                     .addComponent(ucTimeText)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel37)
                         .addGap(186, 186, 186))
                     .addComponent(ucLocationText)
@@ -560,11 +571,11 @@ public class PeopleGUI extends javax.swing.JFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel38)
                             .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addGap(42, 42, 42)
-                                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel38))
+                                .addComponent(cancelButton)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -588,8 +599,8 @@ public class PeopleGUI extends javax.swing.JFrame {
                 .addComponent(jLabel38)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ucLocationDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -636,10 +647,6 @@ public class PeopleGUI extends javax.swing.JFrame {
         regButton.setText("Register");
         appointmentPanel.add(regButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(298, 285, 97, -1));
 
-        jLabel35.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
-        appointmentPanel.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 580, 410));
-
         clearButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         clearButton.setText("Clear");
         appointmentPanel.add(clearButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(298, 357, 97, -1));
@@ -652,6 +659,9 @@ public class PeopleGUI extends javax.swing.JFrame {
 
         statusPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel51.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
+        statusPanel.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 580, 410));
+
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel11.setText("Status");
         statusPanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 6, -1, -1));
@@ -659,9 +669,6 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel12.setText("View Details of Vaccination Centres and Vaccines");
         statusPanel.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 60, -1, -1));
-
-        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
-        statusPanel.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 580, 410));
 
         jLabel45.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel45.setText("Search via Vaccine Type");
@@ -696,10 +703,11 @@ public class PeopleGUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(statusTable);
 
-        jLabel47.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel47.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel47.setText("Vaccination Status on ");
 
         searchStatusButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        searchStatusButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_search_26px_2.png"))); // NOI18N
         searchStatusButton.setText("Search");
         searchStatusButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -718,7 +726,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(0, 74, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(74, 74, 74))
             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -739,9 +747,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                                 .addComponent(jLabel46))))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(238, 238, 238)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel47)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
@@ -751,9 +757,13 @@ public class PeopleGUI extends javax.swing.JFrame {
                         .addComponent(jLabel48)
                         .addGap(109, 109, 109))))
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(331, 331, 331)
-                .addComponent(searchStatusButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(229, 229, 229)
+                .addComponent(jLabel47)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(322, Short.MAX_VALUE)
+                .addComponent(searchStatusButton)
+                .addGap(321, 321, 321))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -774,21 +784,25 @@ public class PeopleGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(centreSearchCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(searchStatusButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchStatusButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel47)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
         );
 
         statusPanel.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 750, 470));
 
+        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
+        statusPanel.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 580, 410));
+
         mainPanels.add(statusPanel, "statusPane");
 
         logOutButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        logOutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_Logout_26px.png"))); // NOI18N
         logOutButton.setText("Log Out");
         logOutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -805,6 +819,9 @@ public class PeopleGUI extends javax.swing.JFrame {
         changePassPanel.setPreferredSize(new java.awt.Dimension(484, 402));
         changePassPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
+        changePassPanel.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 580, 410));
+
         jLabel27.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel27.setText("Current Password");
         changePassPanel.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, 117, 28));
@@ -820,6 +837,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         changePassPanel.add(newPassText, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 184, 35));
 
         cancelChangeButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cancelChangeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_cancel_26px.png"))); // NOI18N
         cancelChangeButton.setText("Cancel");
         cancelChangeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -829,6 +847,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         changePassPanel.add(cancelChangeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 300, 114, 37));
 
         confChangeButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        confChangeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_confirm_26px.png"))); // NOI18N
         confChangeButton.setText("Confirm");
         confChangeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -837,11 +856,11 @@ public class PeopleGUI extends javax.swing.JFrame {
         });
         changePassPanel.add(confChangeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 114, 37));
 
-        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
-        changePassPanel.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 580, 410));
-
         changeProfilePanel.setRequestFocusEnabled(false);
         changeProfilePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
+        changeProfilePanel.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 580, 410));
 
         phoneNumText.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         changeProfilePanel.add(phoneNumText, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, 162, -1));
@@ -877,6 +896,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         changeProfilePanel.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, 90, -1));
 
         saveProfileButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        saveProfileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_save_26px.png"))); // NOI18N
         saveProfileButton.setText("Save");
         saveProfileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -909,9 +929,6 @@ public class PeopleGUI extends javax.swing.JFrame {
         genderButtonGroup.add(maleRadioButton);
         maleRadioButton.setText("Male");
         changeProfilePanel.add(maleRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 290, -1, -1));
-
-        jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
-        changeProfilePanel.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 580, 410));
 
         jLabel44.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel44.setText("IC/Passport Number");
@@ -1268,31 +1285,31 @@ public class PeopleGUI extends javax.swing.JFrame {
     {
         People thisPeople = new People().getPeopleDetails(userID);
         jLabel2.setText("Welcome, " + thisPeople.getName());
-//        LocalDate currentDate = LocalDate.now();
-//        jLabel3.setText("You have " + Integer.toString(
-//                new Appointment().getFutureAppointments(userID, currentDate)
-//                        .size()) + " upcoming vaccination appointment");
-//        if (!thisPeople.getDose1().getAppointmentID().equals("none"))
-//        {
-//            jLabel39.setText("Date:\n" + thisPeople.getDose1().getDate());
-//            jLabel40.setText("Vaccine Name:\n" + thisPeople.getDose1().getVaccine().getVaccineName());
-//            jLabel42.setText("Location:\n" + thisPeople.getDose1().getCentre().getCentreName());
-//            
-//            if(!thisPeople.getDose2().getAppointmentID().equals("none"))
-//            {
-//                jLabel41.setText("Date:\n" + thisPeople.getDose2().getDate());
-//                jLabel43.setText("Vaccine Name:\n" + thisPeople.getDose2().getVaccine().getVaccineName());
-//                jLabel49.setText("Location:\n" + thisPeople.getDose2().getCentre().getCentreName());
-//            }
-//            else {
-//                jPanel6.setVisible(false);
-//            }
-//        }
-//        else {
-//            jPanel5.setVisible(false);
-//            jPanel6.setVisible(false);
-//            jLabel50.setText("Unvaccinated");
-//        }
+        LocalDate currentDate = LocalDate.now();
+        jLabel3.setText("You have " + Integer.toString(
+                new Appointment().getFutureAppointments(userID, currentDate)
+                        .size()) + " upcoming vaccination appointment");
+        if (!thisPeople.getDose1().getAppointmentID().equals("none"))
+        {
+            jLabel39.setText("Date:\n" + thisPeople.getDose1().getDate());
+            jLabel40.setText("Vaccine Name:\n" + thisPeople.getDose1().getVaccine().getVaccineName());
+            jLabel42.setText("Location:\n" + thisPeople.getDose1().getCentre().getCentreName());
+            
+            if(!thisPeople.getDose2().getAppointmentID().equals("none"))
+            {
+                jLabel41.setText("Date:\n" + thisPeople.getDose2().getDate());
+                jLabel43.setText("Vaccine Name:\n" + thisPeople.getDose2().getVaccine().getVaccineName());
+                jLabel49.setText("Location:\n" + thisPeople.getDose2().getCentre().getCentreName());
+            }
+            else {
+                jPanel6.setVisible(false);
+            }
+        }
+        else {
+            jPanel5.setVisible(false);
+            jPanel6.setVisible(false);
+            jLabel50.setText("Unvaccinated");
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1365,6 +1382,8 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

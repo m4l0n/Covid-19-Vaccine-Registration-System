@@ -381,6 +381,11 @@ public class PersonnelGUI extends javax.swing.JFrame {
         apIDSearchText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         searchAPButton.setText("Search");
+        searchAPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchAPButtonActionPerformed(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel17.setText("Vaccination Centre");
@@ -432,9 +437,16 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         saveAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         saveAPButton.setText("Save");
+        saveAPButton.setEnabled(false);
+        saveAPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAPButtonActionPerformed(evt);
+            }
+        });
 
         deleteAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         deleteAPButton.setText("Delete");
+        deleteAPButton.setEnabled(false);
         deleteAPButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteAPButtonActionPerformed(evt);
@@ -1082,6 +1094,22 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
     private void deleteAPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAPButtonActionPerformed
         // TODO add your handling code here:
+        boolean idFound = new Appointment().deleteAppointment(apIDText.getText());
+        if (idFound == true)
+            {
+                JOptionPane.showMessageDialog(null, "Appointment Deleted Successfully.");
+                updateAppointmentTable();
+                clearAppointment(jPanel1);
+                peopleAPText.setEnabled(true);
+                deleteAPButton.setEnabled(false);
+                adAPButton.setEnabled(true);
+                saveAPButton.setEnabled(false);
+            }
+        else
+            {
+                JOptionPane.showMessageDialog(null, "Appointment Not Found.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        
     }//GEN-LAST:event_deleteAPButtonActionPerformed
 
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
@@ -1109,6 +1137,11 @@ public class PersonnelGUI extends javax.swing.JFrame {
                 newAppointment.regAppointment(newAppointment);  
                 JOptionPane.showMessageDialog(null, "Appointment Added Successfully.");
                 updateAppointmentTable();
+                clearAppointment(jPanel1);
+                peopleAPText.setEnabled(true);
+                deleteAPButton.setEnabled(false);
+                adAPButton.setEnabled(true);
+                saveAPButton.setEnabled(false);
             } 
             else
             {
@@ -1135,6 +1168,9 @@ public class PersonnelGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         clearAppointment(jPanel1);
         peopleAPText.setEnabled(true);
+        deleteAPButton.setEnabled(false);
+        adAPButton.setEnabled(true);
+        saveAPButton.setEnabled(false);
     }//GEN-LAST:event_clearAPButtonActionPerformed
 
     private void appointmentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentTableMouseClicked
@@ -1143,7 +1179,49 @@ public class PersonnelGUI extends javax.swing.JFrame {
         String appointmentID = String.valueOf(appointmentTable.getValueAt(row, 0));
         displayAppointmentDetails(new Appointment().getAppointmentDetails(appointmentID));
         peopleAPText.setEnabled(false);
+        deleteAPButton.setEnabled(true);
+        adAPButton.setEnabled(false);
+        saveAPButton.setEnabled(true);
     }//GEN-LAST:event_appointmentTableMouseClicked
+
+    private void saveAPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAPButtonActionPerformed
+        // TODO add your handling code here:
+        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+        Appointment savedAppointment = new Appointment();
+        savedAppointment.setDate(dcn.format(dateAPChooser.getDate()));
+        savedAppointment.setExpDate(dcn.format(dateAPChooser.getDate()));
+        String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
+        savedAppointment.getDoseNum();
+        savedAppointment.setTime(LocalTime.parse(time));
+        savedAppointment.setPeople(new People().getPeopleDetails(peopleAPText.getText()));
+        savedAppointment.setCentre(new Centre().searchCentre((String) centreAPCombo.getSelectedItem()));
+        savedAppointment.setVaccine(new Vaccine().searchVaccine((String) vaccineAPCombo.getSelectedItem()));
+        savedAppointment.modifyAppointment(savedAppointment);
+        updateAppointmentTable();
+        clearAppointment(jPanel1);
+        peopleAPText.setEnabled(true);
+        deleteAPButton.setEnabled(false);
+        adAPButton.setEnabled(true);
+        saveAPButton.setEnabled(false);
+    }//GEN-LAST:event_saveAPButtonActionPerformed
+
+    private void searchAPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAPButtonActionPerformed
+        // TODO add your handling code here:
+        Appointment appointment = new Appointment().getAppointmentDetails(apIDSearchText.getText());
+        if (appointment != null)
+        {
+            displayAppointmentDetails(appointment);
+            peopleAPText.setEnabled(false);
+            deleteAPButton.setEnabled(true);
+            adAPButton.setEnabled(false);
+            saveAPButton.setEnabled(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Appointment ID" + 
+                    apIDSearchText.getText() + " not found!", "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_searchAPButtonActionPerformed
     
     static JComponent createVerticalSeparator() {
         JSeparator x = new JSeparator(SwingConstants.VERTICAL);

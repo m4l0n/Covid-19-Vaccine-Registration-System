@@ -8,10 +8,14 @@ package registration.system;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -20,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -42,6 +47,13 @@ public class PeopleGUI extends javax.swing.JFrame {
         this.userID = userID;
         initComponents();
         showProfileDetails();
+        updateDashboard();
+        
+        ImageIcon virusImage1 = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/resources/coronavirus2.png")));
+        Image virusImage2 = virusImage1.getImage();
+        Image virusImage3 = virusImage2.getScaledInstance(virusImage.getWidth(), virusImage.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon i3 = new ImageIcon(virusImage3);
+        virusImage.setIcon(i3);
     }
 
     /**
@@ -80,11 +92,14 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
-        jLabel41 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
-        jLabel43 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
+        jLabel50 = new javax.swing.JLabel();
+        virusImage = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         appointmentPanel = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -348,9 +363,11 @@ public class PeopleGUI extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel4.setText("Your Vaccination Status");
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 8, -1, -1));
 
         jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -363,16 +380,9 @@ public class PeopleGUI extends javax.swing.JFrame {
         jLabel40.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel40.setText("Vaccine Name:");
 
-        jLabel41.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel41.setText("Batch:");
-
         jLabel42.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel42.setText("Location:");
         jLabel42.setToolTipText("");
-
-        jLabel43.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel43.setText("Manufacturer:");
-        jLabel43.setToolTipText("");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -388,9 +398,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel40)
                             .addComponent(jLabel39)
-                            .addComponent(jLabel41)
-                            .addComponent(jLabel42)
-                            .addComponent(jLabel43))))
+                            .addComponent(jLabel42))))
                 .addContainerGap(102, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -398,31 +406,47 @@ public class PeopleGUI extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addGap(41, 41, 41)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel39)
-                .addGap(18, 18, 18)
+                .addGap(55, 55, 55)
                 .addComponent(jLabel40)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel41)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel43)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(jLabel42)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addGap(56, 56, 56))
         );
+
+        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, -1));
 
         jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel18.setText("Dose 2");
 
+        jLabel41.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel41.setText("Date:");
+
+        jLabel43.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel43.setText("Vaccine Name:");
+
+        jLabel49.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel49.setText("Location:");
+        jLabel49.setToolTipText("");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(103, 103, 103)
-                .addComponent(jLabel18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(103, 103, 103)
+                        .addComponent(jLabel18))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel43)
+                            .addComponent(jLabel41)
+                            .addComponent(jLabel49))))
                 .addContainerGap(102, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -430,36 +454,21 @@ public class PeopleGUI extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel18)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addComponent(jLabel41)
+                .addGap(55, 55, 55)
+                .addComponent(jLabel43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addComponent(jLabel49)
+                .addGap(56, 56, 56))
         );
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(91, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
+        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 40, -1, -1));
+
+        jLabel50.setFont(new java.awt.Font("Constantia", 1, 24)); // NOI18N
+        jLabel50.setText("jLabel50");
+        jPanel3.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 180, -1, -1));
+        jPanel3.add(virusImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 300, 300));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1044,25 +1053,31 @@ public class PeopleGUI extends javax.swing.JFrame {
 
     private void saveProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveProfileButtonActionPerformed
         // TODO add your handling code here:
-        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
-        People existingPpl = new People().getPeopleDetails(userID);
-//        People newPeople = new People();
-//        newPeople.setUsername(userIDText.getText());
-//        newPeople.setName(nameText.getText());
-//        newPeople.setPhoneNum(Integer.parseInt(phoneNumText.getText()));
-//        newPeople.setDate(dcn.format(dobDateChooser.getDate()));
-//        newPeople.setState(String.valueOf(stateComboBox.getSelectedItem()));
-//        newPeople.setCitizenship(citizenshipText.getText());
-//        newPeople.setGender(getSelectedButton());
-//        newPeople.modifyProfile(newPeople);
-        existingPpl.setUsername(userIDText.getText());
-        existingPpl.setName(nameText.getText());
-        existingPpl.setPhoneNum(Integer.parseInt(phoneNumText.getText()));
-        existingPpl.setDate(dcn.format(dobDateChooser.getDate()));
-        existingPpl.setState(String.valueOf(stateComboBox.getSelectedItem()));
-        existingPpl.setCitizenship(citizenshipText.getText());
-        existingPpl.setGender(getSelectedButton());
-        existingPpl.modifyProfile(existingPpl);
+        try {
+            SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+            People existingPpl = new People().getPeopleDetails(userID);
+    //        People newPeople = new People();
+    //        newPeople.setUsername(userIDText.getText());
+    //        newPeople.setName(nameText.getText());
+    //        newPeople.setPhoneNum(Integer.parseInt(phoneNumText.getText()));
+    //        newPeople.setDate(dcn.format(dobDateChooser.getDate()));
+    //        newPeople.setState(String.valueOf(stateComboBox.getSelectedItem()));
+    //        newPeople.setCitizenship(citizenshipText.getText());
+    //        newPeople.setGender(getSelectedButton());
+    //        newPeople.modifyProfile(newPeople);
+            existingPpl.setUsername(userIDText.getText());
+            existingPpl.setName(nameText.getText());
+            if (new Login().isValidPhoneNum(phoneNumText.getText()))
+                existingPpl.setPhoneNum(phoneNumText.getText());
+            else { throw new PhoneNumberFormatException("Phone Number Format Invalid!"); }
+            existingPpl.setDate(dcn.format(dobDateChooser.getDate()));
+            existingPpl.setState(String.valueOf(stateComboBox.getSelectedItem()));
+            existingPpl.setCitizenship(citizenshipText.getText());
+            existingPpl.setGender(getSelectedButton());
+            existingPpl.modifyProfile(existingPpl);
+        } catch (PhoneNumberFormatException e){
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+        } 
     }//GEN-LAST:event_saveProfileButtonActionPerformed
 
     private void confChangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confChangeButtonActionPerformed
@@ -1206,7 +1221,7 @@ public class PeopleGUI extends javax.swing.JFrame {
             
             userIDText.setText(userID);
             nameText.setText(ppl.getName());
-            phoneNumText.setText(Integer.toString(ppl.getPhoneNum()));
+            phoneNumText.setText(ppl.getPhoneNum());
             dobDateChooser.setDate(dob);
             stateComboBox.setSelectedItem(ppl.getState());
             citizenshipText.setText(ppl.getCitizenship());
@@ -1253,6 +1268,37 @@ public class PeopleGUI extends javax.swing.JFrame {
             return remainingVac;
         }
         else { return 500; }
+    }
+    
+    private void updateDashboard()
+    {
+        People thisPeople = new People().getPeopleDetails(userID);
+        jLabel2.setText("Welcome, " + thisPeople.getName());
+        LocalDate currentDate = LocalDate.now();
+        jLabel3.setText("You have " + Integer.toString(
+                new Appointment().getFutureAppointments(userID, currentDate)
+                        .size()) + " upcoming vaccination appointment");
+        if (!thisPeople.getDose1().getAppointmentID().equals("none"))
+        {
+            jLabel39.setText("Date:\n" + thisPeople.getDose1().getDate());
+            jLabel40.setText("Vaccine Name:\n" + thisPeople.getDose1().getVaccine().getVaccineName());
+            jLabel42.setText("Location:\n" + thisPeople.getDose1().getCentre().getCentreName());
+            
+            if(!thisPeople.getDose2().getAppointmentID().equals("none"))
+            {
+                jLabel41.setText("Date:\n" + thisPeople.getDose2().getDate());
+                jLabel43.setText("Vaccine Name:\n" + thisPeople.getDose2().getVaccine().getVaccineName());
+                jLabel49.setText("Location:\n" + thisPeople.getDose2().getCentre().getCentreName());
+            }
+            else {
+                jPanel6.setVisible(false);
+            }
+        }
+        else {
+            jPanel5.setVisible(false);
+            jPanel6.setVisible(false);
+            jLabel50.setText("Unvaccinated");
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1322,7 +1368,9 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1363,5 +1411,6 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JTextField userIDText;
     private javax.swing.JComboBox<String> vaccineCombo;
     private javax.swing.JComboBox<String> vaccineSearchCombo;
+    private javax.swing.JLabel virusImage;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,14 +5,22 @@
  */
 package registration.system;
 
+import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -150,5 +158,110 @@ public class Centre implements Serializable{
             } catch (IOException ex) { ex.printStackTrace(); }
         }
         return centreList; 
+    }
+    
+    public int getRemainingVaccine(String vacName, String centreName, String apDate)
+    {
+        int count=0;
+        ArrayList<Appointment> apList = new Appointment().getAppointments(vacName, centreName);
+        if (!apList.isEmpty())
+        {
+            for (Appointment eachAP:apList)
+            {
+                if (eachAP.getDate().equals(apDate))
+                {
+                    count++;
+                }
+            }
+            int vacQuantity = 0;
+            for (Vaccine eachVac:new Centre().searchCentre(centreName).getVaccine())
+            {
+                if (eachVac.getVaccineName().equals(vacName))
+                {
+                    vacQuantity = eachVac.getVaccineQuantity();
+                    int remainingVac = vacQuantity - count + getAdditionalVaccineQuantity(vacName, apDate, centreName);
+                    return remainingVac;
+                }
+            }
+        }
+        return getAdditionalVaccineQuantity(vacName, apDate, centreName);
+    }
+    
+    public void setAdditionalVaccineQuantity(String vacName, String date, String centreName, int quantity)
+    {
+        try (PrintWriter out = new PrintWriter("additionalVaccine.txt")) {
+            out.println(vacName + "," + date + "," + centreName + "," + quantity);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Centre.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public int getAdditionalVaccineQuantity(String vacName, String date, String centreName)
+    {
+        try
+        {
+            BufferedReader in = new BufferedReader(new FileReader("additionalVaccine.txt"));
+            Scanner read = new Scanner(in);
+            read.useDelimiter(",");
+            String tempVac, tempDate, tempCentre;
+            int additionalSupply;
+            while(read.hasNext())
+            {
+                tempCentre = read.next();
+                tempDate = read.next();
+                tempVac = read.next();
+                additionalSupply = Integer.parseInt(read.next());
+                if (tempVac.equals(vacName) && tempDate.equals(date) && tempCentre.equals(centreName))
+                {
+                    return (additionalSupply);
+                    
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            return 0;
+        } 
+        return 0;
+    }
+    
+    public void modifyCentre(Centre newCentre)
+    {
+        ArrayList<Centre> tempCentre = new ArrayList<Centre>();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataCentre));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (!((Centre)obj).getCentreID().equals(newCentre.getCentreID()))
+                {
+                    tempCentre.add((Centre)obj);
+                }
+                else
+                {
+                    tempCentre.add(newCentre);
+                }
+            }
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        
+         ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(dataCentre));
+            for(Centre eachCentre:tempCentre)
+            {
+                oos.writeObject(eachCentre);
+            }
+            tempCentre.clear();
+            oos.flush();
+            oos.close();
+        } catch (Exception e) { e.printStackTrace(); }
     }
 }

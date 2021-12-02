@@ -6,20 +6,12 @@
 package registration.system;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
-import com.toedter.calendar.JDateChooser;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -27,11 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
@@ -1120,15 +1108,6 @@ public class PeopleGUI extends javax.swing.JFrame {
         try {
             SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
             People existingPpl = new People().getPeopleDetails(userID);
-    //        People newPeople = new People();
-    //        newPeople.setUsername(userIDText.getText());
-    //        newPeople.setName(nameText.getText());
-    //        newPeople.setPhoneNum(Integer.parseInt(phoneNumText.getText()));
-    //        newPeople.setDate(dcn.format(dobDateChooser.getDate()));
-    //        newPeople.setState(String.valueOf(stateComboBox.getSelectedItem()));
-    //        newPeople.setCitizenship(citizenshipText.getText());
-    //        newPeople.setGender(getSelectedButton());
-    //        newPeople.modifyProfile(newPeople);
             existingPpl.setUsername(userIDText.getText());
             existingPpl.setName(nameText.getText());
             if (new Login().isValidPhoneNum(phoneNumText.getText()))
@@ -1192,7 +1171,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                             centreDetails.getCentreLocation(), 
                             String.valueOf(vaccineSearchCombo
                                 .getSelectedItem()), 
-                            Integer.toString(getRemainingVaccine(
+                            Integer.toString(new Centre().getRemainingVaccine(
                                     vaccine.getVaccineName(), 
                                     centreDetails.getCentreName(),dateSelected)) };
                         table.addRow(row);
@@ -1213,7 +1192,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                         String[] row = {eachCentreName, 
                             allCentre.get(allCentre), 
                             String.valueOf(vaccineSearchCombo.getSelectedItem()), 
-                            Integer.toString(getRemainingVaccine(
+                            Integer.toString(new Centre().getRemainingVaccine(
                                     (String) vaccineSearchCombo.getSelectedItem(), 
                                     eachCentreName, dateSelected))};
                         table.addRow(row);
@@ -1229,7 +1208,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                     String[] row = {centreDetails.getCentreName(), 
                         centreDetails.getCentreLocation(), 
                         vaccine.getVaccineName(), 
-                        Integer.toString(getRemainingVaccine(
+                        Integer.toString(new Centre().getRemainingVaccine(
                                 vaccine.getVaccineName(), 
                                 centreDetails.getCentreName(), dateSelected))};
                     table.addRow(row);
@@ -1349,33 +1328,6 @@ public class PeopleGUI extends javax.swing.JFrame {
         }
         return null;
     }   
-    
-    private int getRemainingVaccine(String vacName, String centreName, String apDate)
-    {
-        int count=0;
-        ArrayList<Appointment> apList = new Appointment().getAppointments(vacName, centreName);
-        if (!apList.isEmpty())
-        {
-            for (Appointment eachAP:apList)
-            {
-                if (eachAP.getDate().equals(apDate))
-                {
-                    count++;
-                }
-            }
-            int vacQuantity = 0;
-            for (Vaccine eachVac:new Centre().searchCentre(centreName).getVaccine())
-            {
-                if (eachVac.getVaccineName().equals(vacName))
-                {
-                    vacQuantity = eachVac.getVaccineQuantity();
-                }
-            }
-            int remainingVac = vacQuantity - count;
-            return remainingVac;
-        }
-        else { return 500; }
-    }
     
     private void updateDashboard()
     {

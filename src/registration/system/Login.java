@@ -92,6 +92,7 @@ public class Login extends javax.swing.JFrame {
         
         loginErrorLabel.setText("");
         
+        //Generate default data
         new Personnel().firstUsers();
         new Personnel().firstVaccineCentres();
     }
@@ -362,14 +363,19 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
         try {
+            //Check if the IC / Passport number is valid
             if(isValidUserID(idRegText.getText()))
             {
+                //Check if the password format is valid
                 if (isValidPassword(passRegText.getText()))
                 {
+                    //Initialise an empty appointment for both dose1 and dose2
+                    //attribute for People
                     Appointment emptyAppointment = new Appointment();
                     emptyAppointment.setAppointmentID("none");
                     People newPeople = new People();
                     newPeople.setName(nameText.getText());
+                    //Checks if the phone number format is valid
                     if (isValidPhoneNum(phoneNumText.getText())){
                         newPeople.setPhoneNum(phoneNumText.getText());
                     } else { throw new PhoneNumberFormatException("Phone Number Format Invalid!");}
@@ -408,12 +414,14 @@ public class Login extends javax.swing.JFrame {
                 String.valueOf(passText.getPassword()));
         if (result.equals("ADMIN"))
         {
+            //Opens PersonnelGUI and dispose current form
             PersonnelGUI psn = new PersonnelGUI();
             psn.setVisible(true);
             this.dispose();
         }
         else if (isValidUserID(result))
         {
+            //Opens PeopleGUI and dispose current form
             PeopleGUI ppl = new PeopleGUI(result);
             ppl.setVisible(true);
             this.dispose();
@@ -452,6 +460,7 @@ public class Login extends javax.swing.JFrame {
     
     private String verifyLogin(String userUsername, String userPass)
     {
+        //Checks if the password format is valid before validating the credential
         if (isValidPassword(userPass)){
             ObjectInputStream ois = null;
             try {
@@ -481,6 +490,7 @@ public class Login extends javax.swing.JFrame {
         return "Invalid";
     }
     
+    //Checks the validity of password according to a set of rules
     public static boolean isValidPassword(String password)
     {
         if (password.length() < 8)
@@ -525,17 +535,20 @@ public class Login extends javax.swing.JFrame {
     
     public static boolean isValidUserID(String userID)
     {
+        //Regular Expression for a valid Malaysian NRIC
         return Pattern.compile("(([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))-([0-9]{2})-([0-9]{4})")
                 .matcher(userID).matches();
     }
     
     public static boolean isValidPhoneNum(String phoneNum)
     {
+        //Regular Expression for a valid Malaysian phone number
         return Pattern.compile("\\+?6?(?:01[0-46-9]\\d{7,8}|0\\d{8})").matcher(phoneNum).matches();
     }
     
     private String getSelectedButton()
     {  
+        //Loop through the Button Group to get the value of the selected button
         for (Enumeration<AbstractButton> buttons = genderButtonGroup.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
             if (button.isSelected()) {

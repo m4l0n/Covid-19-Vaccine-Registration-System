@@ -187,7 +187,7 @@ public class Centre implements Serializable{
                 }
             }
         }
-        return getAdditionalVaccineQuantity(vacName, apDate, centreName);
+        return 500 + getAdditionalVaccineQuantity(vacName, apDate, centreName);
     }
     
     public void setAdditionalVaccineQuantity(String vacName, String date, String centreName, int quantity)

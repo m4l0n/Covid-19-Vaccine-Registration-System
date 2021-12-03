@@ -107,7 +107,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         ucLocationText = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
         ucVaccineText = new javax.swing.JTextField();
-        cancelButton1 = new javax.swing.JButton();
+        modifyButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jLabel32 = new javax.swing.JLabel();
         apHourSlider = new javax.swing.JSpinner();
@@ -543,12 +543,12 @@ public class PeopleGUI extends javax.swing.JFrame {
         ucVaccineText.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         ucVaccineText.setEnabled(false);
 
-        cancelButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_edit_property_26px.png"))); // NOI18N
-        cancelButton1.setText("Modify");
-        cancelButton1.setToolTipText("");
-        cancelButton1.addActionListener(new java.awt.event.ActionListener() {
+        modifyButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_edit_property_26px.png"))); // NOI18N
+        modifyButton.setText("Modify");
+        modifyButton.setToolTipText("");
+        modifyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButton1ActionPerformed(evt);
+                modifyButtonActionPerformed(evt);
             }
         });
 
@@ -594,7 +594,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                                 .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cancelButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(modifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(15, 15, 15))))))
         );
         jPanel7Layout.setVerticalGroup(
@@ -619,7 +619,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                 .addComponent(ucVaccineText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19))
         );
@@ -1150,13 +1150,14 @@ public class PeopleGUI extends javax.swing.JFrame {
             table.setRowCount(0);
             int count=0;
             Centre centreDetails = new Centre();
+            //If Centre Name is selected
             if (!centreSearchCombo.getSelectedItem().equals("None"))
             {
                 centreDetails = centreDetails
                         .searchCentre(String.valueOf(centreSearchCombo
                                 .getSelectedItem()));
             }
-
+            //If both Vaccine Name and Centre Name are selected from Combo Box
             if (!vaccineSearchCombo.getSelectedItem().equals("None") && 
                     !centreSearchCombo.getSelectedItem().equals("None"))
             {
@@ -1178,6 +1179,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                     }
                 }
             }
+            // If only Vaccine Name is selected
             else if (!vaccineSearchCombo.getSelectedItem().equals("None") && 
                     centreSearchCombo.getSelectedItem().equals("None"))
             {
@@ -1190,7 +1192,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                     {
                         count++;
                         String[] row = {eachCentreName, 
-                            allCentre.get(allCentre), 
+                            allCentre.get(eachCentreName), 
                             String.valueOf(vaccineSearchCombo.getSelectedItem()), 
                             Integer.toString(new Centre().getRemainingVaccine(
                                     (String) vaccineSearchCombo.getSelectedItem(), 
@@ -1199,6 +1201,7 @@ public class PeopleGUI extends javax.swing.JFrame {
                     }
                 }
             }
+            //If only Centre Name is selected
             else if (vaccineSearchCombo.getSelectedItem().equals("None") && 
                     !centreSearchCombo.getSelectedItem().equals("None"))
             {
@@ -1229,6 +1232,7 @@ public class PeopleGUI extends javax.swing.JFrame {
 
     private void centreComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_centreComboActionPerformed
         // TODO add your handling code here:
+        // Change vaccineCombo items according to the Centre chosen
         final DefaultComboBoxModel vaccineModel = new DefaultComboBoxModel(
                 (new Centre().getCentreVaccines((String) centreCombo
                         .getSelectedItem()).toArray()));
@@ -1252,31 +1256,31 @@ public class PeopleGUI extends javax.swing.JFrame {
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
         // TODO add your handling code here:
-            ((JTextField)apDateChooser.getDateEditor().getUiComponent()).setText("Appointment Date");
-            centreCombo.setEditable(true);
-            centreCombo.setSelectedItem("Select a Centre");
-            vaccineCombo.setEditable(true);
-            vaccineCombo.setSelectedItem("Please Select a Centre First");
-            apHourSlider.setValue(((SpinnerNumberModel) apHourSlider.getModel()).getMinimum());
-            apMinuteSlider.setValue(((SpinnerNumberModel) apMinuteSlider.getModel()).getMinimum());
+        ((JTextField)apDateChooser.getDateEditor().getUiComponent()).setText("Appointment Date");
+        centreCombo.setEditable(true);
+        centreCombo.setSelectedItem("Select a Centre");
+        vaccineCombo.setEditable(true);
+        vaccineCombo.setSelectedItem("Please Select a Centre First");
+        apHourSlider.setValue(((SpinnerNumberModel) apHourSlider.getModel()).getMinimum());
+        apMinuteSlider.setValue(((SpinnerNumberModel) apMinuteSlider.getModel()).getMinimum());
     }//GEN-LAST:event_clearButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
         boolean idFound = new Appointment().deleteAppointment(userID);
         if (idFound == true)
-            {
-                JOptionPane.showMessageDialog(null, "Appointment Cancel Successfully.");
-            }
+        {
+            JOptionPane.showMessageDialog(null, "Appointment Cancelled Successfully.");
+        }
         else
-            {
-                JOptionPane.showMessageDialog(null, "Appointment Not Found.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        {
+            JOptionPane.showMessageDialog(null, "Appointment Not Found.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void cancelButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButton1ActionPerformed
+    private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cancelButton1ActionPerformed
+    }//GEN-LAST:event_modifyButtonActionPerformed
     
     /**
      * @param args the command line arguments
@@ -1298,6 +1302,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         });
     }
     
+    //Show profile details in text fields
     private void showProfileDetails()
     {
         try {
@@ -1318,8 +1323,10 @@ public class PeopleGUI extends javax.swing.JFrame {
         }
     }
     
+    //Get the value of selected Radio Button from a Button Group
     private String getSelectedButton()
     {  
+        //Loops through each button in the button group
         for (Enumeration<AbstractButton> buttons = genderButtonGroup.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
             if (button.isSelected()) {
@@ -1329,6 +1336,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         return null;
     }   
     
+    //Show the Home Page
     private void updateDashboard()
     {
         People thisPeople = new People().getPeopleDetails(userID);
@@ -1368,7 +1376,6 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JPanel appointmentPanel;
     private javax.swing.JPanel appointmentPanelButton;
     private javax.swing.JButton cancelButton;
-    private javax.swing.JButton cancelButton1;
     private javax.swing.JButton cancelChangeButton;
     private javax.swing.JComboBox<String> centreCombo;
     private javax.swing.JComboBox<String> centreSearchCombo;
@@ -1450,6 +1457,7 @@ public class PeopleGUI extends javax.swing.JFrame {
     private javax.swing.JButton logOutButton;
     private javax.swing.JPanel mainPanels;
     private javax.swing.JRadioButton maleRadioButton;
+    private javax.swing.JButton modifyButton;
     private javax.swing.JTextField nameText;
     private javax.swing.JTextField newPassText;
     private javax.swing.JTextField phoneNumText;

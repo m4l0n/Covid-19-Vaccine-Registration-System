@@ -104,7 +104,6 @@ public class People extends User implements Serializable{
             oos = new ObjectOutputStream(new FileOutputStream(new User().getDataUser()));   
             for(People existingPeople:tempPeople){
                 oos.writeObject(existingPeople);
-                System.out.println(existingPeople.getUsername());
             }
             oos.writeObject(personnel);
             newPeople = null;

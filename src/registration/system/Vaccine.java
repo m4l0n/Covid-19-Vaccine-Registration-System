@@ -78,7 +78,7 @@ public class Vaccine implements Serializable{
             ois = new ObjectInputStream(new FileInputStream(dataVaccine));
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
-                if (!((Vaccine)obj).getVaccineName().equals(vaccineName))
+                if (((Vaccine)obj).getVaccineName().equals(vaccineName))
                 {
                     return ((Vaccine)obj);
                 }

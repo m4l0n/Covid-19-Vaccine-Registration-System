@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
@@ -1675,6 +1677,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
         Appointment savedAppointment = new Appointment();
+        savedAppointment.setAppointmentID(apIDText.getText());
         savedAppointment.setDate(dcn.format(dateAPChooser.getDate()));
         savedAppointment.setExpDate(dcn.format(dateAPChooser.getDate()));
         String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();

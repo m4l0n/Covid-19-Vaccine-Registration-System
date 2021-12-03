@@ -385,4 +385,32 @@ public class Appointment implements Serializable{
         } catch (Exception e) { e.printStackTrace(); }
         finally { return idFound; }
     }
+    
+    public int getAppointmentCount(LocalDate currentDate){
+        ObjectInputStream ois = null;
+        int count = 0;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataAppointment));
+            Object obj = null;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            while ((obj = ois.readObject()) != null) {
+                if(LocalDate.parse(((Appointment)obj).getDate(), formatter)
+                                .compareTo(currentDate) > 0) {
+                    count++;
+                }
+            }
+            return count;
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+             return count;
+        }
+    }
 }

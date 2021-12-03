@@ -5,7 +5,13 @@
  */
 package registration.system;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
+import static registration.system.Login.isValidPassword;
 
 /**
  *
@@ -128,5 +134,66 @@ public class User implements Serializable{
     public String getDataUser()
     {
         return dataUser;
+    }
+    
+    public String verifyLogin(String userUsername, String userPass)
+    {
+        //Checks if the password format is valid before validating the credential
+        if (isValidPassword(userPass)){
+            ObjectInputStream ois = null;
+            try {
+                ois = new ObjectInputStream(new FileInputStream(dataUser));
+                Object obj = null;
+                while ((obj = ois.readObject()) != null)
+                {
+                    if (((User) obj).getUsername().equals(userUsername) && 
+                            ((User) obj).getPassword().equals(userPass))
+                    {
+                        return ((User) obj).getUsername();
+                    }
+                }
+            }
+            catch (EOFException ex) {System.out.println("client closed");}
+            catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+            catch (FileNotFoundException ex) { ex.printStackTrace(); }
+            catch (IOException ex) { ex.printStackTrace(); }
+            finally {
+                try {
+                    if (ois != null) {
+                        ois.close();
+                    }
+                } catch (IOException ex) { ex.printStackTrace(); }
+            }
+        }
+        return "Invalid";
+    }
+    
+    public int getUserCount()
+    {
+        ObjectInputStream ois = null;
+        int count = 0;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(dataUser));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null)
+            {
+                if (!((User) obj).getUsername().equals("ADMIN"))
+                {
+                    count++;
+                }
+            }
+        }
+        catch (EOFException ex) {System.out.println("client closed");}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+            return count;
+        }
     }
 }

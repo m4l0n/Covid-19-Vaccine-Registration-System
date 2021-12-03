@@ -31,6 +31,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -1893,26 +1894,32 @@ public class PersonnelGUI extends javax.swing.JFrame {
         }
     }
     
-    private void clearAppointment(javax.swing.JPanel panel)
+    //Clear the components and reset them to default state
+    private void clearAppointment(JPanel panel)
     {
+        //Loops through each Components in the Panel
         for(Component control : panel.getComponents())
         {
+            //If Component is a Text Field
             if(control instanceof JTextField)
             {
                 JTextField ctrl = (JTextField) control;
                 ctrl.setText("");
             }
+            //If Component is a Combo Box
             else if (control instanceof JComboBox)
             {
                 JComboBox ctr = (JComboBox) control;
                 ctr.setEditable(true);
                 ctr.setSelectedItem("Select an Option");
             }          
+            //If Component is a Date Chooser
             else if (control instanceof JDateChooser)
             {
                 JDateChooser dc = (JDateChooser) control;
                 ((JTextField)dc.getDateEditor().getUiComponent()).setText("Appointment Date");
             }
+            //If Component is a Spinner
             else if (control instanceof JSpinner)
             {
                 JSpinner spinner = (JSpinner) control;
@@ -1921,6 +1928,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         }
     }
     
+    //Display Appointment details in text fields and related components
     private void displayAppointmentDetails(Appointment appointment)
     {
         try {
@@ -1937,7 +1945,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
             apMinuteSlider.setValue(minute);
         } 
         catch (ParseException ex) {
-            Logger.getLogger(PersonnelGUI.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
     
@@ -1988,11 +1996,13 @@ public class PersonnelGUI extends javax.swing.JFrame {
             table.setRowCount(0);
             int count=0;
             Centre centreDetails = new Centre();
+            //If any Centre from the Combo Box is selected
             if (!centreName .equals("None"))
             {
                 centreDetails = centreDetails.searchCentre(centreName);
             }
-
+            
+            //If both combo box are selected
             if (!vaccineName.equals("None") && !centreName.equals("None"))
             {
                 for (Vaccine vaccine:centreDetails.getVaccine())
@@ -2010,6 +2020,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                     }
                 }
             }
+            //If only Vaccine Name is selected
             else if (!vaccineName.equals("None") && centreName.equals("None"))
             {
                 HashMap<String, String> allCentre = new Centre().getAllCentre();
@@ -2020,7 +2031,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                     {
                     count++;
                     String[] row = {eachCentreName,
-                            allCentre.get(allCentre),
+                            allCentre.get(eachCentreName),
                             vaccineName,
                             Integer.toString(new Centre().getRemainingVaccine(
                                     vaccineName,
@@ -2029,6 +2040,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                     }
                 }   
             }
+            //If only Centre Name is selected
             else if (vaccineName.equals("None") && !centreName.equals("None"))
             {
                     for (Vaccine vaccine:centreDetails.getVaccine())

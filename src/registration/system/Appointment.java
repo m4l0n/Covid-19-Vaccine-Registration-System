@@ -126,6 +126,7 @@ public class Appointment implements Serializable{
 
     public void setDoseNum(boolean result)
     {
+        //If there has been previous appointments, meaning dose number is 2, else 1
         if (result = false)
         {
             doseNum = 1; 
@@ -341,7 +342,7 @@ public class Appointment implements Serializable{
             tempAppointment.clear();
             oos.flush();
             oos.close();
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (IOException e) { e.printStackTrace(); }
     }
     
     public boolean deleteAppointment(String appointmentID)

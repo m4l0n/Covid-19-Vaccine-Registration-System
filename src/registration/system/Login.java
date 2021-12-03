@@ -410,7 +410,7 @@ public class Login extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        String result = verifyLogin(idText.getText(), 
+        String result = new User().verifyLogin(idText.getText(), 
                 String.valueOf(passText.getPassword()));
         if (result.equals("ADMIN"))
         {
@@ -456,38 +456,6 @@ public class Login extends javax.swing.JFrame {
                 new Login().setVisible(true);
             }
         });
-    }
-    
-    private String verifyLogin(String userUsername, String userPass)
-    {
-        //Checks if the password format is valid before validating the credential
-        if (isValidPassword(userPass)){
-            ObjectInputStream ois = null;
-            try {
-                ois = new ObjectInputStream(new FileInputStream(dataUser));
-                Object obj = null;
-                while ((obj = ois.readObject()) != null)
-                {
-                    if (((User) obj).getUsername().equals(userUsername) && 
-                            ((User) obj).getPassword().equals(userPass))
-                    {
-                        return ((User) obj).getUsername();
-                    }
-                }
-            }
-            catch (EOFException ex) {System.out.println("client closed");}
-            catch (ClassNotFoundException ex) { ex.printStackTrace(); }
-            catch (FileNotFoundException ex) { ex.printStackTrace(); }
-            catch (IOException ex) { ex.printStackTrace(); }
-            finally {
-                try {
-                    if (ois != null) {
-                        ois.close();
-                    }
-                } catch (IOException ex) { ex.printStackTrace(); }
-            }
-        }
-        return "Invalid";
     }
     
     //Checks the validity of password according to a set of rules

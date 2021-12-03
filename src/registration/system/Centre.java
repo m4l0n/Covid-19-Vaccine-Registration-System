@@ -6,16 +6,19 @@
 package registration.system;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -189,13 +192,16 @@ public class Centre implements Serializable{
     
     public void setAdditionalVaccineQuantity(String vacName, String date, String centreName, int quantity)
     {
-        try (PrintWriter out = new PrintWriter("additionalVaccine.txt")) {
-            out.println(vacName + "," + date + "," + centreName + "," + quantity);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Centre.class.getName()).log(Level.SEVERE, null, ex);
+        try(FileWriter fw = new FileWriter("additionalVaccine.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw)) 
+        {
+            out.println(vacName + "," + date + "," + centreName + "," + Integer.toString(quantity));
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
-    
+        
     public int getAdditionalVaccineQuantity(String vacName, String date, String centreName)
     {
         try
@@ -204,23 +210,22 @@ public class Centre implements Serializable{
             Scanner read = new Scanner(in);
             read.useDelimiter(",");
             String tempVac, tempDate, tempCentre;
-            int additionalSupply;
+            int totalAdditionalSupply = 0;
             while(read.hasNext())
             {
+                tempVac = read.next();
                 tempCentre = read.next();
                 tempDate = read.next();
-                tempVac = read.next();
-                additionalSupply = Integer.parseInt(read.next());
+                int additionalSupply = Integer.valueOf(read.nextLine().replace(",",""));
                 if (tempVac.equals(vacName) && tempDate.equals(date) && tempCentre.equals(centreName))
                 {
-                    return (additionalSupply);
-                    
+                    totalAdditionalSupply += additionalSupply;  
                 }
             }
+            return totalAdditionalSupply;
         } catch (FileNotFoundException ex) {
             return 0;
-        } 
-        return 0;
+        }
     }
     
     public void modifyCentre(Centre newCentre)

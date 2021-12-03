@@ -155,7 +155,6 @@ public class PersonnelGUI extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         centreSearchCombo = new javax.swing.JComboBox<>();
-        statusDateChooser = new com.toedter.calendar.JDateChooser();
         vaccineSearchCombo = new javax.swing.JComboBox<>();
         searchStatusButton = new javax.swing.JButton();
         jLabel46 = new javax.swing.JLabel();
@@ -177,12 +176,12 @@ public class PersonnelGUI extends javax.swing.JFrame {
         vaccineModifyCombo = new javax.swing.JComboBox<>();
         jLabel41 = new javax.swing.JLabel();
         vaccineQuantityText = new javax.swing.JTextField();
-        dateVaccineChooser = new com.toedter.calendar.JDateChooser();
         jLabel42 = new javax.swing.JLabel();
         saveModifyButton = new javax.swing.JButton();
         returnModifyButton = new javax.swing.JButton();
         jLabel43 = new javax.swing.JLabel();
         addSupplySpinner = new javax.swing.JSpinner();
+        dateVaccineChooser = new com.toedter.calendar.JDateChooser();
         jPanel8 = new javax.swing.JPanel();
         jLabel33 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
@@ -192,6 +191,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         saveVaccineButton = new javax.swing.JButton();
         returnButton = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JSeparator();
+        statusDateChooser = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Personnel Dashboard");
@@ -955,11 +955,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         centreSearchCombo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         centreSearchCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "World Trade Centre KL", "Wisma Belia", "Stadium Tun Abdul Razak", "Pusat Sains dan Kreativiti", "Kuala Lumpur Convention Centre", "Ideal Convention Centre", "Borneo Convention Centre Kuching", "Axiata Arena Bukit Jalil" }));
-        vaccinePanel.add(centreSearchCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 230, -1));
-
-        statusDateChooser.setDateFormatString("dd-MM-yyyy");
-        statusDateChooser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        vaccinePanel.add(statusDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 140, 170, 30));
+        vaccinePanel.add(centreSearchCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 230, 30));
 
         vaccineSearchCombo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         vaccineSearchCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Pfizer-BioNtech", "AstraZeneca", "Janssen/Ad26.COV 2.S", "Sputnik V", "Sinovac-CoronaVac", "Cansino Biologics" }));
@@ -1113,9 +1109,6 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         vaccineQuantityText.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        dateVaccineChooser.setDateFormatString("dd-MM-yyyy\n");
-        dateVaccineChooser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-
         jLabel42.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel42.setText("Date");
 
@@ -1143,6 +1136,9 @@ public class PersonnelGUI extends javax.swing.JFrame {
         addSupplySpinner.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         addSupplySpinner.setModel(new javax.swing.SpinnerNumberModel());
 
+        dateVaccineChooser.setDateFormatString("dd-MM-yyyy");
+        dateVaccineChooser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -1155,16 +1151,20 @@ public class PersonnelGUI extends javax.swing.JFrame {
                     .addComponent(jLabel39)
                     .addComponent(vaccineModifyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(68, 68, 68)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel42)
-                    .addComponent(vaccineQuantityText)
-                    .addComponent(dateVaccineChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel41))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel43)
-                    .addComponent(addSupplySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(88, 88, 88))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel42)
+                            .addComponent(vaccineQuantityText, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel41))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel43)
+                            .addComponent(addSupplySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(88, 88, 88))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(dateVaccineChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
@@ -1189,8 +1189,10 @@ public class PersonnelGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(vaccineModifyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(vaccineModifyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateVaccineChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(51, 51, 51)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel40)
                             .addComponent(jLabel41))
@@ -1204,8 +1206,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                             .addComponent(saveModifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(33, 33, 33))
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(dateVaccineChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9)
+                        .addGap(37, 37, 37)
                         .addComponent(jLabel43)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(addSupplySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1295,6 +1296,10 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         vaccinePanel.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 780, 360));
         vaccinePanel.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 250, 320, 10));
+
+        statusDateChooser.setDateFormatString("dd-MM-yyyy");
+        statusDateChooser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        vaccinePanel.add(statusDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 140, 170, 30));
 
         mainPanels.add(vaccinePanel, "vaccinePanel");
 
@@ -1648,16 +1653,17 @@ public class PersonnelGUI extends javax.swing.JFrame {
         if (input == 0)
         {
             int row = statusTable.getSelectedRow();
-            Centre centre = new Centre().searchCentre(String.valueOf(statusTable.getValueAt(row, 1)));
+            Centre centre = new Centre().searchCentre(String.valueOf(statusTable.getValueAt(row, 0)));
             ArrayList<Vaccine> vacList = centre.getVaccine();
-            for (Vaccine eachVaccine:vacList){
-                if (eachVaccine.getVaccineName().equals(String.valueOf(statusTable.getValueAt(row, 3))))
-                {
-                    vacList.remove(eachVaccine);
-                }
-            }
+            vacList.removeIf((Vaccine eachVaccine) -> eachVaccine.getVaccineName().equals(String.valueOf(statusTable.getValueAt(row, 2))));
             centre.modifyCentre(centre);
             JOptionPane.showMessageDialog(null, "Vaccine deleted from Centre!");
+            try {
+                SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+                updateStatusTable((String) vaccineSearchCombo.getSelectedItem(), 
+                    (String) centreSearchCombo.getSelectedItem(), 
+                    dcn.format(statusDateChooser.getDate()));
+            } catch (NullPointerException ex) { }
         } 
         else{}
     }//GEN-LAST:event_deleteVaccineButtonActionPerformed
@@ -1692,19 +1698,23 @@ public class PersonnelGUI extends javax.swing.JFrame {
         boolean vacExist = false;
         for (Vaccine eachVaccine:vacList)
         {
-            if (eachVaccine.getVaccineName().equals((String) vaccineSearchCombo.getSelectedItem()))
+            if (eachVaccine.getVaccineName().equals((String) vaccineCombo.getSelectedItem()))
             {
                 vacExist = true;
             }
         }
         if (vacExist == false) {
-            vacList.add(new Vaccine().searchVaccine((String) vaccineCombo.getSelectedItem()));
+            Vaccine newVaccine = new Vaccine().searchVaccine((String) vaccineCombo.getSelectedItem());
+            newVaccine.setVaccineQuantity(500);
+            vacList.add(newVaccine);
             existingCentre.setVaccine(vacList);
             existingCentre.modifyCentre(existingCentre);
             JOptionPane.showMessageDialog(null, "Vaccine Successfully Added to Centre!");
-            updateStatusTable((String) vaccineSearchCombo.getSelectedItem(), 
+            try {
+                updateStatusTable((String) vaccineSearchCombo.getSelectedItem(), 
                     (String) centreSearchCombo.getSelectedItem(), 
                     dcn.format(statusDateChooser.getDate()));
+            } catch (NullPointerException ex) { }
         }
         else
         {
@@ -1744,20 +1754,16 @@ public class PersonnelGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         if ((int) addSupplySpinner.getValue() > 0 || (int) addSupplySpinner.getValue() < 0) {
             SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
-            vaccineModifyCombo.setEnabled(true);
-            centreModifyCombo.setEnabled(true);
-            dateVaccineChooser.setEnabled(true);
             new Centre().setAdditionalVaccineQuantity(
                     (String) vaccineModifyCombo.getSelectedItem(), 
                     (String) centreModifyCombo.getSelectedItem(), 
                     dcn.format(dateVaccineChooser.getDate()), 
                     (int) addSupplySpinner.getValue());
-            updateStatusTable((String) vaccineSearchCombo.getSelectedItem(), 
-                    (String) centreSearchCombo.getSelectedItem(), 
-                    dcn.format(statusDateChooser.getDate()));
-            vaccineModifyCombo.setEnabled(false);
-            centreModifyCombo.setEnabled(false);
-            dateVaccineChooser.setEnabled(false);
+            try {
+                updateStatusTable(dcn.format(statusDateChooser.getDate()),
+                        (String) vaccineSearchCombo.getSelectedItem(), 
+                        (String) centreSearchCombo.getSelectedItem());
+            } catch(NullPointerException ex) { }
         }
         else{
             JOptionPane.showMessageDialog(null, "Please select a number greater "

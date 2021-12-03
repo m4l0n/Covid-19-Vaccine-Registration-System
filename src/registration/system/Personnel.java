@@ -55,7 +55,6 @@ public class Personnel extends User implements Serializable{
             firstAdmin.setUserType("Personnel");
             firstAdmin.setCitizenship("Malaysian");
             oos.writeObject(firstAdmin);
-            System.out.println(firstAdmin.getName());
             firstAdmin = null;
             oos.flush();
             oos.close();

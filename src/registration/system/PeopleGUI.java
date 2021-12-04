@@ -1129,7 +1129,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         if (existingPpl.getPassword().equals(currentPassText.getText()))
         {
             existingPpl.setPassword(newPassText.getText());
-            existingPpl.changePassword(existingPpl);
+            existingPpl.modifyProfile(existingPpl);
         }
     }//GEN-LAST:event_confChangeButtonActionPerformed
 

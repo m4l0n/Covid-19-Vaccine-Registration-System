@@ -5,7 +5,6 @@
  */
 package registration.system;
 
-import java.awt.List;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,8 +15,6 @@ import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import static java.util.Collections.list;
 import java.util.Random;
 
 /**

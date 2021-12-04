@@ -6,6 +6,8 @@
 package registration.system;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.IntelliJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme;
 import com.toedter.calendar.JDateChooser;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -29,17 +31,11 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JSpinner;
@@ -617,7 +613,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(212, 212, 212)
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
@@ -1855,8 +1851,9 @@ public class PersonnelGUI extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        //Look and Feel
         try{
-            UIManager.setLookAndFeel(new FlatIntelliJLaf());
+            com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme.setup();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -1908,6 +1905,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         }
     }
     
+    //Display People Details in the Swing Components
     private void displayPeopleDetails(People ppl)
     {
         try {
@@ -1927,6 +1925,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         }
     }
     
+    //Get the value of the selected button in a Radio Button group
     private String getSelectedButton()
     {  
         for (Enumeration<AbstractButton> buttons = genderButtonGroup.getElements(); buttons.hasMoreElements();) {
@@ -1937,6 +1936,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         }
         return null;
     }
+    
     //Clear the components and reset them to default state
     private void clearComponents(javax.swing.JPanel panel)
     {
@@ -2124,8 +2124,10 @@ public class PersonnelGUI extends javax.swing.JFrame {
     }
     
     private void updateDashboard(){
+        //Number of users
         jLabel37.setText(String.valueOf(new User().getUserCount()));
         LocalDate currentDate = LocalDate.now();
+        //Number of upcoming appointments
         jLabel44.setText(String.valueOf(new Appointment()
                 .getAppointmentCount(currentDate)));
     }

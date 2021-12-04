@@ -5,23 +5,15 @@
  */
 package registration.system;
 
-import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.font.TextAttribute;
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.Map;
-import java.util.Random;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;

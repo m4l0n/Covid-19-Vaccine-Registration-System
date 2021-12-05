@@ -1307,34 +1307,45 @@ public class PeopleGUI extends javax.swing.JFrame {
     private void regButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regButtonActionPerformed
         // TODO add your handling code here:
         LocalDate currentDate = LocalDate.now();
-        if (new Appointment().getFutureAppointments(userID, currentDate).size() > 0)
-        {
-            SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
-            Appointment newAppointment = new Appointment();
-            newAppointment.setDate(dcn.format(apDateChooser.getDate()));
-            newAppointment.setExpDate(dcn.format(apDateChooser.getDate()));
-            String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
-            newAppointment.setDoseNum(newAppointment.checkDoseNum(userID));
-            newAppointment.setTime(LocalTime.parse(time));
-            newAppointment.setPeople(new People().getPeopleDetails(userID));
-            newAppointment.setCentre(new Centre().searchCentre((String) centreCombo.getSelectedItem()));
-            newAppointment.setVaccine(new Vaccine().searchVaccine((String) vaccineCombo.getSelectedItem()));
-            newAppointment.regAppointment(newAppointment);  
-            CardLayout card = (CardLayout)mainPanels.getLayout();
-            card.show(mainPanels, "homePane");
-            homePanelButton.setBackground(Color.white);
-            appointmentPanelButton.setBackground(new Color(41,48,57));
-            statusPanelButton.setBackground(new Color(41,48,57));
-            profilePanelButton.setBackground(new Color(41,48,57));
-            homeButtonLabel.setForeground(Color.black);
-            appointmentButtonLabel.setForeground(Color.white);
-            statusButtonLabel.setForeground(Color.white);
-            profileButtonLabel.setForeground(Color.white);
-            JOptionPane.showMessageDialog(null, "Appointment registered successfully.");
-            updateDashboard();
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "There is an Existing Appointment, please use modify or delete.");
+        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+        try{
+            if (new Centre().getRemainingVaccine((String)vaccineCombo.getSelectedItem(), (String)centreCombo.getSelectedItem(), dcn.format(apDateChooser.getDate()))
+                    > 0)
+            {
+                if (new Appointment().getFutureAppointments(userID, currentDate).size() > 0)
+                {
+                    Appointment newAppointment = new Appointment();
+                    newAppointment.setDate(dcn.format(apDateChooser.getDate()));
+                    newAppointment.setExpDate(dcn.format(apDateChooser.getDate()));
+                    String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
+                    newAppointment.setDoseNum(newAppointment.checkDoseNum(userID));
+                    newAppointment.setTime(LocalTime.parse(time));
+                    newAppointment.setPeople(new People().getPeopleDetails(userID));
+                    newAppointment.setCentre(new Centre().searchCentre((String) centreCombo.getSelectedItem()));
+                    newAppointment.setVaccine(new Vaccine().searchVaccine((String) vaccineCombo.getSelectedItem()));
+                    newAppointment.regAppointment(newAppointment);  
+                    CardLayout card = (CardLayout)mainPanels.getLayout();
+                    card.show(mainPanels, "homePane");
+                    homePanelButton.setBackground(Color.white);
+                    appointmentPanelButton.setBackground(new Color(41,48,57));
+                    statusPanelButton.setBackground(new Color(41,48,57));
+                    profilePanelButton.setBackground(new Color(41,48,57));
+                    homeButtonLabel.setForeground(Color.black);
+                    appointmentButtonLabel.setForeground(Color.white);
+                    statusButtonLabel.setForeground(Color.white);
+                    profileButtonLabel.setForeground(Color.white);
+                    JOptionPane.showMessageDialog(null, "Appointment registered successfully.");
+                    updateDashboard();
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "There is an Existing Appointment, please use modify or delete.");
+                }
+            }else 
+            {
+                    JOptionPane.showMessageDialog(null, "Selected Vaccine is out of stock on selected date.");
+            }
+        }catch(NullPointerException e){
+            JOptionPane.showMessageDialog(null, e.toString(), "Please fill in empty slots", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_regButtonActionPerformed
 

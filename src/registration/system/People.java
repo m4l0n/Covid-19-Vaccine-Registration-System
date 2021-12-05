@@ -139,21 +139,6 @@ public class People extends User implements Serializable{
                     else
                     {
                         JOptionPane.showMessageDialog(null, "Profile Updated Successfully!");
-//                        People newPeople = new People();
-//                        newPeople.setUsername(ppl.getUsername());
-//                        newPeople.setName(ppl.getName());
-//                        newPeople.setPhoneNum(ppl.getPhoneNum());
-//                        newPeople.setDate(ppl.getDate());
-//                        newPeople.setState(ppl.getState());
-//                        newPeople.setCitizenship(ppl.getCitizenship());
-//                        newPeople.setGender(ppl.getGender());
-//                        newPeople.setStatus(((People)obj).getStatus());
-//                        newPeople.setPassword(((People)obj).getPassword());
-//                        newPeople.setDose1(((People)obj).getDose1());
-//                        newPeople.setDose2(((People)obj).getDose2());
-//                        newPeople.setPeopleID(((People)obj).getPeopleID());
-//                        newPeople.setPeopleID(((People)obj).getUserType());
-//                        tempUsers.add(newPeople);
                         tempUsers.add(modifiedPpl);
                     }
                 }

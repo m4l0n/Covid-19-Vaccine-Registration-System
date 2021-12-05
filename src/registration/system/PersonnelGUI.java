@@ -1606,32 +1606,47 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
     private void adAPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adAPButtonActionPerformed
         // TODO add your handling code here:
+        LocalDate currentDate = LocalDate.now();
         SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
         try {
             if (new People().checkUserID(peopleAPText.getText()) == true)
             {
-                Appointment newAppointment = new Appointment();
-                newAppointment.setDate(dcn.format(dateAPChooser.getDate()));
-                newAppointment.setExpDate(dcn.format(dateAPChooser.getDate()));
-                String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
-                newAppointment.setDoseNum(newAppointment.checkDoseNum(peopleAPText.getText()));
-                newAppointment.setTime(LocalTime.parse(time));
-                newAppointment.setPeople(new People().getPeopleDetails(peopleAPText.getText()));
-                newAppointment.setCentre(new Centre().searchCentre((String) centreAPCombo.getSelectedItem()));
-                newAppointment.setVaccine(new Vaccine().searchVaccine((String) vaccineAPCombo.getSelectedItem()));
-                newAppointment.regAppointment(newAppointment);  
-                JOptionPane.showMessageDialog(null, "Appointment Added Successfully.");
-                updateAppointmentTable();
-                clearComponents(jPanel1);
-                peopleAPText.setEnabled(true);
-                deleteAPButton.setEnabled(false);
-                adAPButton.setEnabled(true);
-                saveAPButton.setEnabled(false);
-            } 
-            else
+                if (new Centre().getRemainingVaccine((String)vaccineAPCombo.getSelectedItem(), (String)centreAPCombo.getSelectedItem(), dcn.format(dateAPChooser.getDate()))
+                    > 0)
+                {
+                    if (new Appointment().getFutureAppointments(peopleAPText.getText(), currentDate).size() > 0) 
+                        {
+                            Appointment newAppointment = new Appointment();
+                            newAppointment.setDate(dcn.format(dateAPChooser.getDate()));
+                            newAppointment.setExpDate(dcn.format(dateAPChooser.getDate()));
+                            String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
+                            newAppointment.setDoseNum(newAppointment.checkDoseNum(peopleAPText.getText()));
+                            newAppointment.setTime(LocalTime.parse(time));
+                            newAppointment.setPeople(new People().getPeopleDetails(peopleAPText.getText()));
+                            newAppointment.setCentre(new Centre().searchCentre((String) centreAPCombo.getSelectedItem()));
+                            newAppointment.setVaccine(new Vaccine().searchVaccine((String) vaccineAPCombo.getSelectedItem()));
+                            newAppointment.regAppointment(newAppointment);  
+                            JOptionPane.showMessageDialog(null, "Appointment Added Successfully.");
+                            updateAppointmentTable();
+                            clearComponents(jPanel1);
+                            peopleAPText.setEnabled(true);
+                            deleteAPButton.setEnabled(false);
+                            adAPButton.setEnabled(true);
+                            saveAPButton.setEnabled(false);
+                        }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "There is an Existing Appointment");
+                    }
+                }else
+                {
+                    JOptionPane.showMessageDialog(null, "Selected Vaccine is out of stock on selected date.");
+                }
+            }else
             {
                 JOptionPane.showMessageDialog(null, "IC/Passport Number Not Found.");
             }
+            
         }catch(Exception e)
         {
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);

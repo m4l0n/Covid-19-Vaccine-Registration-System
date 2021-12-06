@@ -52,7 +52,7 @@ public class Vaccine implements Serializable{
     
     public void setEffectivePeriod(int effectivePeriod)
     {
-        this.vaccineName = vaccineName;
+        this.effectivePeriod = effectivePeriod;
     }
     
     public int getEffectivePeriod()

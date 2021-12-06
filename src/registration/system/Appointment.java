@@ -16,9 +16,16 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import javax.swing.JOptionPane;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -88,9 +95,16 @@ public class Appointment implements Serializable{
     
     public void setExpDate(String date)
     {
-        Vaccine vaccine = new Vaccine();
-        int ep = vaccine.getEffectivePeriod();
-        this.expDate = LocalDate.parse(date).plusDays(ep).toString();
+        try {
+            SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+            int ep = this.vaccine.getEffectivePeriod();
+            Calendar c = Calendar.getInstance();
+            c.setTime(dcn.parse(date));
+            c.add(Calendar.MONTH, ep);
+            this.expDate = dcn.format(c.getTime());
+        } catch (ParseException ex) {
+            Logger.getLogger(Appointment.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public String getExpDate() 
@@ -106,7 +120,7 @@ public class Appointment implements Serializable{
             ois = new ObjectInputStream(new FileInputStream(new Appointment().getDataAppointment()));
             Object obj = null;
             while ((obj = ois.readObject()) != null) {
-                if(((User)obj).getUsername().equals(userID)){
+                if(((Appointment)obj).getPeople().getUsername().equals(userID)){
                     return true;
                 }
             } 
@@ -127,7 +141,7 @@ public class Appointment implements Serializable{
     public void setDoseNum(boolean result)
     {
         //If there has been previous appointments, meaning dose number is 2, else 1
-        if (result = false)
+        if (result == false)
         {
             doseNum = 1; 
         }
@@ -190,9 +204,9 @@ public class Appointment implements Serializable{
                     break;
                 }
             }
-            if (idExist = true) { regAppointment(newAppointment); }
+            if (idExist == true) { regAppointment(newAppointment); }
             else { tempAppointment.add(newAppointment); }
-            oos = new ObjectOutputStream(new FileOutputStream(new User().getDataUser()));
+            oos = new ObjectOutputStream(new FileOutputStream(new Appointment().getDataAppointment()));
             for(Appointment existingAppointment:tempAppointment){
                 oos.writeObject(existingAppointment);
             }
@@ -412,5 +426,58 @@ public class Appointment implements Serializable{
             } catch (IOException ex) { ex.printStackTrace(); }
              return count;
         }
+    }
+    
+    public Appointment getDose1(String userID)
+    {
+        Appointment app = new Appointment();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(new Appointment().getDataAppointment()));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if(((Appointment)obj).getPeople().getUsername().equals(userID) 
+                        && ((Appointment)obj).getDoseNum() == 1){
+                    app = ((Appointment)obj);
+                }
+            } 
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return app;
+    }
+    
+    public Appointment getDose2(String userID)
+    {
+        Appointment app = new Appointment();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(new Appointment().getDataAppointment()));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if(((Appointment)obj).getPeople().getUsername().equals(userID) && ((Appointment)obj).getDoseNum() == 2){
+                    return ((Appointment)obj);
+                }
+            } 
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        return null;
     }
 }

@@ -1444,6 +1444,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         appointmentButtonLabel.setForeground(Color.white);
         peopleButtonLabel.setForeground(Color.white);
         vaccineButtonLabel.setForeground(Color.black);
+        statusDateChooser.getJCalendar().setMinSelectableDate(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)));
     }//GEN-LAST:event_vaccinePanelButtonMouseClicked
 
     private void clearPeopleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearPeopleButtonActionPerformed

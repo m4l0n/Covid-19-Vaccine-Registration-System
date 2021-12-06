@@ -1,3 +1,6 @@
 AstraZeneca,World Trade Centre KL,02-12-2021,10
 AstraZeneca,World Trade Centre KL,02-12-2021,-10
 AstraZeneca,World Trade Centre KL,02-12-2021,-10
+Pfizer-BioNtech,World Trade Centre KL,07-12-2021,90
+Pfizer-BioNtech,World Trade Centre KL,07-12-2021,90
+Pfizer-BioNtech,World Trade Centre KL,07-12-2021,-200

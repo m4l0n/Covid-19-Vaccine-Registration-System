@@ -57,6 +57,8 @@ public class PersonnelGUI extends javax.swing.JFrame {
         updatePeopleTable();
         updateAppointmentTable();
         updateDashboard();
+        apMinuteSlider.setEditor(new JSpinner.NumberEditor(apMinuteSlider, "00"));
+        apHourSlider.setEditor(new JSpinner.NumberEditor(apHourSlider, "00"));
     }
 
     /**
@@ -99,6 +101,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         backgroundImage = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        dateAPChooser = new com.toedter.calendar.JDateChooser();
         centreAPCombo = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -107,7 +110,6 @@ public class PersonnelGUI extends javax.swing.JFrame {
         searchAPButton = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
-        dateAPChooser = new com.toedter.calendar.JDateChooser();
         jLabel28 = new javax.swing.JLabel();
         apHourSlider = new javax.swing.JSpinner();
         jLabel29 = new javax.swing.JLabel();
@@ -125,6 +127,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         appointmentTable = new javax.swing.JTable();
         peoplePanel = new javax.swing.JPanel();
+        backgroundImage2 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -159,6 +162,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         jLabel26 = new javax.swing.JLabel();
         statusPeopleText = new javax.swing.JTextField();
         vaccinePanel = new javax.swing.JPanel();
+        backgroundImage3 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         centreSearchCombo = new javax.swing.JComboBox<>();
@@ -466,6 +470,9 @@ public class PersonnelGUI extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setToolTipText("appointmentPanel");
 
+        dateAPChooser.setDateFormatString("dd-MM-yyyy");
+        dateAPChooser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
         centreAPCombo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         centreAPCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "World Trade Centre KL", "Wisma Belia", "Stadium Tun Abdul Razak", "Pusat Sains dan Kreativiti", "Kuala Lumpur Convention Centre", "Ideal Convention Centre", "Borneo Convention Centre Kuching", "Axiata Arena Bukit Jalil" }));
         centreAPCombo.addActionListener(new java.awt.event.ActionListener() {
@@ -495,9 +502,6 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         jLabel27.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel27.setText("Date");
-
-        dateAPChooser.setDateFormatString("dd-MM-yyyy\n");
-        dateAPChooser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         jLabel28.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel28.setText("Time");
@@ -532,6 +536,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
         });
 
         clearAPButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        clearAPButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_broom_26px_2.png"))); // NOI18N
         clearAPButton.setText("Clear");
         clearAPButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -593,16 +598,16 @@ public class PersonnelGUI extends javax.swing.JFrame {
                                             .addGap(170, 170, 170))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                             .addComponent(jLabel28)
-                                            .addGap(161, 161, 161))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                            .addComponent(dateAPChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(45, 45, 45)))
+                                            .addGap(161, 161, 161)))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(apHourSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(apMinuteSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(dateAPChooser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(apHourSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(apMinuteSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel17)
@@ -657,8 +662,8 @@ public class PersonnelGUI extends javax.swing.JFrame {
                                     .addComponent(jLabel31))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(dateAPChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(apIDText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(apIDText)
+                                    .addComponent(dateAPChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -730,6 +735,9 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         peoplePanel.setMinimumSize(new java.awt.Dimension(771, 640));
         peoplePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        backgroundImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
+        peoplePanel.add(backgroundImage2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 540, 420));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel11.setText("People");
@@ -860,6 +868,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
             }
         });
 
+        clearPeopleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8_broom_26px_2.png"))); // NOI18N
         clearPeopleButton.setText("Clear");
         clearPeopleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1012,6 +1021,9 @@ public class PersonnelGUI extends javax.swing.JFrame {
 
         vaccinePanel.setMinimumSize(new java.awt.Dimension(771, 640));
         vaccinePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        backgroundImage3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.png"))); // NOI18N
+        vaccinePanel.add(backgroundImage3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 540, 420));
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel13.setText("Vaccine");
@@ -1567,6 +1579,8 @@ public class PersonnelGUI extends javax.swing.JFrame {
         if (idFound == true)
             {
                 JOptionPane.showMessageDialog(null, "People Deleted Successfully.");
+                //Delete the People's appointments
+                new Appointment().deletePeopleAppointment(usernamePeopleText.getText());
                 updatePeopleTable();
                 clearComponents(jPanel2);
                 usernamePeopleText.setEnabled(true);
@@ -1620,13 +1634,13 @@ public class PersonnelGUI extends javax.swing.JFrame {
                         {
                             Appointment newAppointment = new Appointment();
                             newAppointment.setDate(dcn.format(dateAPChooser.getDate()));
-                            newAppointment.setExpDate(dcn.format(dateAPChooser.getDate()));
-                            String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
+                            String time = String.format("%02d",apHourSlider.getValue()) + ":" + String.format("%02d",apMinuteSlider.getValue());
                             newAppointment.setDoseNum(newAppointment.checkDoseNum(peopleAPText.getText()));
                             newAppointment.setTime(LocalTime.parse(time));
                             newAppointment.setPeople(new People().getPeopleDetails(peopleAPText.getText()));
                             newAppointment.setCentre(new Centre().searchCentre((String) centreAPCombo.getSelectedItem()));
                             newAppointment.setVaccine(new Vaccine().searchVaccine((String) vaccineAPCombo.getSelectedItem()));
+                            newAppointment.setExpDate(dcn.format(dateAPChooser.getDate()));
                             newAppointment.regAppointment(newAppointment);  
                             JOptionPane.showMessageDialog(null, "Appointment Added Successfully.");
                             updateAppointmentTable();
@@ -1689,16 +1703,13 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private void saveAPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAPButtonActionPerformed
         // TODO add your handling code here:
         SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
-        Appointment savedAppointment = new Appointment();
-        savedAppointment.setAppointmentID(apIDText.getText());
+        Appointment savedAppointment = new Appointment().getAppointmentDetails(apIDText.getText());
         savedAppointment.setDate(dcn.format(dateAPChooser.getDate()));
-        savedAppointment.setExpDate(dcn.format(dateAPChooser.getDate()));
-        String time = apHourSlider.getValue() + ":" + apMinuteSlider.getValue();
-        savedAppointment.getDoseNum();
+        String time = String.format("%02d",apHourSlider.getValue()) + ":" + String.format("%02d",apMinuteSlider.getValue());
         savedAppointment.setTime(LocalTime.parse(time));
-        savedAppointment.setPeople(new People().getPeopleDetails(peopleAPText.getText()));
         savedAppointment.setCentre(new Centre().searchCentre((String) centreAPCombo.getSelectedItem()));
         savedAppointment.setVaccine(new Vaccine().searchVaccine((String) vaccineAPCombo.getSelectedItem()));
+        savedAppointment.setExpDate(dcn.format(dateAPChooser.getDate()));
         savedAppointment.modifyAppointment(savedAppointment);
         updateAppointmentTable();
         clearComponents(jPanel1);
@@ -2041,7 +2052,7 @@ public class PersonnelGUI extends javax.swing.JFrame {
                     ((Appointment)obj).getPeople().getUsername(), 
                     ((Appointment)obj).getExpDate(), 
                     ((Appointment)obj).getVaccine().getVaccineName(), 
-                    Integer.toString(((Appointment)obj).getDoseNum())};
+                    String.valueOf(((Appointment)obj).getDoseNum())};
                 table.addRow(row);
 
             }
@@ -2164,6 +2175,8 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private javax.swing.JTable appointmentTable;
     private javax.swing.JLabel backgroundImage;
     private javax.swing.JLabel backgroundImage1;
+    private javax.swing.JLabel backgroundImage2;
+    private javax.swing.JLabel backgroundImage3;
     private javax.swing.JComboBox<String> centreAPCombo;
     private javax.swing.JComboBox<String> centreCombo;
     private javax.swing.JComboBox<String> centreModifyCombo;

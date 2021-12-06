@@ -352,7 +352,9 @@ public class Appointment implements Serializable{
         ObjectOutputStream oos = null;
         try {
             oos = new ObjectOutputStream(new FileOutputStream(new Appointment().getDataAppointment()));
-            oos.writeObject(tempAppointment);
+            for (Appointment eachAP:tempAppointment) {
+                oos.writeObject(eachAP);
+            }
             tempAppointment.clear();
             oos.flush();
             oos.close();
@@ -392,7 +394,9 @@ public class Appointment implements Serializable{
         ObjectOutputStream oos = null;
         try {
             oos = new ObjectOutputStream(new FileOutputStream(new Appointment().getDataAppointment()));
-            oos.writeObject(tempAppointment);
+            for (Appointment eachAP:tempAppointment) {
+                oos.writeObject(eachAP);
+            }
             tempAppointment.clear();
             oos.flush();
             oos.close();
@@ -479,5 +483,42 @@ public class Appointment implements Serializable{
             } catch (IOException ex) { ex.printStackTrace(); }
         }
         return null;
+    }
+    
+    public void deletePeopleAppointment(String peopleID)
+    {
+        ArrayList<Appointment> tempAppointment = new ArrayList <>();
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(new Appointment().getDataAppointment()));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (!((Appointment)obj).getPeople().getPeopleID().equals(peopleID))
+                {
+                    tempAppointment.add((Appointment)obj);
+                }
+            } 
+        } catch (EOFException ex) {}
+        catch (ClassNotFoundException ex) { ex.printStackTrace(); }
+        catch (FileNotFoundException ex) { ex.printStackTrace(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+        
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(new Appointment().getDataAppointment()));
+            for (Appointment eachAP:tempAppointment) {
+                oos.writeObject(eachAP);
+            }
+            tempAppointment.clear();
+            oos.flush();
+            oos.close();
+        } catch (Exception e) { e.printStackTrace(); }
     }
 }

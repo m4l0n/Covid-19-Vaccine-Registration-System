@@ -1385,6 +1385,13 @@ public class PeopleGUI extends javax.swing.JFrame {
             statusButtonLabel.setForeground(Color.white);
             profileButtonLabel.setForeground(Color.white);
             updateDashboard();
+            existApIDText.setText("");
+            existDoseText.setText("");
+            existDateChooser.setCalendar(null);
+            existHourSlider.setValue(0);
+            existMinuteSlider.setValue(0);
+            existCentreCombo.setSelectedItem(null);
+            existVaccineCombo.setSelectedItem(null);
         }
         else
         {
@@ -1398,7 +1405,7 @@ public class PeopleGUI extends javax.swing.JFrame {
         Appointment savedAppointment = new Appointment();
         savedAppointment.setAppointmentID(existApIDText.getText());
         savedAppointment.setDate(dcn.format(existDateChooser.getDate()));
-        String time = existHourSlider.getValue() + ":" + existMinuteSlider.getValue();
+        String time = String.format("%02d",existHourSlider.getValue()) + ":" + String.format("%02d",existMinuteSlider.getValue());
         savedAppointment.getDoseNum();
         savedAppointment.setTime(LocalTime.parse(time));
         savedAppointment.setPeople(new People().getPeopleDetails(userID));

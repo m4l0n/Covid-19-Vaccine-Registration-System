@@ -1099,6 +1099,8 @@ public class PeopleGUI extends javax.swing.JFrame {
         statusButtonLabel.setForeground(Color.white);
         profileButtonLabel.setForeground(Color.white);
         LocalDate currentDate = LocalDate.now();
+        apDateChooser.getJCalendar().setMinSelectableDate(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)));
+        existDateChooser.getJCalendar().setMinSelectableDate(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)));
         ArrayList<Appointment> checkAppointment = new Appointment().getFutureAppointments(userID, currentDate);
         if (checkAppointment.size() > 0)
         {

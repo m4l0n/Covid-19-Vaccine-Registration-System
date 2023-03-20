@@ -7,27 +7,33 @@ package system.view;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import system.FirstData;
-import system.view.util.PhoneNumberFormatException;
-import system.view.util.TextPrompt;
-import system.model.Appointment;
+import system.common.validation.Result;
+import system.common.validation.Validation;
 import system.model.People;
 import system.service.PeopleService;
 import system.service.UserService;
+import system.view.util.SwingUtils;
+import system.view.util.TextPrompt;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.text.SimpleDateFormat;
-import java.util.Enumeration;
 import java.util.Map;
-import java.util.regex.Pattern;
+
+
 /**
  *
  * @author nigel
  */
 public class Login extends javax.swing.JFrame {
     String userName="", userPass="", userType="";
-    private final String dataUser = "dataUser.txt";
+
+    private static final SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+
+    UserService userService = new UserService();
+    PeopleService peopleService = new PeopleService();
+
     /**
      * Creates new form Login
      */
@@ -341,86 +347,73 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void switchRegButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchRegButtonActionPerformed
-        // TODO add your handling code here:
+        
         CardLayout card = (CardLayout)mainPanel.getLayout();
         card.show(mainPanel, "regPane");
     }//GEN-LAST:event_switchRegButtonActionPerformed
 
     private void switchLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchLoginButtonActionPerformed
-        // TODO add your handling code here:
+        
         CardLayout card = (CardLayout)mainPanel.getLayout();
         card.show(mainPanel, "loginPane");
     }//GEN-LAST:event_switchLoginButtonActionPerformed
 
     private void regButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regButtonActionPerformed
-        // TODO add your handling code here:
-        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
-        try {
-            //Check if the IC / Passport number is valid
-            if(isValidUserID(idRegText.getText()))
-            {
-                //Check if the password format is valid
-                if (isValidPassword(passRegText.getText()))
-                {
-                    //Initialise an empty appointment for both dose1 and dose2
-                    //attribute for People
-                    Appointment emptyAppointment = new Appointment();
-                    emptyAppointment.setAppointmentID("none");
-                    People newPeople = new People();
-                    newPeople.setName(nameText.getText());
-                    //Checks if the phone number format is valid
-                    if (isValidPhoneNum(phoneNumText.getText())){
-                        newPeople.setPhoneNum(phoneNumText.getText());
-                    } else { throw new PhoneNumberFormatException("Phone Number Format Invalid!");}
-                    newPeople.setUsername(idRegText.getText());
-                    newPeople.setPassword(passRegText.getText());
-                    newPeople.setDate(dcn.format(dobCalendar.getDate()));
-                    newPeople.setState(String.valueOf(stateComboBox.getSelectedItem()));
-                    newPeople.setCitizenship(citizenshipText.getText());
-                    newPeople.setGender(getSelectedButton());
-                    newPeople.setUserType("People");
-                    newPeople.setStatus("Unvaccinated");
-                    newPeople.setDose1(emptyAppointment);
-                    newPeople.setDose2(emptyAppointment);
-                    new PeopleService().registerProfile(newPeople);
-                    JOptionPane.showMessageDialog(null, "Account registered "
-                    + "successfully. Please return to login page to continue.");
+
+        String id = idRegText.getText();
+        String pass = passRegText.getText();
+        String name = nameText.getText();
+        String phoneNum = phoneNumText.getText();
+        String dob = dcn.format(dobCalendar.getDate());
+        String state = String.valueOf(stateComboBox.getSelectedItem());
+        String citizenship = citizenshipText.getText();
+        String gender = SwingUtils.getSelectedButton(genderButtonGroup);
+
+        Result<String, Exception> validationResult = Validation.validateProfileInputs(id, pass, phoneNum);
+        validationResult.fold(
+                // on success
+                success -> {
+                    People newPeople = new People(
+                            name,
+                            phoneNum,
+                            id,
+                            pass,
+                            dob,
+                            state,
+                            citizenship,
+                            gender,
+                            "Unvaccinated"
+                    );
+                    peopleService.registerProfile(newPeople);
+                    JOptionPane.showMessageDialog(null, "Account registered successfully. Please return to login page to continue.");
+                    return null;
+                },
+                // on failure
+                error -> {
+                    JOptionPane.showMessageDialog(null, error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return null;
                 }
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "IC/Passport Number format is invalid!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (PhoneNumberFormatException e){
-            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
-        } 
-        catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        
+        );
     }//GEN-LAST:event_regButtonActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
-        String result = new UserService().verifyLogin(idText.getText(),
+        
+        String result = userService.verifyLogin(idText.getText(),
                 String.valueOf(passText.getPassword()));
+        
         if (result.equals("ADMIN"))
         {
             //Opens PersonnelGUI and dispose current form
-            PersonnelGUI psn = new PersonnelGUI();
-            psn.setVisible(true);
+            new PersonnelGUI().setVisible(true);
             this.dispose();
         }
-        else if (isValidUserID(result))
+        else if (!result.equals("Invalid"))
         {
             //Opens PeopleGUI and dispose current form
-            PeopleGUI ppl = new PeopleGUI(result);
-            ppl.setVisible(true);
+            new PeopleGUI(result).setVisible(true);
             this.dispose();
         }
-        else if (result.equals("Invalid"))
-        {
+        else {
             loginErrorLabel.setText("Username/Password combination is "
                     + "incorrect! Please try again");
         }
@@ -450,74 +443,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
-    
-    //Checks the validity of password according to a set of rules
-    public static boolean isValidPassword(String password)
-    {
-        if (password.length() < 8)
-        {
-            JOptionPane.showMessageDialog(null,
-                    "Password must be more than 8 characters in length.",
-                    "Inane error",
-                    JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        String upperCaseChars = "(.*[A-Z].*)";
-        if (!password.matches(upperCaseChars ))
-        {
-            JOptionPane.showMessageDialog(null,
-                    "Password must have at least one uppercase character.",
-                    "Inane error",
-                    JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        String lowerCaseChars = "(.*[a-z].*)";
-        if (!password.matches(lowerCaseChars ))
-        {
-            JOptionPane.showMessageDialog(null,
-                    "Password must have at least one lowercase character.",
-                    "Inane error",
-                    JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        String numbers = "(.*[0-9].*)";
-        if (!password.matches(numbers ))
-        {
-            JOptionPane.showMessageDialog(null,
-                    "Password must have at least one number.",
-                    "Inane error",
-                    JOptionPane.ERROR_MESSAGE);                
-            return false;
-        }
-        String specialChars = "(.*[@,#,$,%].*$)";
-
-        return true; 
-    }
-    
-    public static boolean isValidUserID(String userID)
-    {
-        //Regular Expression for a valid Malaysian NRIC
-        return Pattern.compile("(([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))-([0-9]{2})-([0-9]{4})")
-                .matcher(userID).matches();
-    }
-    
-    public static boolean isValidPhoneNum(String phoneNum)
-    {
-        //Regular Expression for a valid Malaysian phone number
-        return Pattern.compile("\\+?6?(?:01[0-46-9]\\d{7,8}|0\\d{8})").matcher(phoneNum).matches();
-    }
-    
-    private String getSelectedButton()
-    {  
-        //Loop through the Button Group to get the value of the selected button
-        for (Enumeration<AbstractButton> buttons = genderButtonGroup.getElements(); buttons.hasMoreElements();) {
-            AbstractButton button = buttons.nextElement();
-            if (button.isSelected()) {
-                    return button.getText();
-            }
-        }
-        return null;
-    }   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField citizenshipText;

@@ -31,6 +31,34 @@ public class Appointment implements Serializable {
 
     private static final String dataAppointment = "dataAppointment.txt";
 
+    public Appointment() {
+
+    }
+
+    public Appointment(String date, LocalTime time, Centre centre, People people, Vaccine vaccine, String expDate) {
+        this.date = date;
+        this.time = time;
+        this.centre = centre;
+        this.people = people;
+        this.vaccine = vaccine;
+        this.expDate = expDate;
+    }
+
+    public Appointment(String appointmentID) {
+        this.appointmentID = appointmentID;
+    }
+
+    public Appointment(String appointmentID, String date, LocalTime time, Centre centre, People people, Vaccine vaccine, String expDate, int doseNum) {
+        this.appointmentID = appointmentID;
+        this.date = date;
+        this.time = time;
+        this.centre = centre;
+        this.people = people;
+        this.vaccine = vaccine;
+        this.expDate = expDate;
+        this.doseNum = doseNum;
+    }
+
     public static String getDataAppointment()
     {
         return dataAppointment;

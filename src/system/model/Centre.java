@@ -6,7 +6,7 @@
 package system.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,7 +16,7 @@ public class Centre implements Serializable {
     private String centreID;
     private String centreName;
     private String centreLocation;
-    private ArrayList<Vaccine> vaccineList;
+    private List<Vaccine> vaccineList;
     private static final String dataCentre = "dataCenter.txt";
 
     private static final String dataAdditionalVaccine = "additionalVaccine.txt";
@@ -52,12 +52,12 @@ public class Centre implements Serializable {
         return centreLocation;
     }
     
-    public void setVaccine(ArrayList<Vaccine> vaccineList)
+    public void setVaccine(List<Vaccine> vaccineList)
     {
         this.vaccineList = vaccineList;
     }
     
-    public ArrayList<Vaccine> getVaccine()
+    public List<Vaccine> getVaccine()
     {
         return vaccineList;
     }

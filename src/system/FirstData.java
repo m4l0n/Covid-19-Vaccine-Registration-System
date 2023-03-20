@@ -13,6 +13,9 @@ import java.util.Random;
 import static java.nio.file.Files.newOutputStream;
 
 public class FirstData {
+    
+    static PeopleService peopleService = new PeopleService();
+    
     public static void firstAdmin()
     {
         ObjectOutputStream oos = null;
@@ -64,7 +67,7 @@ public class FirstData {
                 newPeople1.setStatus("Fully Vaccinated");
                 newPeople1.setDose1(emptyAppointment);
                 newPeople1.setDose2(emptyAppointment);
-                new PeopleService().registerProfile(newPeople1);
+                peopleService.registerProfile(newPeople1);
 
                 People newPeople2 = new People();
                 newPeople2.setName("Muthu");
@@ -79,7 +82,7 @@ public class FirstData {
                 newPeople2.setStatus("Unvaccinated");
                 newPeople2.setDose1(emptyAppointment);
                 newPeople2.setDose2(emptyAppointment);
-                new PeopleService().registerProfile(newPeople2);
+                peopleService.registerProfile(newPeople2);
 
                 People newPeople3 = new People();
                 newPeople3.setName("Powell");
@@ -94,7 +97,7 @@ public class FirstData {
                 newPeople3.setStatus("Unvaccinated");
                 newPeople3.setDose1(emptyAppointment);
                 newPeople3.setDose2(emptyAppointment);
-                new PeopleService().registerProfile(newPeople3);
+                peopleService.registerProfile(newPeople3);
 
                 People newPeople4 = new People();
                 newPeople4.setName("Omar");
@@ -109,7 +112,7 @@ public class FirstData {
                 newPeople4.setStatus("Unvaccinated");
                 newPeople4.setDose1(emptyAppointment);
                 newPeople4.setDose2(emptyAppointment);
-                new PeopleService().registerProfile(newPeople4);
+                peopleService.registerProfile(newPeople4);
 
                 People newPeople5 = new People();
                 newPeople5.setName("Lee Sheng Yi");
@@ -124,7 +127,7 @@ public class FirstData {
                 newPeople5.setStatus("Partially Vaccinated");
                 newPeople5.setDose1(emptyAppointment);
                 newPeople5.setDose2(emptyAppointment);
-                new PeopleService().registerProfile(newPeople5);
+                peopleService.registerProfile(newPeople5);
 
                 People newPeople6 = new People();
                 newPeople6.setName("Wong Jie Hao");
@@ -139,7 +142,7 @@ public class FirstData {
                 newPeople6.setStatus("Unvaccinated");
                 newPeople6.setDose1(emptyAppointment);
                 newPeople6.setDose2(emptyAppointment);
-                new PeopleService().registerProfile(newPeople6);
+                peopleService.registerProfile(newPeople6);
 
                 People newPeople7 = new People();
                 newPeople7.setName("Camille");
@@ -154,7 +157,7 @@ public class FirstData {
                 newPeople7.setStatus("Unvaccinated");
                 newPeople7.setDose1(emptyAppointment);
                 newPeople7.setDose2(emptyAppointment);
-                new PeopleService().registerProfile(newPeople7);
+                peopleService.registerProfile(newPeople7);
 
                 People newPeople8 = new People();
                 newPeople8.setName("Liew Yee Jing");
@@ -169,7 +172,7 @@ public class FirstData {
                 newPeople8.setStatus("Unvaccinated");
                 newPeople8.setDose1(emptyAppointment);
                 newPeople8.setDose2(emptyAppointment);
-                new PeopleService().registerProfile(newPeople8);
+                peopleService.registerProfile(newPeople8);
 
                 People newPeople9 = new People();
                 newPeople9.setName("Booma");
@@ -184,7 +187,7 @@ public class FirstData {
                 newPeople9.setStatus("Unvaccinated");
                 newPeople9.setDose1(emptyAppointment);
                 newPeople9.setDose2(emptyAppointment);
-                new PeopleService().registerProfile(newPeople9);
+                peopleService.registerProfile(newPeople9);
 
             } catch (Exception e) {}
         } catch (IOException ex) { ex.printStackTrace(); }
@@ -348,7 +351,7 @@ public class FirstData {
                 appointment2.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
                 appointment2.setDate("05-12-2021");
                 appointment2.setTime(LocalTime.parse("11:00"));
-                appointment2.setPeople(new PeopleService().getPeopleDetails("020213-14-0921"));
+                appointment2.setPeople(peopleService.getPeopleDetails("020213-14-0921").get());
                 appointment2.setCentre(centre1);
                 appointment2.setVaccine(vaccine1);
                 appointment2.setExpDate("05-12-2021");
@@ -358,7 +361,7 @@ public class FirstData {
                 appointment3.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
                 appointment3.setDate("08-12-2021");
                 appointment3.setTime(LocalTime.parse("13:30"));
-                appointment3.setPeople(new PeopleService().getPeopleDetails("020314-13-0853"));
+                appointment3.setPeople(peopleService.getPeopleDetails("020314-13-0853").get());
                 appointment3.setCentre(centre1);
                 appointment3.setVaccine(vaccine2);
                 appointment3.setExpDate("08-12-2021");
@@ -368,7 +371,7 @@ public class FirstData {
                 appointment4.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
                 appointment4.setDate("09-12-2021");
                 appointment4.setTime(LocalTime.parse("14:00"));
-                appointment4.setPeople(new PeopleService().getPeopleDetails("050219-10-1942"));
+                appointment4.setPeople(peopleService.getPeopleDetails("050219-10-1942").get());
                 appointment4.setCentre(centre1);
                 appointment4.setVaccine(vaccine2);
                 appointment4.setExpDate("09-12-2021");
@@ -378,7 +381,7 @@ public class FirstData {
                 appointment5.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
                 appointment5.setDate("10-12-2021");
                 appointment5.setTime(LocalTime.parse("12:00"));
-                appointment5.setPeople(new PeopleService().getPeopleDetails("010329-02-1934"));
+                appointment5.setPeople(peopleService.getPeopleDetails("010329-02-1934").get());
                 appointment5.setCentre(centre1);
                 appointment5.setVaccine(vaccine1);
                 appointment5.setExpDate("10-12-2021");
@@ -388,7 +391,7 @@ public class FirstData {
                 appointment6.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
                 appointment6.setDate("04-12-2021");
                 appointment6.setTime(LocalTime.parse("12:00"));
-                appointment6.setPeople(new PeopleService().getPeopleDetails("011201-14-1032"));
+                appointment6.setPeople(peopleService.getPeopleDetails("011201-14-1032").get());
                 appointment6.setCentre(centre1);
                 appointment6.setVaccine(vaccine1);
                 appointment6.setExpDate("04-12-2021");
@@ -398,7 +401,7 @@ public class FirstData {
                 appointment7.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
                 appointment7.setDate("05-12-2021");
                 appointment7.setTime(LocalTime.parse("12:00"));
-                appointment7.setPeople(new PeopleService().getPeopleDetails("011201-14-1032"));
+                appointment7.setPeople(peopleService.getPeopleDetails("011201-14-1032").get());
                 appointment7.setCentre(centre1);
                 appointment7.setVaccine(vaccine1);
                 appointment7.setExpDate("05-12-2021");

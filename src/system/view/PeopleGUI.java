@@ -6,7 +6,9 @@
 package system.view;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
-import system.view.util.PhoneNumberFormatException;
+import system.common.exception.ObjectNotFoundException;
+import system.common.validation.Result;
+import system.common.validation.Validation;
 import system.model.Appointment;
 import system.model.Centre;
 import system.model.People;
@@ -15,6 +17,7 @@ import system.service.AppointmentService;
 import system.service.CentreService;
 import system.service.PeopleService;
 import system.service.VaccineService;
+import system.view.util.SwingUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -23,12 +26,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static system.view.util.SwingUtils.getTimeString;
+import static system.view.util.SwingUtils.htmlString;
+
 
 /**
  *
@@ -36,7 +42,13 @@ import java.util.logging.Logger;
  */
 public class PeopleGUI extends javax.swing.JFrame {
     private String userID;
-    private final String dataUser = "dataUser.txt";
+
+    private static final SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+
+    PeopleService peopleService = new PeopleService();
+    AppointmentService appointmentService = new AppointmentService();
+    CentreService centreService = new CentreService();
+    VaccineService vaccineService = new VaccineService();
     /**
      * Creates new form People
      */
@@ -1081,7 +1093,7 @@ public class PeopleGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void homePanelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homePanelButtonMouseClicked
-        // TODO add your handling code here:
+        
         CardLayout card = (CardLayout)mainPanels.getLayout();
         card.show(mainPanels, "homePane");
         homePanelButton.setBackground(Color.white);
@@ -1095,7 +1107,7 @@ public class PeopleGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_homePanelButtonMouseClicked
 
     private void appointmentPanelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentPanelButtonMouseClicked
-        // TODO add your handling code here:
+        
         CardLayout card = (CardLayout)mainPanels.getLayout();
         card.show(mainPanels, "appointmentPane");
         appointmentPanelButton.setBackground(Color.white);
@@ -1106,18 +1118,19 @@ public class PeopleGUI extends javax.swing.JFrame {
         appointmentButtonLabel.setForeground(Color.black);
         statusButtonLabel.setForeground(Color.white);
         profileButtonLabel.setForeground(Color.white);
+
         LocalDate currentDate = LocalDate.now();
         apDateChooser.getJCalendar().setMinSelectableDate(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)));
         existDateChooser.getJCalendar().setMinSelectableDate(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)));
-        ArrayList<Appointment> checkAppointment = new AppointmentService().getFutureAppointments(userID, currentDate);
+        List<Appointment> checkAppointment = appointmentService.getFutureAppointments(userID, currentDate);
         if (checkAppointment.size() > 0)
         {
             try
             {
                 existApIDText.setText(checkAppointment.get(0).getAppointmentID());
-                Appointment existAppointment = new AppointmentService().getAppointmentDetails(existApIDText.getText());
+                Appointment existAppointment = appointmentService.getAppointmentDetails(existApIDText.getText()).orElseThrow(() -> new ObjectNotFoundException("Appointment not found"));
                 existDoseText.setText(Integer.toString(existAppointment.getDoseNum()));
-                Date date = new SimpleDateFormat("dd-MM-yyyy").parse(existAppointment.getDate());
+                Date date = dcn.parse(existAppointment.getDate());
                 existDateChooser.setDate(date);
                 LocalTime time = existAppointment.getTime();
                 int hour = time.getHour();
@@ -1131,13 +1144,15 @@ public class PeopleGUI extends javax.swing.JFrame {
             }
             catch (ParseException e)
             {
+            } catch (ObjectNotFoundException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
     }//GEN-LAST:event_appointmentPanelButtonMouseClicked
 
     private void statusPanelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusPanelButtonMouseClicked
-        // TODO add your handling code here:
+        
         CardLayout card = (CardLayout)mainPanels.getLayout();
         card.show(mainPanels, "statusPane");
         statusPanelButton.setBackground(Color.white);
@@ -1152,7 +1167,7 @@ public class PeopleGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_statusPanelButtonMouseClicked
 
     private void profilePanelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profilePanelButtonMouseClicked
-        // TODO add your handling code here:
+        
         CardLayout card = (CardLayout)mainPanels.getLayout();
         card.show(mainPanels, "profilePane");
         profilePanelButton.setBackground(Color.white);
@@ -1168,129 +1183,131 @@ public class PeopleGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_profilePanelButtonMouseClicked
 
     private void cancelChangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelChangeButtonActionPerformed
-        // TODO add your handling code here:
+        
         changePassPanel.setVisible(false);
         changeProfilePanel.setVisible(true);
     }//GEN-LAST:event_cancelChangeButtonActionPerformed
 
     private void changePassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePassButtonActionPerformed
-        // TODO add your handling code here:
+        
         changePassPanel.setVisible(true);
         changeProfilePanel.setVisible(false);
     }//GEN-LAST:event_changePassButtonActionPerformed
 
     private void saveProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveProfileButtonActionPerformed
-        // TODO add your handling code here:
-        try {
-            SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
-            People existingPpl = new PeopleService().getPeopleDetails(userID);
-            existingPpl.setUsername(userIDText.getText());
-            existingPpl.setName(nameText.getText());
-            if (new Login().isValidPhoneNum(phoneNumText.getText()))
-                existingPpl.setPhoneNum(phoneNumText.getText());
-            else { throw new PhoneNumberFormatException("Phone Number Format Invalid!"); }
-            existingPpl.setDate(dcn.format(dobDateChooser.getDate()));
-            existingPpl.setState(String.valueOf(stateComboBox.getSelectedItem()));
-            existingPpl.setCitizenship(citizenshipText.getText());
-            existingPpl.setGender(getSelectedButton());
-            new PeopleService().modifyProfile(existingPpl);
-        } catch (PhoneNumberFormatException e){
-            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
-        } 
+
+        String id = userIDText.getText();
+        String name = nameText.getText();
+        String phoneNum = phoneNumText.getText();
+        String dob = dcn.format(dobDateChooser.getDate());
+        String state = String.valueOf(stateComboBox.getSelectedItem());
+        String citizenship = citizenshipText.getText();
+        String gender = SwingUtils.getSelectedButton(genderButtonGroup);
+
+        peopleService.getPeopleDetails(userID).ifPresent(existingPpl -> {
+            Result<String, Exception> validationResult = Validation.validateProfileInputs(id, existingPpl.getPassword(), phoneNum);
+            validationResult.fold(
+                    // on success
+                    success -> {
+                        People newPeople = new People(
+                                existingPpl.getPeopleID(),
+                                name,
+                                phoneNum,
+                                id,
+                                existingPpl.getPassword(),
+                                dob,
+                                state,
+                                citizenship,
+                                gender,
+                                existingPpl.getStatus(),
+                                existingPpl.getDose1(),
+                                existingPpl.getDose2()
+                        );
+                        peopleService.modifyProfile(newPeople);
+                        JOptionPane.showMessageDialog(null, "Profile modified successfully.");
+                        return null;
+                    },
+                    // on failure
+                    error -> {
+                        JOptionPane.showMessageDialog(null, error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        return null;
+                    }
+            );
+        });
     }//GEN-LAST:event_saveProfileButtonActionPerformed
 
     private void confChangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confChangeButtonActionPerformed
-        // TODO add your handling code here:
-        People existingPpl = new PeopleService().getPeopleDetails(userID);
-        if (existingPpl.getPassword().equals(currentPassText.getText()))
-        {
-            existingPpl.setPassword(newPassText.getText());
-            new PeopleService().modifyProfile(existingPpl);
-        }
+        peopleService.getPeopleDetails(userID)
+                .filter(people -> people.getPassword().equals(currentPassText.getText()))
+                .ifPresent(people -> {
+                    people.setPassword(newPassText.getText());
+                    peopleService.modifyProfile(people);
+                });
     }//GEN-LAST:event_confChangeButtonActionPerformed
 
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
-        // TODO add your handling code here:
+        
         Login login = new Login();
         login.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_logOutButtonActionPerformed
 
     private void searchStatusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchStatusButtonActionPerformed
-        // TODO add your handling code here:
-        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+        
         try{
             String dateSelected = dcn.format(statusDateChooser.getDate());
             jLabel47.setText("Vaccination Status on " + dcn.format(statusDateChooser.getDate()));
             DefaultTableModel table = (DefaultTableModel) statusTable.getModel();
             table.setRowCount(0);
-            int count=0;
-            Centre centreDetails = new Centre();
-            //If Centre Name is selected
-            if (!centreSearchCombo.getSelectedItem().equals("None"))
-            {
-                centreDetails = new CentreService().searchCentre(String.valueOf(centreSearchCombo
-                                .getSelectedItem()));
-            }
             //If both Vaccine Name and Centre Name are selected from Combo Box
             if (!vaccineSearchCombo.getSelectedItem().equals("None") && 
                     !centreSearchCombo.getSelectedItem().equals("None"))
             {
-                for (Vaccine vaccine:centreDetails.getVaccine())
-                {
-                    if (vaccine.getVaccineName()
-                            .equals(String.valueOf(vaccineSearchCombo
-                            .getSelectedItem())))
-                    {
-                        count++;
-                        String[] row = {centreDetails.getCentreName(), 
-                            centreDetails.getCentreLocation(), 
-                            String.valueOf(vaccineSearchCombo
-                                .getSelectedItem()), 
-                            Integer.toString(new CentreService().getRemainingVaccine(
-                                    vaccine.getVaccineName(), 
-                                    centreDetails.getCentreName(),dateSelected)) };
-                        table.addRow(row);
-                    }
-                }
+                Centre centreDetails = centreService
+                        .searchCentre(String.valueOf(centreSearchCombo.getSelectedItem()))
+                        .orElseThrow(() -> new ObjectNotFoundException("Centre Not Found"));
+                centreDetails.getVaccine().stream()
+                        .filter(vaccine -> vaccine.getVaccineName().equals(String.valueOf(vaccineSearchCombo.getSelectedItem())))
+                        .map(vaccine -> new String[]{centreDetails.getCentreName(),
+                                centreDetails.getCentreLocation(),
+                                    String.valueOf(vaccineSearchCombo
+                                            .getSelectedItem()),
+                                    Integer.toString(centreService.getRemainingVaccine(
+                                            vaccine.getVaccineName(),
+                                            centreDetails.getCentreName(),dateSelected))
+                            })
+                        .forEach(table::addRow);
             }
             // If only Vaccine Name is selected
-            else if (!vaccineSearchCombo.getSelectedItem().equals("None") && 
+            else if (!vaccineSearchCombo.getSelectedItem().equals("None") &&
                     centreSearchCombo.getSelectedItem().equals("None"))
             {
-                HashMap<String, String> allCentre = new CentreService().getAllCentre();
-                for (String eachCentreName:allCentre.keySet())
-                {
-                    if (new CentreService().getCentreVaccines(eachCentreName)
-                            .contains(String.valueOf(vaccineSearchCombo
-                            .getSelectedItem())))
-                    {
-                        count++;
-                        String[] row = {eachCentreName, 
-                            allCentre.get(eachCentreName), 
-                            String.valueOf(vaccineSearchCombo.getSelectedItem()), 
-                            Integer.toString(new CentreService().getRemainingVaccine(
-                                    (String) vaccineSearchCombo.getSelectedItem(), 
-                                    eachCentreName, dateSelected))};
-                        table.addRow(row);
-                    }
-                }
+                Map<String, String> allCentre = centreService.getAllCentre();
+                allCentre.entrySet().stream()
+                        .filter(entry -> centreService.getCentreVaccines(entry.getKey()).contains(String.valueOf(vaccineSearchCombo.getSelectedItem())))
+                        .map(entry -> new String[]{entry.getKey(),
+                                entry.getValue(),
+                                String.valueOf(vaccineSearchCombo.getSelectedItem()),
+                                Integer.toString(centreService.getRemainingVaccine(
+                                        (String) vaccineSearchCombo.getSelectedItem(),
+                                        entry.getKey(), dateSelected))})
+                        .forEach(table::addRow);
             }
             //If only Centre Name is selected
             else if (vaccineSearchCombo.getSelectedItem().equals("None") && 
                     !centreSearchCombo.getSelectedItem().equals("None"))
             {
-                for (Vaccine vaccine:centreDetails.getVaccine())
-                {
-                    count++;
-                    String[] row = {centreDetails.getCentreName(), 
-                        centreDetails.getCentreLocation(), 
-                        vaccine.getVaccineName(), 
-                        Integer.toString(new CentreService().getRemainingVaccine(
-                                vaccine.getVaccineName(), 
-                                centreDetails.getCentreName(), dateSelected))};
-                    table.addRow(row);
-                }
+                Centre centreDetails = centreService
+                        .searchCentre(String.valueOf(centreSearchCombo.getSelectedItem()))
+                        .orElseThrow(() -> new ObjectNotFoundException("Centre Not Found"));
+                centreDetails.getVaccine().stream()
+                        .map(vaccine -> new String[]{centreDetails.getCentreName(),
+                                centreDetails.getCentreLocation(),
+                                vaccine.getVaccineName(),
+                                Integer.toString(centreService.getRemainingVaccine(
+                                        vaccine.getVaccineName(),
+                                        centreDetails.getCentreName(), dateSelected))})
+                        .forEach(table::addRow);
             }
             else
             {
@@ -1302,38 +1319,54 @@ public class PeopleGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, 
                         "Please select a date to search!", "Error", 
                         JOptionPane.ERROR_MESSAGE);
+        } catch (ObjectNotFoundException e) {
+            JOptionPane.showMessageDialog(null,
+                    e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_searchStatusButtonActionPerformed
 
     private void centreComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_centreComboActionPerformed
-        // TODO add your handling code here:
+        
         // Change vaccineCombo items according to the Centre chosen
         final DefaultComboBoxModel vaccineModel = new DefaultComboBoxModel(
-                (new CentreService().getCentreVaccines((String) centreCombo
+                (centreService.getCentreVaccines((String) centreCombo
                         .getSelectedItem()).toArray()));
         vaccineCombo.setModel(vaccineModel);
     }//GEN-LAST:event_centreComboActionPerformed
 
     private void regButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regButtonActionPerformed
-        // TODO add your handling code here:
+        
         LocalDate currentDate = LocalDate.now();
-        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
+        
         try{
-            if (new CentreService().getRemainingVaccine((String)vaccineCombo.getSelectedItem(), (String)centreCombo.getSelectedItem(), dcn.format(apDateChooser.getDate()))
+            if (centreService.getRemainingVaccine((String)vaccineCombo.getSelectedItem(), (String)centreCombo.getSelectedItem(), dcn.format(apDateChooser.getDate()))
                     > 0)
             {
-                if (new AppointmentService().getFutureAppointments(userID, currentDate).size() < 1)
+                if (appointmentService.getFutureAppointments(userID, currentDate).size() < 1)
                 {
-                    Appointment newAppointment = new Appointment();
-                    newAppointment.setDate(dcn.format(apDateChooser.getDate()));
-                    String time = String.format("%02d",apHourSlider.getValue()) + ":" + String.format("%02d",apMinuteSlider.getValue());
-                    newAppointment.setDoseNum(new AppointmentService().checkDoseNum(userID));
-                    newAppointment.setTime(LocalTime.parse(time));
-                    newAppointment.setPeople(new PeopleService().getPeopleDetails(userID));
-                    newAppointment.setCentre(new CentreService().searchCentre((String) centreCombo.getSelectedItem()));
-                    newAppointment.setVaccine(new VaccineService().searchVaccine((String) vaccineCombo.getSelectedItem()));
-                    newAppointment.setExpDate(dcn.format(apDateChooser.getDate()));
-                    new AppointmentService().regAppointment(newAppointment);
+                    String time = getTimeString.apply(apHourSlider.getValue()).apply(apMinuteSlider.getValue());
+                    Centre centre = centreService
+                            .searchCentre((String) centreCombo.getSelectedItem())
+                            .orElseThrow(() -> new ObjectNotFoundException("Centre not Found"));
+                    People people = peopleService
+                            .getPeopleDetails(userID)
+                            .orElseThrow(() -> new ObjectNotFoundException("People not Found"));
+                    Vaccine vaccine = vaccineService
+                            .searchVaccine((String) vaccineCombo.getSelectedItem())
+                            .orElseThrow(() -> new ObjectNotFoundException("Vaccine not Found"));
+
+                    Appointment newAppointment = new Appointment(
+                            dcn.format(apDateChooser.getDate()),
+                            LocalTime.parse(time),
+                            centre,
+                            people,
+                            vaccine,
+                            dcn.format(apDateChooser.getDate())
+                    );
+                    newAppointment.setDoseNum(appointmentService.checkDoseNum(userID));
+
+                    appointmentService.regAppointment(newAppointment);
                     CardLayout card = (CardLayout)mainPanels.getLayout();
                     card.show(mainPanels, "homePane");
                     homePanelButton.setBackground(Color.white);
@@ -1354,13 +1387,13 @@ public class PeopleGUI extends javax.swing.JFrame {
             {
                     JOptionPane.showMessageDialog(null, "Selected Vaccine is out of stock on selected date.");
             }
-        }catch(NullPointerException e){
+        }catch(NullPointerException | ObjectNotFoundException e){
             JOptionPane.showMessageDialog(null, e.toString(), "Please fill in empty slots", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_regButtonActionPerformed
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
-        // TODO add your handling code here:
+        
         ((JTextField)apDateChooser.getDateEditor().getUiComponent()).setText("Appointment Date");
         centreCombo.setEditable(true);
         centreCombo.setSelectedItem("Select a Centre");
@@ -1371,8 +1404,8 @@ public class PeopleGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_clearButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        // TODO add your handling code here:
-        boolean idFound = new AppointmentService().deleteAppointment(existApIDText.getText());
+        
+        boolean idFound = appointmentService.deleteAppointment(existApIDText.getText());
         if (idFound)
         {
             JOptionPane.showMessageDialog(null, "Appointment Cancelled Successfully.");
@@ -1402,36 +1435,53 @@ public class PeopleGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
-        // TODO add your handling code here:
-        SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyyy");
-        Appointment savedAppointment = new Appointment();
-        savedAppointment.setAppointmentID(existApIDText.getText());
-        savedAppointment.setDate(dcn.format(existDateChooser.getDate()));
-        String time = String.format("%02d",existHourSlider.getValue()) + ":" + String.format("%02d",existMinuteSlider.getValue());
-        savedAppointment.getDoseNum();
-        savedAppointment.setTime(LocalTime.parse(time));
-        savedAppointment.setPeople(new PeopleService().getPeopleDetails(userID));
-        savedAppointment.setCentre(new CentreService().searchCentre((String) existCentreCombo.getSelectedItem()));
-        savedAppointment.setVaccine(new VaccineService().searchVaccine((String) existVaccineCombo.getSelectedItem()));
-        savedAppointment.setExpDate(dcn.format(existDateChooser.getDate()));
-        new AppointmentService().regAppointment(savedAppointment);
-        CardLayout card = (CardLayout)mainPanels.getLayout();
-        card.show(mainPanels, "homePane");
-        homePanelButton.setBackground(Color.white);
-        appointmentPanelButton.setBackground(new Color(41,48,57));
-        statusPanelButton.setBackground(new Color(41,48,57));
-        profilePanelButton.setBackground(new Color(41,48,57));
-        homeButtonLabel.setForeground(Color.black);
-        appointmentButtonLabel.setForeground(Color.white);
-        statusButtonLabel.setForeground(Color.white);
-        profileButtonLabel.setForeground(Color.white);
-        updateDashboard();
+
+        try {
+            String time = getTimeString
+                    .apply(existHourSlider.getValue())
+                    .apply(existMinuteSlider.getValue());
+            Appointment foundAppointment = appointmentService
+                    .getAppointmentDetails(existApIDText.getText())
+                    .orElseThrow(() -> new ObjectNotFoundException("Appointment not found"));
+            Centre centre = centreService
+                    .searchCentre((String) existCentreCombo.getSelectedItem())
+                    .orElseThrow(() -> new ObjectNotFoundException("Centre not Found"));
+            Vaccine vaccine = vaccineService
+                    .searchVaccine((String) existVaccineCombo.getSelectedItem())
+                    .orElseThrow(() -> new ObjectNotFoundException("Vaccine not Found"));
+
+            Appointment savedAppointment = new Appointment(
+                    foundAppointment.getAppointmentID(),
+                    dcn.format(existDateChooser.getDate()),
+                    LocalTime.parse(time),
+                    centre,
+                    foundAppointment.getPeople(),
+                    vaccine,
+                    dcn.format(existDateChooser.getDate()),
+                    foundAppointment.getDoseNum()
+            );
+            appointmentService.modifyAppointment(savedAppointment);
+            CardLayout card = (CardLayout)mainPanels.getLayout();
+            card.show(mainPanels, "homePane");
+            homePanelButton.setBackground(Color.white);
+            appointmentPanelButton.setBackground(new Color(41,48,57));
+            statusPanelButton.setBackground(new Color(41,48,57));
+            profilePanelButton.setBackground(new Color(41,48,57));
+            homeButtonLabel.setForeground(Color.black);
+            appointmentButtonLabel.setForeground(Color.white);
+            statusButtonLabel.setForeground(Color.white);
+            profileButtonLabel.setForeground(Color.white);
+            updateDashboard();
+
+        } catch (ObjectNotFoundException e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Something went wrong", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void existCentreComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existCentreComboActionPerformed
-        // TODO add your handling code here:
+        
         final DefaultComboBoxModel vaccineModel = new DefaultComboBoxModel(
-                (new CentreService().getCentreVaccines((String) existCentreCombo
+                (centreService.getCentreVaccines((String) existCentreCombo
                         .getSelectedItem()).toArray()));
         existVaccineCombo.setModel(vaccineModel);
     }//GEN-LAST:event_existCentreComboActionPerformed
@@ -1460,9 +1510,11 @@ public class PeopleGUI extends javax.swing.JFrame {
     private void showProfileDetails()
     {
         try {
-            People ppl = new PeopleService().getPeopleDetails(userID);
+            People ppl = peopleService
+                    .getPeopleDetails(userID)
+                    .orElseThrow(() -> new ObjectNotFoundException("Profile not found"));
             
-            Date dob = new SimpleDateFormat("dd-MM-yyyy").parse(ppl.getDate());
+            Date dob = dcn.parse(ppl.getDate());
             
             userIDText.setText(userID);
             nameText.setText(ppl.getName());
@@ -1470,46 +1522,35 @@ public class PeopleGUI extends javax.swing.JFrame {
             dobDateChooser.setDate(dob);
             stateComboBox.setSelectedItem(ppl.getState());
             citizenshipText.setText(ppl.getCitizenship());
+
             if (ppl.getGender().equals("Male")) { maleRadioButton.setSelected(true); }
             else { femaleRadioButton.setSelected(true); }
         } catch (ParseException ex) {
             Logger.getLogger(PeopleGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ObjectNotFoundException e) {
+            e.printStackTrace();
         }
     }
-    
-    //Get the value of selected Radio Button from a Button Group
-    private String getSelectedButton()
-    {  
-        //Loops through each button in the button group
-        for (Enumeration<AbstractButton> buttons = genderButtonGroup.getElements(); buttons.hasMoreElements();) {
-            AbstractButton button = buttons.nextElement();
-            if (button.isSelected()) {
-                    return button.getText();
-            }
-        }
-        return null;
-    }   
     
     //Show the Home Page
     private void updateDashboard()
     {
-        People thisPeople = new PeopleService().getPeopleDetails(userID);
+        People thisPeople = peopleService.getPeopleDetails(userID).get();
         jLabel2.setText("Welcome, " + thisPeople.getName());
         LocalDate currentDate = LocalDate.now();
-        jLabel3.setText("You have " + Integer.toString(
-                new AppointmentService().getFutureAppointments(userID, currentDate)
-                        .size()) + " upcoming vaccination appointment");
+        jLabel3.setText("You have " + appointmentService.getFutureAppointments(userID, currentDate).size() +
+                " upcoming vaccination appointment");
         if (!thisPeople.getDose1().getAppointmentID().equals("none"))
         {
-            jLabel56.setText("<html>Date:" + "<br>" + thisPeople.getDose1().getDate() + "</html>");
-            jLabel57.setText("<html>Vaccine Name:" + "<br>" + thisPeople.getDose1().getVaccine().getVaccineName() + "</html>");
-            jLabel58.setText("<html>Location:" + "<br>" +  thisPeople.getDose1().getCentre().getCentreName() + "</html>");
-            
+            jLabel41.setText(htmlString.apply("Date").apply(thisPeople.getDose1().getDate()));
+            jLabel43.setText(htmlString.apply("Vaccine Name").apply(thisPeople.getDose1().getVaccine().getVaccineName()));
+            jLabel49.setText(htmlString.apply("Location").apply(thisPeople.getDose1().getCentre().getCentreName()));
+
             if(!thisPeople.getDose2().getAppointmentID().equals("none"))
             {
-                jLabel41.setText("<html>Date:" + "<br>" + thisPeople.getDose2().getDate() + "</html>");
-                jLabel43.setText("<html>Vaccine Name:" + "<br>" + thisPeople.getDose2().getVaccine().getVaccineName() + "</html>");
-                jLabel49.setText("<html>Location:" + "<br>" + thisPeople.getDose2().getCentre().getCentreName() + "</html>");
+                jLabel41.setText(htmlString.apply("Date").apply(thisPeople.getDose2().getDate()));
+                jLabel43.setText(htmlString.apply("Vaccine Name").apply(thisPeople.getDose2().getVaccine().getVaccineName()));
+                jLabel49.setText(htmlString.apply("Location").apply(thisPeople.getDose2().getCentre().getCentreName()));
             }
             else {
                 jPanel5.setVisible(false);

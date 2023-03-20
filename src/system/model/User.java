@@ -24,7 +24,37 @@ public class User implements Serializable{
     private String userType;
     static final long serialVersionUID = 1L;
     private static final String dataUser = "dataUser.txt";
-    
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    public User() {
+
+    }
+
+    public User(String name,
+                String phoneNum,
+                String gender,
+                String state,
+                String citizenship,
+                String status,
+                String dob,
+                String userName,
+                String userPass,
+                String userType) {
+        this.name = name;
+        this.phoneNum = phoneNum;
+        this.gender = gender;
+        this.state = state;
+        this.citizenship = citizenship;
+        this.status = status;
+        this.dob = dob;
+        this.userName = userName;
+        this.userPass = userPass;
+        this.userType = userType;
+    }
+
     public void setName(String name)
     {
         this.name = name;

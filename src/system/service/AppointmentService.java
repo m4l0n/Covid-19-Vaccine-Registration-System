@@ -1,9 +1,9 @@
 package system.service;
 
+import system.common.fileIO.ReadNWrite;
 import system.model.Appointment;
 
-import javax.swing.*;
-import java.io.EOFException;
+import javax.swing.JOptionPane;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,71 +12,42 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
+
+import static system.common.fileIO.ThrowingConsumer.throwingConsumerWrapper;
 
 public class AppointmentService implements ReadNWrite<Appointment> {
 
     public boolean checkDoseNum(String userID)
     {
-        ArrayList<Appointment> tempAppointment = new ArrayList<Appointment>();
-        try {
-            tempAppointment = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (Appointment appointment:tempAppointment) {
-            if (appointment.getPeople().getUsername().equals(userID))
-            {
-                return true;
-            }
-        }
-        return false;
+        return readFile().stream()
+                .anyMatch(appointment -> appointment.getPeople().getUsername().equals(userID));
     }
 
     public void regAppointment(Appointment newAppointment){
-        ArrayList<Appointment> tempAppointment = new ArrayList<Appointment>();
-        ArrayList<Appointment> newAppList = new ArrayList<>();
-        try {
-            tempAppointment = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        newAppointment.setAppointmentID("AID" + Integer.toString(generateNum(100000, 999999)));
-        boolean idExist = false;
-        for (Appointment existingAppointment:tempAppointment){
-            if (existingAppointment.getAppointmentID().equals(newAppointment.getAppointmentID()))
-            {
-                idExist = true;
-                break;
-            }
-        }
-        //to regenerate ID
-        if (idExist) { regAppointment(newAppointment); }
-        else { newAppList.add(newAppointment); }
-        try {
-            update(newAppList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        List<Appointment> appointmentList = readFile();
+        newAppointment.setAppointmentID("AID" + generateNum(100000, 999999));
+        appointmentList.stream()
+                .filter(existingAppointment -> existingAppointment.getAppointmentID().equals(newAppointment.getAppointmentID()))
+                .findAny().ifPresentOrElse(
+                        appointment -> regAppointment(newAppointment),
+                        () -> {
+                            JOptionPane.showMessageDialog(null, "Appointment Added Successfully.");
+                            appointmentList.add(newAppointment);
+                            update(appointmentList);
+                        }
+                );
     }
 
-    public ArrayList<Appointment> getAppointments(String vacName, String centreName)
+    public List<Appointment> getAppointments(String vacName, String centreName)
     {
-        ArrayList<Appointment> tempAppointment = new ArrayList<Appointment>();
-        ArrayList<Appointment> newAppList = new ArrayList<>();
-        try {
-            tempAppointment = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (Appointment existingAppointment:tempAppointment){
-            if (existingAppointment.getCentre().getCentreName().equals(centreName)
-                    && (existingAppointment.getVaccine().getVaccineName().equals(vacName)))
-            {
-                newAppList.add(existingAppointment);
-            }
-        }
-        return newAppList;
+        return readFile().stream()
+                .filter(existingAppointment -> existingAppointment.getCentre().getCentreName().equals(centreName))
+                .filter(existingAppointment -> (existingAppointment.getVaccine().getVaccineName().equals(vacName)))
+                .collect(Collectors.toList());
     }
 
     private static int generateNum(int min, int max){
@@ -84,197 +55,94 @@ public class AppointmentService implements ReadNWrite<Appointment> {
         return min + rand.nextInt((max - min) + 1);
     }
 
-    public Appointment getAppointmentDetails(String appointmentID)
+    public Optional<Appointment> getAppointmentDetails(String appointmentID)
     {
-        ArrayList<Appointment> tempAppointment = new ArrayList<Appointment>();
-        try {
-            tempAppointment = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (Appointment existingAppointment:tempAppointment){
-            if(existingAppointment.getAppointmentID().equals(appointmentID)){
-                return (existingAppointment);
-            }
-        }
-        return null;
+        return readFile().stream()
+                .filter(existingAppointment -> existingAppointment.getAppointmentID().equals(appointmentID))
+                .findFirst();
     }
 
-    public ArrayList<Appointment> getFutureAppointments(String userID, LocalDate currentDate)
+    public List<Appointment> getFutureAppointments(String userID, LocalDate currentDate)
     {
-        ArrayList<Appointment> tempAppointment = new ArrayList<Appointment>();
-        ArrayList<Appointment> futureAppointments = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        try {
-            tempAppointment = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (Appointment appointment:tempAppointment) {
-            if (appointment.getPeople().getUsername().equals(userID) &&
-                    (LocalDate.parse(appointment.getDate(), formatter).isAfter(currentDate)))
-            {
-                futureAppointments.add(appointment);
-            }
-        }
-        return futureAppointments;
+        return readFile().stream()
+                .filter(appointment -> appointment.getPeople().getUsername().equals(userID))
+                .filter(appointment -> (LocalDate.parse(appointment.getDate(), formatter).isAfter(currentDate)))
+                .collect(Collectors.toList());
     }
 
-    public void modifyAppointment(Appointment savedAppointment)
-    {
-        ArrayList<Appointment> tempAppointment = new ArrayList <>();
-        ArrayList<Appointment> newAppList = new ArrayList <>();
-        try {
-            tempAppointment = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (Appointment appointment:tempAppointment) {
-            if (!(appointment.getAppointmentID().equals(savedAppointment.getAppointmentID())))
-            {
-                newAppList.add(appointment);
+    public void modifyAppointment(Appointment savedAppointment) {
+        List<Appointment> updatedList = readFile().stream().map(appointment -> {
+            if (!(appointment.getAppointmentID().equals(savedAppointment.getAppointmentID()))) {
+                return appointment;
             }
-            else
-            {
-                newAppList.add(savedAppointment);
-                JOptionPane.showMessageDialog(null, "Appointment Updated Successfully!");
-            }
-        }
-        try {
-            update(newAppList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            return savedAppointment;
+        }).collect(Collectors.toList());
+
+        update(updatedList);
     }
 
     public boolean deleteAppointment(String appointmentID)
     {
-        boolean idFound = false;
-        ArrayList<Appointment> tempAppointment = new ArrayList <>();
-        ArrayList<Appointment> newAppList = new ArrayList <>();
-        try {
-            tempAppointment = readFile();
-            for (Appointment appointment:tempAppointment) {
-                if (appointment.getAppointmentID().equals(appointmentID)) {
-                    idFound = true;
-                }
-                else newAppList.add(appointment);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        List<Appointment> appointmentList = readFile();
+        List<Appointment> updatedList = appointmentList.stream()
+                .filter(appointment -> !appointment.getAppointmentID().equals(appointmentID))
+                .collect(Collectors.toList());
 
-        try {
-            update(newAppList);
-        } catch (Exception e) { e.printStackTrace(); }
+        update(updatedList);
 
-        return idFound;
+        return appointmentList.size() - updatedList.size() == 1;
     }
 
     public int getAppointmentCount(LocalDate currentDate){
-        ArrayList<Appointment> appointmentList = new ArrayList<>();
-        int count = 0;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        try {
-            appointmentList = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (Appointment appointment:appointmentList) {
-            if(LocalDate.parse(appointment.getDate(), formatter).isAfter(currentDate)) {
-                count++;
-            }
-        }
-        return count;
+        return Math.toIntExact(readFile().stream()
+                .filter(appointment -> LocalDate.parse(appointment.getDate(), formatter).isAfter(currentDate))
+                .count());
     }
 
-    public Appointment getDose1(String userID)
+    public Optional<Appointment> getDose1(String userID)
     {
-        Appointment app = new Appointment();
-        ArrayList<Appointment> appointmentList = new ArrayList<>();
-        try {
-            appointmentList = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (Appointment appointment:appointmentList) {
-            if(appointment.getPeople().getUsername().equals(userID) && (appointment.getDoseNum() == 1)) {
-                app = appointment;
-            }
-        }
-        return app;
+        return readFile().stream()
+                .filter(appointment -> appointment.getPeople().getUsername().equals(userID) && (appointment.getDoseNum() == 1))
+                .findFirst();
     }
 
-    public Appointment getDose2(String userID)
+    public Optional<Appointment> getDose2(String userID)
     {
-        Appointment app = new Appointment();
-        ArrayList<Appointment> appointmentList = new ArrayList<>();
-        try {
-            appointmentList = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (Appointment appointment:appointmentList) {
-            if(appointment.getPeople().getUsername().equals(userID) && (appointment.getDoseNum() == 2)) {
-                app = appointment;
-            }
-        }
-        return app;
+        return readFile().stream()
+                .filter(appointment -> appointment.getPeople().getUsername().equals(userID) && (appointment.getDoseNum() == 2))
+                .findFirst();
     }
 
     public void deletePeopleAppointment(String peopleID)
     {
-        ArrayList<Appointment> appointmentList = new ArrayList <>();
-        ArrayList<Appointment> filteredAppointmentList = new ArrayList<>();
-        try {
-            appointmentList = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (Appointment appointment:appointmentList) {
-            if (!appointment.getPeople().getPeopleID().equals(peopleID))
-            {
-                filteredAppointmentList.add(appointment);
-            }
-        }
-        try {
-            update(filteredAppointmentList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        List<Appointment> updatedList = readFile().stream()
+                .filter(appointment -> !appointment.getPeople().getPeopleID().equals(peopleID))
+                .collect(Collectors.toList());
+
+        update(updatedList);
     }
 
     @Override
-    public void update(ArrayList<Appointment> arrayList) throws Exception {
-        ObjectOutputStream oos = null;
-        try {
-            oos = new ObjectOutputStream(Files.newOutputStream(Paths.get(Appointment.getDataAppointment())));
-            for (Appointment eachAP:arrayList) {
-                oos.writeObject(eachAP);
-            }
-            arrayList.clear();
+    public void update(List<Appointment> arrayList) {
+        try (ObjectOutputStream oos =
+                     new ObjectOutputStream(Files.newOutputStream(Paths.get(Appointment.getDataAppointment())))) {
+            arrayList.forEach(throwingConsumerWrapper(oos::writeObject));
             oos.flush();
-            oos.close();
         } catch (Exception e) { e.printStackTrace(); }
     }
 
     @Override
-    public ArrayList<Appointment> readFile() throws Exception {
-        ArrayList<Appointment> tempAppointment = new ArrayList <>();
-        ObjectInputStream ois = null;
-        try {
-            ois = new ObjectInputStream(Files.newInputStream(Paths.get(Appointment.getDataAppointment())));
-            Object obj = null;
-            while ((obj = ois.readObject()) != null) {
-                tempAppointment.add((Appointment)obj);
-            }
-        } catch (EOFException ex) {} catch (ClassNotFoundException | IOException ex) { ex.printStackTrace(); } finally {
-            try {
-                if (ois != null) {
-                    ois.close();
-                }
-            } catch (IOException ex) { ex.printStackTrace(); }
+    public List<Appointment> readFile() {
+        try (ObjectInputStream ois
+                     = new ObjectInputStream(Files.newInputStream(Paths.get(Appointment.getDataAppointment())))) {
+            List<Appointment> appointmentList = new ArrayList<>();
+            readFileHelper(ois, appointmentList);
+            return appointmentList;
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return new ArrayList<>();
         }
-        return tempAppointment;
     }
 }

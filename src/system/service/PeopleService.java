@@ -1,131 +1,70 @@
 package system.service;
 
+import system.common.fileIO.ReadNWrite;
 import system.model.People;
-import system.model.Personnel;
 import system.model.User;
 
-import javax.swing.*;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
+
+import static system.common.fileIO.ThrowingConsumer.throwingConsumerWrapper;
 
 public class PeopleService implements ReadNWrite<Object> {
+
     public void registerProfile(People newPeople)
     {
-        ArrayList<Object> tempUsers = new ArrayList<>();
-        try {
-            tempUsers = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        List<Object> userList = readFile();
         newPeople.setPeopleID("PID" + Integer.toString(generateNum(100000, 999999)));
-        boolean idExist = false;
-        for(Object existingUser:tempUsers){
-            if (!((User) existingUser).getUsername().equals("ADMIN")) {
-                if (((People) existingUser).getPeopleID().equals(newPeople.getPeopleID()))
-                {
-                    idExist = true;
-                    break;
-                }
-            }
-        }
-        if (!idExist) {
-            tempUsers.add(newPeople);
-        }
-        else { registerProfile(newPeople); }
-        try {
-            update(tempUsers);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        userList.stream()
+                .filter(existingUser -> !((User)existingUser).getUsername().equals("ADMIN"))
+                .filter(existingUser -> ((People)existingUser).getPeopleID().equals(newPeople.getPeopleID()))
+                .findFirst().ifPresentOrElse(
+                        user -> registerProfile(newPeople),
+                        () -> {
+                            userList.add(newPeople);
+                            update(userList);
+                        }
+                );
     }
 
     public void modifyProfile(People modifiedPpl)
     {
-        ArrayList<Object> tempUsers = new ArrayList<>();
-        ArrayList<Object> newUserList = new ArrayList <>();
-        Personnel personnel = null;
-        try {
-            tempUsers = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (Object existingUser:tempUsers) {
-            if (!((User) existingUser).getUsername().equals("ADMIN")) {
-                if (!((User) existingUser).getUsername().equals(modifiedPpl.getUsername())) {
-                    newUserList.add(existingUser);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Profile Updated Successfully!");
-                    newUserList.add(modifiedPpl);
+        List<Object> newUserList = readFile().stream().map(user -> {
+            if (!((User) user).getUsername().equals("ADMIN")) {
+                if (!((User) user).getUsername().equals(modifiedPpl.getUsername())) {
+                    return user;
                 }
-            } else personnel = (Personnel) existingUser;
-        }
-        newUserList.add(personnel);
-        try {
-            update(newUserList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                return modifiedPpl;
+            }
+            return user;
+        }).collect(Collectors.toList());
+        update(newUserList);
     }
 
-    public People getPeopleDetails(String userID)
+    public Optional<People> getPeopleDetails(String userID)
     {
-        ArrayList<Object> tempUsers = new ArrayList<>();
-        try {
-            tempUsers = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for(Object existingUser:tempUsers){
-            if (!((User) existingUser).getUsername().equals("ADMIN")) {
-                if (((People) existingUser).getUsername().equals(userID))
-                {
-                    return (People) existingUser;
-                }
-            }
-        }
-        return null;
+        return readFile().stream()
+                .filter(existingUser -> !((User) existingUser).getUsername().equals("ADMIN") && ((People) existingUser).getUsername().equals(userID)).map(user -> (People)user)
+                .findFirst();
     }
 
     public boolean deletePeople(String userID)
     {
-        ArrayList<Object> tempUsers = new ArrayList<>();
-        ArrayList<Object> newUserList = new ArrayList<>();
-        try {
-            tempUsers = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        boolean idExist = false;
-        Personnel personnel = null;
-        for(Object existingUser:tempUsers){
-            if (!((User)existingUser).getUsername().equals("ADMIN"))
-            {
-                if (!((People)existingUser).getUsername().equals(userID))
-                {
-                    newUserList.add((People)existingUser);
-                }
-                else
-                {
-                    idExist = true;
-                }
-            }
-            else {
-                personnel = ((Personnel)existingUser);
-            }
-        }
-        try {
-            newUserList.add(personnel);
-            update(newUserList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return idExist;
+        List<Object> newUserList = readFile().stream()
+                .filter(existingUser -> ((User)existingUser).getUsername().equals("ADMIN") || !((People)existingUser).getUsername().equals(userID))
+                .collect(Collectors.toList());
+
+        update(newUserList);
+
+        return true;
     }
 
     private static int generateNum(int min, int max){
@@ -135,50 +74,38 @@ public class PeopleService implements ReadNWrite<Object> {
 
     public boolean checkUserID(String userID)
     {
-        ArrayList<Object> tempUsers = new ArrayList<>();
-        try {
-            tempUsers = readFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for(Object existingUser:tempUsers){
-            if(((User)existingUser).getUsername().equals(userID)){
-                return true;
-            }
-        }
-        return false;
+        Object foundUser = readFile().stream()
+                .filter(existingUser -> ((User)existingUser).getUsername().equals(userID))
+                .findFirst().orElse(null);
+        return foundUser != null;
+    }
+
+    public List<People> getAllPeople() {
+        return readFile().stream()
+                .filter(user -> !((User)user).getUsername().equals("ADMIN"))
+                .map(user -> ((People)user))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void update(ArrayList<Object> arrayList) throws Exception {
-        ObjectOutputStream oos = null;
-        try {
-            oos = new ObjectOutputStream(Files.newOutputStream(Paths.get(User.getDataUser())));
-            for (Object eachPeople:arrayList) {
-                if (!((User) eachPeople).getUsername().equals("ADMIN")) oos.writeObject((People) eachPeople);
-                else oos.writeObject((Personnel)eachPeople);
-            }
-            arrayList.clear();
+    public void update(List<Object> arrayList) {
+        try(ObjectOutputStream oos =
+                    new ObjectOutputStream(Files.newOutputStream(Paths.get(User.getDataUser())));) {
+            arrayList.forEach(throwingConsumerWrapper(oos::writeObject));
             oos.flush();
-            oos.close();
         } catch (Exception e) { e.printStackTrace(); }
     }
 
     @Override
-    public ArrayList<Object> readFile() throws Exception {
-        ArrayList<Object> tempPeople = new ArrayList <>();
-        ObjectInputStream ois = null;
-        try {
-            ois = new ObjectInputStream(Files.newInputStream(Paths.get(User.getDataUser())));
-            Object obj = null;
-            while ((obj = ois.readObject()) != null) tempPeople.add(obj);
-        } catch (EOFException ex) {} catch (ClassNotFoundException | IOException ex) { ex.printStackTrace(); } finally {
-            try {
-                if (ois != null) {
-                    ois.close();
-                }
-            } catch (IOException ex) { ex.printStackTrace(); }
+    public List<Object> readFile() {
+        try (ObjectInputStream ois =
+                     new ObjectInputStream(Files.newInputStream(Paths.get(User.getDataUser())))) {
+            List<Object> pplList = new ArrayList<>();
+            readFileHelper(ois, pplList);
+            return pplList;
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return new ArrayList<>();
         }
-        return tempPeople;
     }
 }

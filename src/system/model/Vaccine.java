@@ -19,6 +19,17 @@ public class Vaccine implements Serializable{
     private static final String dataVaccine = "dataVaccine.txt";
     static final long serialVersionUID = 1L;
 
+    public Vaccine() {
+
+    }
+
+    public Vaccine(String vaccineID, String vaccineName, int effectivePeriod, int vaccineQuantity) {
+        this.vaccineID = vaccineID;
+        this.vaccineName = vaccineName;
+        this.effectivePeriod = effectivePeriod;
+        this.vaccineQuantity = vaccineQuantity;
+    }
+
     public void setVacID(String vaccineID)
     {
         this.vaccineID = vaccineID;

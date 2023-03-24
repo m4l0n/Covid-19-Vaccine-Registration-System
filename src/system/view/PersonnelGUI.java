@@ -13,6 +13,7 @@ import system.model.Appointment;
 import system.model.Centre;
 import system.model.People;
 import system.model.Vaccine;
+import system.prolog.PrologUtil;
 import system.service.*;
 import system.view.util.SwingUtils;
 
@@ -2039,7 +2040,9 @@ public class PersonnelGUI extends javax.swing.JFrame {
     private void updateAppointmentTable() {
         DefaultTableModel table = (DefaultTableModel) appointmentTable.getModel();
         table.setRowCount(0);
-        appointmentService.readFile().stream()
+        List<Appointment> sortedAppointmentList = PrologUtil.sortAppointmentByDate(appointmentService.readFile());
+//        sortedAppointmentList.forEach(appointment -> System.out.println(appointment.getDate()));
+        sortedAppointmentList.stream()
                 .map(appointment -> new String[]{appointment.getAppointmentID(),
                         appointment.getDate(),
                         appointment.getTime().toString(),

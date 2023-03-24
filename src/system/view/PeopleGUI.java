@@ -1471,6 +1471,7 @@ public class PeopleGUI extends javax.swing.JFrame {
             appointmentButtonLabel.setForeground(Color.white);
             statusButtonLabel.setForeground(Color.white);
             profileButtonLabel.setForeground(Color.white);
+            JOptionPane.showMessageDialog(null, "Appointment modified successfully.");
             updateDashboard();
 
         } catch (ObjectNotFoundException e) {
@@ -1479,11 +1480,12 @@ public class PeopleGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void existCentreComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existCentreComboActionPerformed
-        
-        final DefaultComboBoxModel vaccineModel = new DefaultComboBoxModel(
-                (centreService.getCentreVaccines((String) existCentreCombo
-                        .getSelectedItem()).toArray()));
-        existVaccineCombo.setModel(vaccineModel);
+        if (existCentreCombo.getSelectedItem() != null)  {
+            final DefaultComboBoxModel vaccineModel = new DefaultComboBoxModel(
+                    (centreService.getCentreVaccines((String) existCentreCombo
+                            .getSelectedItem()).toArray()));
+            existVaccineCombo.setModel(vaccineModel);
+        }
     }//GEN-LAST:event_existCentreComboActionPerformed
     
     /**

@@ -29,11 +29,12 @@ public class AppointmentService implements ReadNWrite<Appointment> {
 
     public void regAppointment(Appointment newAppointment){
         List<Appointment> appointmentList = readFile();
+        //generate new appointment ID
         newAppointment.setAppointmentID("AID" + generateNum(100000, 999999));
         appointmentList.stream()
                 .filter(existingAppointment -> existingAppointment.getAppointmentID().equals(newAppointment.getAppointmentID()))
                 .findAny().ifPresentOrElse(
-                        appointment -> regAppointment(newAppointment),
+                        appointment -> regAppointment(newAppointment), // if exists, try again
                         () -> {
                             JOptionPane.showMessageDialog(null, "Appointment Added Successfully.");
                             appointmentList.add(newAppointment);
@@ -54,6 +55,7 @@ public class AppointmentService implements ReadNWrite<Appointment> {
         Random rand = new Random();
         return min + rand.nextInt((max - min) + 1);
     }
+
 
     public Optional<Appointment> getAppointmentDetails(String appointmentID)
     {
